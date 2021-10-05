@@ -9,22 +9,18 @@ public class Draw : MonoBehaviour
 	[SerializeField] float maxNodeDistance;
 
 	[SerializeField] GameObject chalkLinePrefab;
-	GameObject currentLine;
-	LineRenderer lr;
-	List<Vector2> lineNodes;
-
+	ChalkLine currentLine;
 
 	private void Awake()
 	{
 		controls = new Controls();
-		lineNodes = new List<Vector2>();
 	}
 
 	private void Update()
 	{
 		if (isDrawing)
 		{
-			UpdateLine();
+			currentLine.UpdateLine();
 		}
 	}
 
@@ -45,7 +41,8 @@ public class Draw : MonoBehaviour
 	private void StartDrawing(InputAction.CallbackContext ctx)
 	{
 		Debug.Log("Started Drawing");
-		CreateChalkLine();
+		currentLine = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity).GetComponent<ChalkLine>();
+		currentLine.CreateLine();
 		isDrawing = true;
 	}
 
@@ -53,28 +50,6 @@ public class Draw : MonoBehaviour
 	{
 		Debug.Log("Stopped Drawing");
 		isDrawing = false;
-	}
-
-	private void CreateChalkLine()
-	{
-		currentLine = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity);
-		lr = currentLine.GetComponent<LineRenderer>();
-
-		lineNodes.Clear();
-		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-		lineNodes.Add(mousePos);
-		lineNodes.Add(mousePos);
-		lr.SetPosition(0, lineNodes[0]);
-		lr.SetPosition(1, lineNodes[1]);
-	}
-
-	private void UpdateLine()
-	{
-		Debug.Log("Drawing");
-		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-		lineNodes.Add(mousePos);
-		lr.positionCount++;
-		lr.SetPosition(lr.positionCount-1, mousePos);
 	}
 }
 
