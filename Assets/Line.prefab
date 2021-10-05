@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788309b8d8b824745922002d1da00187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxNodeDistance: 0.05
 --- !u!120 &4958036785349629166
 LineRenderer:
   m_ObjectHideFlags: 0

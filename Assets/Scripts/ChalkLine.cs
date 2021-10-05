@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 
 public class ChalkLine : MonoBehaviour
 {
-    List<Vector2> lineNodes;
+	[SerializeField] float minNodeDistance;
+
+	List<Vector2> lineNodes;
     LineRenderer lr;
 
 	private void Awake()
@@ -29,6 +31,10 @@ public class ChalkLine : MonoBehaviour
 	{
 		Debug.Log("Drawing");
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+		if (Vector2.Distance(lineNodes[lineNodes.Count - 1], mousePos) < minNodeDistance)
+		{
+			return;
+		}
 		lineNodes.Add(mousePos);
 		lr.positionCount++;
 		lr.SetPosition(lr.positionCount - 1, mousePos);

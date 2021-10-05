@@ -6,7 +6,6 @@ public class Draw : MonoBehaviour
 {
     Controls controls;
 	[SerializeField] bool isDrawing = false;
-	[SerializeField] float maxNodeDistance;
 
 	[SerializeField] GameObject chalkLinePrefab;
 	ChalkLine currentLine;
