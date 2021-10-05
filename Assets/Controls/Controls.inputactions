@@ -1,0 +1,44 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "Draw",
+            "id": "f9aa2cf3-06ec-4607-b929-45637825afca",
+            "actions": [
+                {
+                    "name": "Draw",
+                    "type": "Button",
+                    "id": "377b5516-9a38-4583-ba61-4721447b5c82",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "81509a06-2665-472e-98c3-ab3b71539da3",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Draw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard and Mouse",
+            "bindingGroup": "Keyboard and Mouse",
+            "devices": []
+        },
+        {
+            "name": "Tablet and Mouse",
+            "bindingGroup": "Tablet and Mouse",
+            "devices": []
+        }
+    ]
+}
