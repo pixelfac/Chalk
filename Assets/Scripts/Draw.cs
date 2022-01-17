@@ -6,9 +6,11 @@ public class Draw : MonoBehaviour
 {
     Controls controls;
 	[SerializeField] bool isDrawing = false;
+	[SerializeField] float maxNodeDistance;
 
 	[SerializeField] GameObject chalkLinePrefab;
-	ChalkLine currentLine;
+	LineBuilder lineBuilder;
+	GameObject lineObject;
 
 	private void Awake()
 	{
@@ -19,7 +21,7 @@ public class Draw : MonoBehaviour
 	{
 		if (isDrawing)
 		{
-			currentLine.UpdateLine();
+			lineBuilder.UpdateLine();
 		}
 	}
 
@@ -40,8 +42,9 @@ public class Draw : MonoBehaviour
 	private void StartDrawing(InputAction.CallbackContext ctx)
 	{
 		Debug.Log("Started Drawing");
-		currentLine = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity).GetComponent<ChalkLine>();
-		currentLine.CreateLine();
+		lineObject = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity);
+		lineBuilder = new LineBuilder(maxNodeDistance, lineObject.GetComponent<LineRenderer>());
+		lineBuilder.CreateLine();
 		isDrawing = true;
 	}
 
@@ -49,6 +52,8 @@ public class Draw : MonoBehaviour
 	{
 		Debug.Log("Stopped Drawing");
 		isDrawing = false;
+		ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
+		lineBuilder.BuildChalkLine(chalkline);
 	}
 }
 

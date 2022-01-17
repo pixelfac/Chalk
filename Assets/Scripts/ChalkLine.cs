@@ -3,41 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum LineType { WARD, RESTRICT, MISSILE };
+
 public class ChalkLine : MonoBehaviour
 {
-	[SerializeField] float minNodeDistance;
+	[SerializeField] int baseNodeHP;
 
-	List<Vector2> lineNodes;
+	List<LineNode> lineNodes;
     LineRenderer lr;
 
-	private void Awake()
+	//basically a constructor, but since can't call constructor
+	//on gameobject prefab component, this is the best alternative
+	public void Init(ref List<Vector2> nodePositions)
 	{
-		lineNodes = new List<Vector2>();
-		lr = GetComponent<LineRenderer>();
-		CreateLine();
-	}
-
-	public void CreateLine()
-	{
-		Debug.Log("Creating Line");
-		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-		lineNodes.Add(mousePos);
-		lineNodes.Add(mousePos);
-		lr.SetPosition(0, lineNodes[0]);
-		lr.SetPosition(1, lineNodes[1]);
-	}
-
-	public void UpdateLine()
-	{
-		Debug.Log("Drawing");
-		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-		if (Vector2.Distance(lineNodes[lineNodes.Count - 1], mousePos) < minNodeDistance)
-		{
-			return;
+		lineNodes = new List<LineNode>();
+		foreach (Vector2 nodePos in nodePositions) {
+			lineNodes.Add(new LineNode(nodePos));
 		}
-		lineNodes.Add(mousePos);
-		lr.positionCount++;
-		lr.SetPosition(lr.positionCount - 1, mousePos);
+		Debug.Log("lineNodes populated");
+
+		lr = GetComponent<LineRenderer>();
+
+		UpdateHP();
 	}
 
+	public void UpdateHP()
+	{
+		foreach (LineNode node in lineNodes)
+		{
+			node.health = 42;
+		}
+		Debug.Log("Health Set");
+		Debug.Log("Health is" + lineNodes[0].health);
+	}
 }
