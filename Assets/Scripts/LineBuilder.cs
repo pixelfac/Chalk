@@ -63,9 +63,7 @@ public class LineBuilder
 	//closes start and end of a line
 	public void CloseLine()
 	{
-
-		lr.positionCount++;
-		lr.SetPosition(lr.positionCount - 1, nodePositions[0]);
+		lr.loop = true;
 	}
 
 	//true if # of nodes is too short to save, false otherwise
