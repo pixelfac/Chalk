@@ -31,9 +31,27 @@ public class LineBuilder
 		lr.SetPosition(1, nodePositions[1]);
 	}
 
+	//checks to see if the ends of line drawn meet to enclose a shape
+	public bool isEnclosed()
+	{
+		if (nodePositions.Count < 3) { return false; }
+
+		float distanceBetween = (nodePositions[0] - nodePositions[nodePositions.Count-1]).magnitude;
+		Debug.Log("distanceBetween: " + distanceBetween);
+
+		if (distanceBetween < maxNodeDistance)
+		{
+			Debug.Log("is closed");
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	public void UpdateLine()
 	{
-		Debug.Log("Drawing");
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 		if (Vector2.Distance(nodePositions[nodePositions.Count - 1], mousePos) < maxNodeDistance)
 		{
@@ -44,8 +62,16 @@ public class LineBuilder
 		lr.SetPosition(lr.positionCount - 1, mousePos);
 	}
 
-	public void BuildChalkLine(ChalkLine line)
+	//closes start and end of a line
+	public void CloseLine()
 	{
-		line.Init(ref nodePositions);
+
+		lr.positionCount++;
+		lr.SetPosition(lr.positionCount - 1, nodePositions[0]);
+	}
+
+	public void BuildChalkLine(ChalkLine line, bool isEnclosed)
+	{
+		line.Init(ref nodePositions, isEnclosed);
 	}
 }

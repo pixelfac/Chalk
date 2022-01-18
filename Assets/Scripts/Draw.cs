@@ -6,6 +6,7 @@ public class Draw : MonoBehaviour
 {
     Controls controls;
 	[SerializeField] bool isDrawing = false;
+	[Range(0.01f,1f)]
 	[SerializeField] float maxNodeDistance;
 
 	[SerializeField] GameObject chalkLinePrefab;
@@ -22,6 +23,10 @@ public class Draw : MonoBehaviour
 		if (isDrawing)
 		{
 			lineBuilder.UpdateLine();
+			if (lineBuilder.isEnclosed())
+			{
+				StopDrawing();
+			}
 		}
 	}
 
@@ -48,12 +53,29 @@ public class Draw : MonoBehaviour
 		isDrawing = true;
 	}
 
+	//Tied to event listener for input
 	private void StopDrawing(InputAction.CallbackContext ctx)
 	{
+		//if already stopped drawing, do nothing
+		if (!isDrawing) { return; }
+
 		Debug.Log("Stopped Drawing");
 		isDrawing = false;
 		ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
-		lineBuilder.BuildChalkLine(chalkline);
+		lineBuilder.BuildChalkLine(chalkline, false);
+		Debug.Log("NOT enclosed");
+
+	}
+
+	//Not tied to input
+	private void StopDrawing()
+	{
+		Debug.Log("Stopped Drawing");
+		isDrawing = false;
+		lineBuilder.CloseLine();
+		ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
+		lineBuilder.BuildChalkLine(chalkline, true);
+		Debug.Log("Enclosed");
 	}
 }
 
