@@ -37,11 +37,9 @@ public class LineBuilder
 		if (nodePositions.Count < 3) { return false; }
 
 		float distanceBetween = (nodePositions[0] - nodePositions[nodePositions.Count-1]).magnitude;
-		Debug.Log("distanceBetween: " + distanceBetween);
 
 		if (distanceBetween < maxNodeDistance)
 		{
-			Debug.Log("is closed");
 			return true;
 		}
 		else
@@ -68,6 +66,20 @@ public class LineBuilder
 
 		lr.positionCount++;
 		lr.SetPosition(lr.positionCount - 1, nodePositions[0]);
+	}
+
+	//true if # of nodes is too short to save, false otherwise
+	public bool TooShort()
+	{
+		if (nodePositions.Count < 10)
+		{
+			Debug.Log("TOO short");
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public void BuildChalkLine(ChalkLine line, bool isEnclosed)

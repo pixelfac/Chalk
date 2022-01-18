@@ -61,6 +61,12 @@ public class Draw : MonoBehaviour
 
 		Debug.Log("Stopped Drawing");
 		isDrawing = false;
+
+		if (lineBuilder.TooShort())
+		{
+			Destroy(lineObject);
+			return;
+		}
 		ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
 		lineBuilder.BuildChalkLine(chalkline, false);
 		Debug.Log("NOT enclosed");
@@ -73,6 +79,13 @@ public class Draw : MonoBehaviour
 		Debug.Log("Stopped Drawing");
 		isDrawing = false;
 		lineBuilder.CloseLine();
+
+		if (lineBuilder.TooShort())
+		{
+			Destroy(lineObject);
+			return;
+		}
+
 		ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
 		lineBuilder.BuildChalkLine(chalkline, true);
 		Debug.Log("Enclosed");
