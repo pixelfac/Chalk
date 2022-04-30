@@ -5,19 +5,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class LineBuilder
+public class LineBuilder : MonoBehaviour
 {
 	float maxNodeDistance;
 
 	List<Vector2> nodePositions;
 	LineRenderer lr;
 
-	public LineBuilder(float _maxNodeDistance, LineRenderer _lr)
+	GameObject startLineTarget; //prefab for target on start of line while drawing
+
+
+	public LineBuilder(float _maxNodeDistance, LineRenderer _lr, GameObject startLineTargetPrefab)
 	{
 		maxNodeDistance = _maxNodeDistance;
 		nodePositions = new List<Vector2>();
 		lr = _lr;
+
+		//init startLineTarget and disable it
+		startLineTarget = Instantiate(startLineTargetPrefab, Vector3.zero, Quaternion.identity);
+		startLineTarget.SetActive(false);
 	}
+
 
 	public void CreateLine()
 	{
@@ -29,6 +37,10 @@ public class LineBuilder
 	
 		lr.SetPosition(0, nodePositions[0]);
 		lr.SetPosition(1, nodePositions[1]);
+
+		//enable and set startLineTarget
+		startLineTarget.SetActive(true);
+		startLineTarget.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
 	}
 
 	//checks to see if the ends of line drawn meet to enclose a shape
@@ -91,6 +103,7 @@ public class LineBuilder
 	//initialize lineObject
 	public void BuildChalkLine(ChalkLine line, bool isEnclosed)
 	{
+		Destroy(startLineTarget);
 		line.Init(ref nodePositions, isEnclosed);
 	}
 }

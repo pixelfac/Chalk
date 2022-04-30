@@ -11,6 +11,7 @@ public class Draw : MonoBehaviour
 	[SerializeField] float maxNodeDistance;
 
 	[SerializeField] GameObject chalkLinePrefab;
+	[SerializeField] GameObject startLineTarget; //prefab for target on start of line while drawing
 	LineBuilder lineBuilder;
 	GameObject lineObject;
 
@@ -53,7 +54,7 @@ public class Draw : MonoBehaviour
 
 		lineObject = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity);
 
-		lineBuilder = new LineBuilder(maxNodeDistance, lineObject.GetComponent<LineRenderer>());
+		lineBuilder = new LineBuilder(maxNodeDistance, lineObject.GetComponent<LineRenderer>(), startLineTarget);
 		lineBuilder.CreateLine();
 
 		isDrawing = true;
