@@ -34,8 +34,10 @@ public class LineBuilder
 	//checks to see if the ends of line drawn meet to enclose a shape
 	public bool isEnclosed()
 	{
+		//prevent line from being enclosed immediately when start drawing
 		if (nodePositions.Count < 3) { return false; }
 
+		//distance between first and last node
 		float distanceBetween = (nodePositions[0] - nodePositions[nodePositions.Count-1]).magnitude;
 
 		if (distanceBetween < maxNodeDistance)
@@ -48,13 +50,18 @@ public class LineBuilder
 		}
 	}
 
+	//update the length of the line
 	public void UpdateLine()
 	{
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-		if (Vector2.Distance(nodePositions[nodePositions.Count - 1], mousePos) < maxNodeDistance)
+
+		//if mouse has not moved far enough from last node, don't add node to line
+		if (Vector2.Distance(nodePositions[nodePositions.Count-1], mousePos) < maxNodeDistance)
 		{
 			return;
 		}
+
+		//add new node + LineRenderer segment
 		nodePositions.Add(mousePos);
 		lr.positionCount++;
 		lr.SetPosition(lr.positionCount - 1, mousePos);
@@ -80,6 +87,8 @@ public class LineBuilder
 		}
 	}
 
+
+	//initialize lineObject
 	public void BuildChalkLine(ChalkLine line, bool isEnclosed)
 	{
 		line.Init(ref nodePositions, isEnclosed);

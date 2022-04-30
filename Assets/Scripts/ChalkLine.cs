@@ -7,8 +7,8 @@ public enum LineType { WARD, RESTRICT, MISSILE };
 
 public class ChalkLine : MonoBehaviour
 {
-	[SerializeField] int baseNodeHP;
-	[SerializeField] float maxDistToEnclose;
+	[SerializeField] int baseNodeHP;	//base HP for each node in a line
+	[SerializeField] float maxDistToEnclose;	//maximum distance between line ends before the shape is enclosed
 	bool isEnclosed;
 
 	List<LineNode> lineNodes;
@@ -38,6 +38,8 @@ public class ChalkLine : MonoBehaviour
 		}
 	}
 
+	
+	//TODO
 	//checks to see if lineNodes encloses a region i.e. is a shape w/ no holes
 	//Only gets the first enclosed region, ignores rest
 	//RETURN the starting and ending indices that make the enclosed line segment
@@ -48,6 +50,7 @@ public class ChalkLine : MonoBehaviour
 		endPos = 2;
 	}
 
+	//TODO
 	//redraws the line renderer based on current lineNodes info
 	private void redrawLineRenderer()
 	{
