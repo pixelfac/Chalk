@@ -45,9 +45,7 @@ public class ChalkLine : MonoBehaviour
 	//RETURN the starting and ending indices that make the enclosed line segment
 	private void checkEnclosed(out int startPos, out int endPos)
 	{
-		
-		startPos = 0;
-		endPos = 2;
+		throw new System.NotImplementedException();
 	}
 
 	//TODO
