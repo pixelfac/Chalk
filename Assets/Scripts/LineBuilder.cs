@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class LineBuilder : MonoBehaviour
+public class LineBuilder : ScriptableObject
 {
 	float maxNodeDistance;
 
@@ -14,8 +14,9 @@ public class LineBuilder : MonoBehaviour
 
 	GameObject startLineTarget; //prefab for target on start of line while drawing
 
-
-	public LineBuilder(float _maxNodeDistance, LineRenderer _lr, GameObject startLineTargetPrefab)
+	
+	//Acts like a constructor. Called immediately after CreateInstance
+	public void Init(float _maxNodeDistance, LineRenderer _lr, GameObject startLineTargetPrefab)
 	{
 		maxNodeDistance = _maxNodeDistance;
 		nodePositions = new List<Vector2>();

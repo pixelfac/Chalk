@@ -54,7 +54,8 @@ public class Draw : MonoBehaviour
 
 		lineObject = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity);
 
-		lineBuilder = new LineBuilder(maxNodeDistance, lineObject.GetComponent<LineRenderer>(), startLineTarget);
+		lineBuilder = ScriptableObject.CreateInstance<LineBuilder>();
+		lineBuilder.Init(maxNodeDistance, lineObject.GetComponent<LineRenderer>(), startLineTarget);
 		lineBuilder.CreateLine();
 
 		isDrawing = true;
