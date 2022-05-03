@@ -103,6 +103,7 @@ public class Draw : MonoBehaviour
 		if (lineBuilder.TooShort())
 		{
 			Destroy(lineObject);
+			lineBuilder.AbortLine();
 			return;
 		}
 

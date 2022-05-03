@@ -15,7 +15,7 @@ public class LineBuilder : ScriptableObject
 	GameObject startLineTarget; //prefab for target on start of line while drawing
 
 	
-	//Acts like a constructor. Called immediately after CreateInstance
+	//Acts like a constructor. Called immediately after ScriptableObject.CreateInstance
 	public void Init(float _maxNodeDistance, LineRenderer _lr, GameObject startLineTargetPrefab)
 	{
 		maxNodeDistance = _maxNodeDistance;
@@ -107,5 +107,13 @@ public class LineBuilder : ScriptableObject
 	{
 		Destroy(startLineTarget);
 		line.Init(ref nodePositions, isEnclosed);
+	}
+
+	//called when drawing is finished, but line is too short so is deleted
+	//deleting the actual line object happens in Draw.cs
+	public void AbortLine()
+	{
+		Debug.Log("Abort Line");
+		Destroy(startLineTarget);
 	}
 }
