@@ -26,7 +26,13 @@ public class Draw : MonoBehaviour
 		{
 			ChalkMeter.DisableChalkRegen();
 			lineBuilder.UpdateLine();
-			if (lineBuilder.isEnclosed() || ChalkMeter.currChalk <= 0)
+
+			if (lineBuilder.isEnclosed())
+			{
+				FinishLine();
+			}
+
+			if (ChalkMeter.currChalk <= 0)
 			{
 				StopDrawing();
 			}
@@ -96,14 +102,39 @@ public class Draw : MonoBehaviour
 		Debug.Log("Line Initiallized NOT ENCLOSED");
 	}
 
+
 	//Automatically Stop Drawing
 	//Not tied to input
+	//ONLY Triggers when chalk runs out
 	private void StopDrawing()
 	{
 		//if already stopped drawing, do nothing
 		if (!isDrawing) { return; }
 
 		Debug.Log("Stopped Drawing");
+		isDrawing = false;
+
+		//if line is too short, discard line
+		if (lineBuilder.TooShort())
+		{
+			Destroy(lineObject);
+			return;
+		}
+
+		ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
+		lineBuilder.BuildChalkLine(chalkline, false);
+		Debug.Log("Line Initiallized NOT ENCLOSED");
+	}
+
+	//Automatically Stop Drawing
+	//Not tied to input
+	//ONLY Triggers when line is enclosed
+	private void FinishLine()
+	{
+		//if already stopped drawing, do nothing
+		if (!isDrawing) { return; }
+
+		Debug.Log("Finished Line");
 		isDrawing = false;
 		lineBuilder.CloseLine();
 
