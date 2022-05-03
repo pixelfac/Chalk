@@ -17,20 +17,6 @@ public class ChalkMeter : MonoBehaviour
 		controls = new Controls();
 	}
 
-	public void OnEnable()
-	{
-		//add Start/StopDrawing coroutines to control scheme
-		controls.Draw.Draw.performed += UseChalk;
-		controls.Draw.Draw.Enable();
-	}
-
-	public void OnDisable()
-	{
-		//remove Start/StopDrawing coroutines to control scheme
-		controls.Draw.Draw.performed -= UseChalk;
-		controls.Draw.Draw.Disable();
-	}
-
 	private void Update()
 	{
 		//update height if chalkMeter
@@ -49,11 +35,11 @@ public class ChalkMeter : MonoBehaviour
 	}
 
 	//when drawing, depletes chalk
-	public void UseChalk(InputAction.CallbackContext ctx)
+	public void UseChalk()
 	{
 		Debug.Log("using chalk");
 		
-		currChalk -= 100;
+		currChalk -= 1;
 		if (currChalk < 0)
 		{
 			currChalk = 0;
