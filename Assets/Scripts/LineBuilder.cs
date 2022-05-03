@@ -78,6 +78,7 @@ public class LineBuilder : ScriptableObject
 		nodePositions.Add(mousePos);
 		lr.positionCount++;
 		lr.SetPosition(lr.positionCount - 1, mousePos);
+		ChalkMeter.UseChalk();
 	}
 
 	//closes start and end of a line

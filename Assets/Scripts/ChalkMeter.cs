@@ -8,20 +8,19 @@ public class ChalkMeter : MonoBehaviour
     [SerializeField] RectTransform chalkMeter;
     [SerializeField] float maxChalk;
     [SerializeField] int chalkRegenSpeed;
-    float currChalk;
-	Controls controls;
+
+	public static float currChalk { get; private set; }
 
 	private void Awake()
 	{
 		currChalk = maxChalk;
-		controls = new Controls();
 	}
 
 	private void Update()
 	{
 		//update height if chalkMeter
 		chalkMeter.sizeDelta = new Vector2(chalkMeter.rect.width, HeightFromCurrChalk());
-		RegenChalk();
+		//RegenChalk();
 	}
 
 	//calculate Height of chalkMeter UI element from currChalk remaining
@@ -30,12 +29,12 @@ public class ChalkMeter : MonoBehaviour
 		//the chalkMeter UI element is 400 px tall
 		//get % max chalk: currChalk / maxChalk
 		//scale by 400 px
-		Debug.Log("currChalk is: " + currChalk);
+			//Debug.Log("currChalk is: " + currChalk);
 		return (currChalk / maxChalk) * 400;
 	}
 
 	//when drawing, depletes chalk
-	public void UseChalk()
+	public static void UseChalk()
 	{
 		Debug.Log("using chalk");
 		

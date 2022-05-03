@@ -25,7 +25,7 @@ public class Draw : MonoBehaviour
 		if (isDrawing)
 		{
 			lineBuilder.UpdateLine();
-			if (lineBuilder.isEnclosed())
+			if (lineBuilder.isEnclosed() || ChalkMeter.currChalk <= 0)
 			{
 				StopDrawing();
 			}
@@ -50,10 +50,18 @@ public class Draw : MonoBehaviour
 
 	private void StartDrawing(InputAction.CallbackContext ctx)
 	{
+		//Check if can start drawing
+		if (ChalkMeter.currChalk == 0) {
+			Debug.Log("Can't Start Draw: No Chalk");
+			return;
+		}
+
 		Debug.Log("Started Drawing");
 
+		//Make the actual Line object
 		lineObject = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity);
 
+		//Make LineBuilder obj and start linebuilding process
 		lineBuilder = ScriptableObject.CreateInstance<LineBuilder>();
 		lineBuilder.Init(maxNodeDistance, lineObject.GetComponent<LineRenderer>(), startLineTarget);
 		lineBuilder.CreateLine();
@@ -87,6 +95,9 @@ public class Draw : MonoBehaviour
 	//Not tied to input
 	private void StopDrawing()
 	{
+		//if already stopped drawing, do nothing
+		if (!isDrawing) { return; }
+
 		Debug.Log("Stopped Drawing");
 		isDrawing = false;
 		lineBuilder.CloseLine();
