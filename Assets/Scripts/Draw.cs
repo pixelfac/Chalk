@@ -24,11 +24,16 @@ public class Draw : MonoBehaviour
 	{
 		if (isDrawing)
 		{
+			ChalkMeter.DisableChalkRegen();
 			lineBuilder.UpdateLine();
 			if (lineBuilder.isEnclosed() || ChalkMeter.currChalk <= 0)
 			{
 				StopDrawing();
 			}
+		}
+		else
+		{
+			ChalkMeter.EnableChalkRegen();
 		}
 	}
 

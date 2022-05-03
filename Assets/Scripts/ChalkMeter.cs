@@ -1,26 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ChalkMeter : MonoBehaviour
 {
     [SerializeField] RectTransform chalkMeter;
     [SerializeField] float maxChalk;
     [SerializeField] int chalkRegenSpeed;
+	static bool regenEnabled;
 
 	public static float currChalk { get; private set; }
 
 	private void Awake()
 	{
 		currChalk = maxChalk;
+		regenEnabled = true;
 	}
 
 	private void Update()
 	{
 		//update height if chalkMeter
 		chalkMeter.sizeDelta = new Vector2(chalkMeter.rect.width, HeightFromCurrChalk());
-		//RegenChalk();
+		if (regenEnabled)
+		{
+			RegenChalk();
+		}
 	}
 
 	//calculate Height of chalkMeter UI element from currChalk remaining
@@ -52,6 +56,16 @@ public class ChalkMeter : MonoBehaviour
 		{
 			currChalk = maxChalk;
 		}
+	}
+
+	public static void EnableChalkRegen()
+	{
+		regenEnabled = true;
+	}
+
+	public static void DisableChalkRegen()
+	{
+		regenEnabled = false;
 	}
 
 }

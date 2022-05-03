@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chalkMeter: {fileID: 636233832}
-  maxChalk: 20
+  maxChalk: 100
   chalkRegenSpeed: 1
 --- !u!1 &1810666219
 GameObject:
