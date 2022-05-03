@@ -84,22 +84,7 @@ public class Draw : MonoBehaviour
 	//Tied to event listener for input
 	private void StopDrawing(InputAction.CallbackContext ctx)
 	{
-		//if already stopped drawing, do nothing
-		if (!isDrawing) { return; }
-
-		Debug.Log("Stopped Drawing");
-		isDrawing = false;
-
-		//if line is too short, discard line
-		if (lineBuilder.TooShort())
-		{
-			Destroy(lineObject);
-			return;
-		}
-
-		ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
-		lineBuilder.BuildChalkLine(chalkline, false);
-		Debug.Log("Line Initiallized NOT ENCLOSED");
+		StopDrawing();
 	}
 
 
