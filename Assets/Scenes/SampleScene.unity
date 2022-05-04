@@ -252,7 +252,7 @@ MonoBehaviour:
   isDrawing: 0
   maxNodeDistance: 0.1
   chalkLinePrefab: {fileID: 4958036785349629161, guid: a86edaa059727924aaf3af8d7b8495cc, type: 3}
-  startLineTarget: {fileID: 2814469375617665163, guid: 36d824edd604498428b0f32604b030c7, type: 3}
+  startLineTargetPrefab: {fileID: 2814469375617665163, guid: 36d824edd604498428b0f32604b030c7, type: 3}
 --- !u!224 &636233832 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6540930779535186052, guid: 2298a251e66ed034c9e0425316f62687, type: 3}
