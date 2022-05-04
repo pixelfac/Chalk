@@ -66,7 +66,8 @@ public class DrawLine : MonoBehaviour
 	private void StartDrawing(InputAction.CallbackContext ctx)
 	{
 		//Check if can start drawing
-		if (ChalkMeter.currChalk == 0) {
+		if (ChalkMeter.currChalk == 0)
+		{
 			Debug.Log("Can't Start Draw: No Chalk");
 			return;
 		}

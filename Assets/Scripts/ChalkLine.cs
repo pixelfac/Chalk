@@ -19,7 +19,8 @@ public class ChalkLine : MonoBehaviour
 	public void Init(ref List<Vector2> nodePositions, bool _isEnclosed)
 	{
 		lineNodes = new List<LineNode>();
-		foreach (Vector2 nodePos in nodePositions) {
+		foreach (Vector2 nodePos in nodePositions)
+		{
 			lineNodes.Add(new LineNode(nodePos));
 		}
 		Debug.Log("lineNodes populated");
