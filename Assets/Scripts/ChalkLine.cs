@@ -38,7 +38,6 @@ public class ChalkLine : MonoBehaviour
 		}
 	}
 
-	
 	//TODO
 	//checks to see if lineNodes encloses a region i.e. is a shape w/ no holes
 	//Only gets the first enclosed region, ignores rest

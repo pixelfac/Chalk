@@ -40,8 +40,6 @@ public class ChalkMeter : MonoBehaviour
 	//when drawing, depletes chalk
 	public static void UseChalk()
 	{
-		Debug.Log("using chalk");
-		
 		currChalk -= 1;
 		if (currChalk < 0)
 		{
