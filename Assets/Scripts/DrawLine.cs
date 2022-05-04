@@ -9,6 +9,7 @@ public class DrawLine : MonoBehaviour
 
 	[Range(0.1f,1f)]
 	[SerializeField] float maxNodeDistance;
+	[SerializeField] float minLineLength;
 
 	[SerializeField] GameObject chalkLinePrefab;
 	[SerializeField] GameObject startLineTargetPrefab; //prefab for target on start of line while drawing
@@ -202,7 +203,7 @@ public class DrawLine : MonoBehaviour
 	//true if # of nodes is too short to save, false otherwise
 	private bool TooShort()
 	{
-		if (nodePositions.Count < 10)
+		if (nodePositions.Count < minLineLength)
 		{
 			Debug.Log("TOO short");
 			return true;
