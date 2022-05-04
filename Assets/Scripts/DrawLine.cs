@@ -184,7 +184,7 @@ public class DrawLine : MonoBehaviour
 	private bool isEnclosed()
 	{
 		//prevent line from being enclosed immediately when start drawing
-		if (nodePositions.Count < 3) { return false; }
+		if (TooShort()) { return false; }
 
 		//distance between first and last node
 		float distanceBetween = (nodePositions[0] - nodePositions[nodePositions.Count - 1]).magnitude;
