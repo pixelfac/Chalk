@@ -224,6 +224,7 @@ public class DrawLine : MonoBehaviour
 	//initialize lineObject
 	public void BuildChalkLine(ChalkLine line, bool isEnclosed)
 	{
+		TestMaxNodeDistConstraint();
 		line.Init(ref nodePositions, isEnclosed);
 		ResetLineVars();
 	}
@@ -235,6 +236,23 @@ public class DrawLine : MonoBehaviour
 		lr = null;
 		nodePositions = null;
 		lineObject = null;
+	}
+
+	//tests to see if all nodes in the line are within range of the max node constraint
+	private void TestMaxNodeDistConstraint()
+	{
+		for (int i = 0; i < nodePositions.Count - 1; i++)
+		{
+			float nodeDist = (nodePositions[i] - nodePositions[i + 1]).magnitude;
+			if (nodeDist > maxNodeDistance)
+			{
+				Debug.LogWarning("Not all nodes in the line are within max node distance.");
+				Debug.LogWarning("Node 1, Vector: " + nodePositions[i].ToString());
+				Debug.LogWarning("Node 2, Vector: " + nodePositions[i+1].ToString());
+				Debug.LogWarning("Magnitude: " + nodeDist);
+				return;
+			}
+		}
 	}
 }
 
