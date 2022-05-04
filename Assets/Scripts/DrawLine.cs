@@ -7,7 +7,7 @@ public class DrawLine : MonoBehaviour
     Controls controls;
 	[SerializeField] bool isDrawing = false;
 
-	[Range(0.005f,0.1f)]
+	[Range(0.1f,1f)]
 	[SerializeField] float maxNodeDistance;
 
 	[SerializeField] GameObject chalkLinePrefab;
@@ -101,8 +101,8 @@ public class DrawLine : MonoBehaviour
 		//if line is too short, discard line
 		if (TooShort())
 		{
-			Destroy(lineObject);
 			AbortLine();
+			Destroy(lineObject);
 			return;
 		}
 
@@ -126,6 +126,7 @@ public class DrawLine : MonoBehaviour
 		if (TooShort())
 		{
 			Destroy(lineObject);
+			AbortLine();
 			return;
 		}
 
@@ -148,6 +149,7 @@ public class DrawLine : MonoBehaviour
 		nodePositions.Add(mousePos);
 
 		lr = lineObject.GetComponent<LineRenderer>();
+		lr.useWorldSpace = true;
 		lr.SetPosition(0, nodePositions[0]);
 		lr.SetPosition(1, nodePositions[1]);
 
@@ -162,17 +164,20 @@ public class DrawLine : MonoBehaviour
 	{
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
-		//if mouse has not moved far enough from last node, don't add node to line
-		if (Vector2.Distance(nodePositions[nodePositions.Count - 1], mousePos) < maxNodeDistance)
+		//while mouse is far enough from line, add node to line
+		while (Vector2.Distance(nodePositions[nodePositions.Count - 1], mousePos) >= maxNodeDistance)
 		{
-			return;
-		}
+			//unit-vector pointing from last line segment to mousePos
+			Vector2 direction = (mousePos - nodePositions[nodePositions.Count - 1]).normalized;	
+			//Vector of maxNodeDistance in length pointing towards mousePos
+			Vector2 nextSegment = nodePositions[nodePositions.Count - 1] + direction * maxNodeDistance;
 
-		//add new node + LineRenderer segment
-		nodePositions.Add(mousePos);
-		lr.positionCount++;
-		lr.SetPosition(lr.positionCount - 1, mousePos);
-		ChalkMeter.UseChalk();
+			//add new node + LineRenderer segment
+			nodePositions.Add(nextSegment);
+			lr.positionCount++;
+			lr.SetPosition(lr.positionCount - 1, nextSegment);
+			ChalkMeter.UseChalk();
+		}
 	}
 
 	//checks to see if the ends of line drawn meet to enclose a shape
@@ -244,8 +249,8 @@ public class DrawLine : MonoBehaviour
 	{
 		for (int i = 0; i < nodePositions.Count - 1; i++)
 		{
-			float nodeDist = (nodePositions[i] - nodePositions[i + 1]).magnitude;
-			if (nodeDist > maxNodeDistance)
+			float nodeDist = Vector2.Distance(nodePositions[i], nodePositions[i + 1]);
+			if (nodeDist-0.1f > maxNodeDistance)
 			{
 				Debug.LogWarning("Not all nodes in the line are within max node distance.");
 				Debug.LogWarning("Node 1, Vector: " + nodePositions[i].ToString());
