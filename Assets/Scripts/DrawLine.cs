@@ -134,7 +134,7 @@ public class DrawLine : MonoBehaviour
 	}
 
 	//Create and set up new line object
-	public void CreateLine()
+	private void CreateLine()
 	{
 		Debug.Log("Creating Line");
 
@@ -157,7 +157,7 @@ public class DrawLine : MonoBehaviour
 	}
 
 	//update the length of the line
-	public void UpdateLine()
+	private void UpdateLine()
 	{
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
@@ -175,7 +175,7 @@ public class DrawLine : MonoBehaviour
 	}
 
 	//checks to see if the ends of line drawn meet to enclose a shape
-	public bool isEnclosed()
+	private bool isEnclosed()
 	{
 		//prevent line from being enclosed immediately when start drawing
 		if (nodePositions.Count < 3) { return false; }
@@ -194,7 +194,7 @@ public class DrawLine : MonoBehaviour
 	}
 
 	//true if # of nodes is too short to save, false otherwise
-	public bool TooShort()
+	private bool TooShort()
 	{
 		if (nodePositions.Count < 10)
 		{
@@ -208,7 +208,7 @@ public class DrawLine : MonoBehaviour
 	}
 
 	//closes start and end of line renderer
-	public void CloseLine()
+	private void CloseLine()
 	{
 		lr.loop = true;
 	}
