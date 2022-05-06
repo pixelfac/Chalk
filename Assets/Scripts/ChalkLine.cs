@@ -8,16 +8,23 @@ public enum LineType { WARD, RESTRICT, MISSILE };
 public class ChalkLine : MonoBehaviour
 {
 	[SerializeField] int baseNodeHP;	//base HP for each node in a line
-	[SerializeField] float maxDistToEnclose;	//maximum distance between line ends before the shape is enclosed
 	bool isEnclosed;
 
+	EdgeCollider2D hitbox;
 	List<LineNode> lineNodes;
     LineRenderer lr;
 
+
+	private void Awake()
+	{
+		hitbox = GetComponent<EdgeCollider2D>();
+	}
 	//basically a constructor, but since can't call constructor
 	//on gameobject prefab component, this is the best alternative
 	public void Init(ref List<Vector2> nodePositions, bool _isEnclosed)
 	{
+		hitbox.SetPoints(nodePositions);
+
 		lineNodes = new List<LineNode>();
 		foreach (Vector2 nodePos in nodePositions)
 		{
