@@ -29,6 +29,18 @@ public class ChalkLine : MonoBehaviour
 	//on gameobject prefab component, this is the best alternative
 	public void Init(ref List<Vector2> nodePositions, bool _isEnclosed)
 	{
+		//first node is duplicated in creation process
+		//this line removes the duplicated node
+		nodePositions.RemoveAt(1);
+
+		//redraw LineRenderer to omit duplicated point
+		List<Vector3> lrNodes = new List<Vector3>();
+		foreach (Vector2 node in nodePositions)
+		{
+			lrNodes.Add(node);
+		}
+		lr.SetPositions(lrNodes.ToArray());
+
 		//Set EdgeCollider
 		hitbox.SetPoints(nodePositions);
 		//loop EdgeCollider
