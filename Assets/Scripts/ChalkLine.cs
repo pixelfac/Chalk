@@ -18,6 +18,7 @@ public class ChalkLine : MonoBehaviour
 	private void Awake()
 	{
 		hitbox = GetComponent<EdgeCollider2D>();
+		lr = GetComponent<LineRenderer>();
 	}
 	//basically a constructor, but since can't call constructor
 	//on gameobject prefab component, this is the best alternative
@@ -36,7 +37,6 @@ public class ChalkLine : MonoBehaviour
 		}
 		Debug.Log("lineNodes populated");
 
-		lr = GetComponent<LineRenderer>();
 		isEnclosed = _isEnclosed;
 
 		UpdateHP();
