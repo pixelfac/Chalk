@@ -15,9 +15,11 @@ public class DrawLine : MonoBehaviour
 	[SerializeField] GameObject startLineTargetPrefab; //prefab for target on start of line while drawing
 
 	GameObject startLineTarget;
+
 	GameObject lineObject;
 	List<Vector2> nodePositions;
 	LineRenderer lr;
+	GameObject startCircle, endCircle;
 
 
 	private void Awake()
@@ -144,20 +146,30 @@ public class DrawLine : MonoBehaviour
 		//Make the actual Line object
 		lineObject = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity);
 
+		//set internal lineNode List
 		nodePositions = new List<Vector2>();
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 		nodePositions.Add(mousePos);
 		nodePositions.Add(mousePos);
 
+		//assign and set lineRenderer
 		lr = lineObject.GetComponent<LineRenderer>();
 		lr.useWorldSpace = true;
 		lr.SetPosition(0, nodePositions[0]);
 		lr.SetPosition(1, nodePositions[1]);
 
-		//enable and set startLineTarget
+		//init and set startLineTarget
 		startLineTarget = Instantiate(startLineTargetPrefab, Vector3.zero, Quaternion.identity);
 		startLineTarget.SetActive(true);
 		startLineTarget.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
+
+		//assign and set start/end circles
+		//start stays at the start
+		startCircle = lineObject.GetComponent<ChalkLine>().startCircle;
+		startCircle.transform.position = nodePositions[0];
+		//end starts at start
+		endCircle = lineObject.GetComponent<ChalkLine>().endCircle;
+		endCircle.transform.position = nodePositions[0];
 	}
 
 	//update the length of the line
@@ -177,6 +189,7 @@ public class DrawLine : MonoBehaviour
 			nodePositions.Add(nextSegment);
 			lr.positionCount++;
 			lr.SetPosition(lr.positionCount - 1, nextSegment);
+			endCircle.transform.position = nextSegment;
 			ChalkMeter.UseChalk();
 		}
 	}
@@ -218,6 +231,7 @@ public class DrawLine : MonoBehaviour
 	private void CloseLine()
 	{
 		lr.loop = true;
+		endCircle.transform.position = nodePositions[0];
 	}
 
 	//called when drawing is finished, but line is too short so is deleted
