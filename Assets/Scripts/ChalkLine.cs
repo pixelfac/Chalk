@@ -14,10 +14,16 @@ public class ChalkLine : MonoBehaviour
 	List<LineNode> lineNodes;
     LineRenderer lr;
 
+	public GameObject startCircle;
+	public GameObject endCircle;
+
+
 	private void Awake()
 	{
 		hitbox = GetComponent<EdgeCollider2D>();
 		lr = GetComponent<LineRenderer>();
+		startCircle.GetComponent<SpriteRenderer>().color = lr.startColor;
+		endCircle.GetComponent<SpriteRenderer>().color = lr.endColor;
 	}
 	//basically a constructor, but since can't call constructor
 	//on gameobject prefab component, this is the best alternative

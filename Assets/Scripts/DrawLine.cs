@@ -19,6 +19,7 @@ public class DrawLine : MonoBehaviour
 	GameObject lineObject;
 	List<Vector2> nodePositions;
 	LineRenderer lr;
+	GameObject startCircle, endCircle;
 
 
 	private void Awake()
@@ -156,13 +157,19 @@ public class DrawLine : MonoBehaviour
 		lr.useWorldSpace = true;
 		lr.SetPosition(0, nodePositions[0]);
 		lr.SetPosition(1, nodePositions[1]);
-		lr.numCornerVertices = 5;
-		lr.numCapVertices = 5;
 
 		//init and set startLineTarget
 		startLineTarget = Instantiate(startLineTargetPrefab, Vector3.zero, Quaternion.identity);
 		startLineTarget.SetActive(true);
 		startLineTarget.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
+
+		//assign and set start/end circles
+		//start stays at the start
+		startCircle = lineObject.GetComponent<ChalkLine>().startCircle;
+		startCircle.transform.position = nodePositions[0];
+		//end starts at start
+		endCircle = lineObject.GetComponent<ChalkLine>().endCircle;
+		endCircle.transform.position = nodePositions[0];
 	}
 
 	//update the length of the line
@@ -182,6 +189,7 @@ public class DrawLine : MonoBehaviour
 			nodePositions.Add(nextSegment);
 			lr.positionCount++;
 			lr.SetPosition(lr.positionCount - 1, nextSegment);
+			endCircle.transform.position = nextSegment;
 			ChalkMeter.UseChalk();
 		}
 	}
@@ -223,6 +231,7 @@ public class DrawLine : MonoBehaviour
 	private void CloseLine()
 	{
 		lr.loop = true;
+		endCircle.transform.position = nodePositions[0];
 	}
 
 	//called when drawing is finished, but line is too short so is deleted
