@@ -23,7 +23,11 @@ public class ChalkLine : MonoBehaviour
 	//on gameobject prefab component, this is the best alternative
 	public void Init(ref List<Vector2> nodePositions, bool _isEnclosed)
 	{
+		//Set EdgeCollider
 		hitbox.SetPoints(nodePositions);
+		//loop EdgeCollider
+		hitbox.adjacentEndPoint = nodePositions[0]; 
+		hitbox.useAdjacentEndPoint = true;
 
 		lineNodes = new List<LineNode>();
 		foreach (Vector2 nodePos in nodePositions)
