@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseNodeHP: 0
+  startCircle: {fileID: 6606843272337416317}
+  endCircle: {fileID: 8389614668473047742}
 --- !u!120 &4958036785349629166
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -179,7 +181,7 @@ GameObject:
   - component: {fileID: 2462421573062664136}
   - component: {fileID: 1694850096116404651}
   m_Layer: 0
-  m_Name: StartCircle
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,7 +263,7 @@ GameObject:
   - component: {fileID: 7960557473394698103}
   - component: {fileID: 4900954086341096978}
   m_Layer: 0
-  m_Name: EndCircle
+  m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

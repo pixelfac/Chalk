@@ -14,6 +14,9 @@ public class ChalkLine : MonoBehaviour
 	List<LineNode> lineNodes;
     LineRenderer lr;
 
+	[SerializeField] GameObject startCircle;
+	[SerializeField] GameObject endCircle;
+
 
 	private void Awake()
 	{
