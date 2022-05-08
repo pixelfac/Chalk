@@ -336,8 +336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWorldSize: {x: 5, y: 5, z: 0}
   nodeRadius: 0.5
-  gridSizeX: 20
-  gridSizeY: 20
+  gridSizeX: 0
+  gridSizeY: 0
 --- !u!4 &373142922
 Transform:
   m_ObjectHideFlags: 0

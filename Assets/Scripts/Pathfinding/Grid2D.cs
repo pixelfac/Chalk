@@ -12,7 +12,7 @@ public class Grid2D : MonoBehaviour
     Vector3 worldBottomLeft;
 
     float nodeDiameter;
-    public int gridSizeX, gridSizeY;
+    [ReadOnly] public int gridSizeX, gridSizeY;
 
     void Awake()
     {
