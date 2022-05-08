@@ -8,7 +8,6 @@ public class Grid2D : MonoBehaviour
     public Vector3 gridWorldSize;
     public float nodeRadius;
     public Node2D[,] Grid;
-    public Tilemap obstaclemap;
     public List<Node2D> path;
     Vector3 worldBottomLeft;
 
@@ -37,12 +36,14 @@ public class Grid2D : MonoBehaviour
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
                 Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
-                if (obstaclemap.HasTile(obstaclemap.WorldToCell(Grid[x, y].worldPosition)))
+                if (Physics.CheckSphere(Grid[x, y].worldPosition, nodeRadius))
+				{
                     Grid[x, y].SetObstacle(true);
+				}
                 else
+				{
                     Grid[x, y].SetObstacle(false);
-
-
+				}
             }
         }
     }
