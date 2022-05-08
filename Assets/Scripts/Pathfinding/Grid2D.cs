@@ -69,10 +69,6 @@ public class Grid2D : MonoBehaviour
         if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY >= 0 && node.GridY < gridSizeY)
             neighbors.Add(Grid[node.GridX - 1, node.GridY]);
 
-
-
-        /* Uncomment this code to enable diagonal movement
-        
         //checks and adds top right neighbor
         if (node.GridX + 1 >= 0 && node.GridX + 1< gridSizeX && node.GridY + 1 >= 0 && node.GridY + 1 < gridSizeY)
             neighbors.Add(Grid[node.GridX + 1, node.GridY + 1]);
@@ -88,9 +84,6 @@ public class Grid2D : MonoBehaviour
         //checks and adds bottom left neighbor
         if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY  - 1>= 0 && node.GridY  - 1 < gridSizeY)
             neighbors.Add(Grid[node.GridX - 1, node.GridY - 1]);
-        */
-
-
 
         return neighbors;
     }
@@ -98,7 +91,6 @@ public class Grid2D : MonoBehaviour
 
     public Node2D NodeFromWorldPoint(Vector3 worldPosition)
     {
-
         int x = Mathf.RoundToInt(worldPosition.x - 1 + (gridSizeX / 2));
         int y = Mathf.RoundToInt(worldPosition.y + (gridSizeY / 2));
         return Grid[x, y];
