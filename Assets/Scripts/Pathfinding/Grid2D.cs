@@ -10,6 +10,7 @@ public class Grid2D : MonoBehaviour
     public Node2D[,] Grid;
     public List<Node2D> path;
     Vector3 worldBottomLeft;
+    public LayerMask obstacleMask;
 
     float nodeDiameter;
     [ReadOnly] public int gridSizeX, gridSizeY;
@@ -19,10 +20,14 @@ public class Grid2D : MonoBehaviour
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+    }
+
+	private void Start()
+	{
         CreateGrid();
     }
 
-    
+
 
     void CreateGrid()
     {
@@ -36,7 +41,7 @@ public class Grid2D : MonoBehaviour
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
                 Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
-                if (Physics.CheckSphere(Grid[x, y].worldPosition, nodeRadius))
+                if (Physics2D.OverlapCircle(worldPoint, nodeRadius, obstacleMask) != null) //null == no collision
 				{
                     Grid[x, y].SetObstacle(true);
 				}
