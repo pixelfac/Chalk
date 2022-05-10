@@ -43,7 +43,7 @@ public class ChalkLine : MonoBehaviour
 
 		//Set EdgeCollider
 		hitbox.SetPoints(nodePositions);
-		hitbox.edgeRadius = lr.startWidth;
+		hitbox.edgeRadius = lr.startWidth / 2;
 		//loop EdgeCollider
 		hitbox.adjacentEndPoint = nodePositions[0]; 
 		hitbox.useAdjacentEndPoint = true;
