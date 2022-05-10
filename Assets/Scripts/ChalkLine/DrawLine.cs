@@ -29,7 +29,7 @@ public class DrawLine : MonoBehaviour
 		controls = new Controls();
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		if (isDrawing)
 		{
