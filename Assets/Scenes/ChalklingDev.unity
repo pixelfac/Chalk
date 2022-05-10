@@ -334,8 +334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32ff71e5b324c3478569e42757e0f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWorldSize: {x: 5, y: 5, z: 0}
-  nodeRadius: 0.5
+  gridWorldSize: {x: 10, y: 10, z: 0}
+  nodeRadius: 0.1
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
