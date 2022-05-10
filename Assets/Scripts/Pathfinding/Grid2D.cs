@@ -27,13 +27,21 @@ public class Grid2D : MonoBehaviour
         CreateGrid();
     }
 
+	private void Update()
+	{
+        UpdateObstacles();
+	}
 
-
-    void CreateGrid()
+	void CreateGrid()
     {
         Grid = new Node2D[gridSizeX, gridSizeY];
         worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
 
+        UpdateObstacles();
+    }
+
+    void UpdateObstacles()
+	{
         for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)
@@ -42,13 +50,13 @@ public class Grid2D : MonoBehaviour
                 Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
                 if (Physics2D.OverlapCircle(worldPoint, nodeRadius, obstacleMask) != null) //null == no collision
-				{
+                {
                     Grid[x, y].SetObstacle(true);
-				}
+                }
                 else
-				{
+                {
                     Grid[x, y].SetObstacle(false);
-				}
+                }
             }
         }
     }
