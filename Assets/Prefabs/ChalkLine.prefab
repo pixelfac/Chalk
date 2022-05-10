@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: -6107364686540553141}
   - component: {fileID: 4958036785349629166}
   - component: {fileID: 6824466666567381871}
-  m_Layer: 0
-  m_Name: Line
+  m_Layer: 6
+  m_Name: ChalkLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2462421573062664136}
   - component: {fileID: 1694850096116404651}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7960557473394698103}
   - component: {fileID: 4900954086341096978}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
