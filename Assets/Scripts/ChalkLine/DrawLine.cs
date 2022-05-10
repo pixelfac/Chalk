@@ -33,7 +33,6 @@ public class DrawLine : MonoBehaviour
 	{
 		if (isDrawing)
 		{
-			chalkMeterSO.DisableChalkRegen();
 			UpdateLine();
 
 			if (isEnclosed())
@@ -48,7 +47,7 @@ public class DrawLine : MonoBehaviour
 		}
 		else
 		{
-			chalkMeterSO.EnableChalkRegen();
+			chalkMeterSO.RegenChalk();
 		}
 	}
 

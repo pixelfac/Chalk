@@ -11,7 +11,6 @@ public class ChalkMeterSO : ScriptableObject
 {
     [SerializeField] public float maxChalk;
     [SerializeField] int chalkRegenSpeed;
-	bool regenEnabled = true;
     public float currChalk;
 	
 	//when drawing, depletes chalk
@@ -24,25 +23,12 @@ public class ChalkMeterSO : ScriptableObject
 		}
 	}
 
-	//regens chalk if regen is enabled
 	public void RegenChalk()
 	{
-		if (!regenEnabled) { return; }
-
 		currChalk += chalkRegenSpeed;
 		if (currChalk > maxChalk)
 		{
 			currChalk = maxChalk;
 		}
-	}
-
-	public void EnableChalkRegen()
-	{
-		regenEnabled = true;
-	}
-
-	public void DisableChalkRegen()
-	{
-		regenEnabled = false;
 	}
 }

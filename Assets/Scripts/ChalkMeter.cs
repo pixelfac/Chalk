@@ -11,7 +11,6 @@ public class ChalkMeter : MonoBehaviour
 	{
 		//update height if chalkMeter
 		meterRectTransform.sizeDelta = new Vector2(meterRectTransform.rect.width, HeightFromCurrChalk());
-		chalkMeterSO.RegenChalk();
 	}
 
 	//calculate Height of chalkMeter UI element from currChalk remaining
