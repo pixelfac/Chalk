@@ -254,6 +254,7 @@ MonoBehaviour:
   minLineLength: 10
   chalkLinePrefab: {fileID: 4958036785349629161, guid: a86edaa059727924aaf3af8d7b8495cc, type: 3}
   startLineTargetPrefab: {fileID: 2814469375617665163, guid: 36d824edd604498428b0f32604b030c7, type: 3}
+  chalkMeterSO: {fileID: 11400000, guid: e22fc09eecbc2d544ab1f25433a766c3, type: 2}
 --- !u!224 &864976820 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6540930779172523864, guid: 2298a251e66ed034c9e0425316f62687, type: 3}

@@ -14,6 +14,8 @@ public class DrawLine : MonoBehaviour
 	[SerializeField] GameObject chalkLinePrefab;
 	[SerializeField] GameObject startLineTargetPrefab; //prefab for target on start of line while drawing
 
+	[SerializeField] ChalkMeterSO chalkMeterSO;
+
 	GameObject startLineTarget;
 
 	GameObject lineObject;
@@ -31,7 +33,7 @@ public class DrawLine : MonoBehaviour
 	{
 		if (isDrawing)
 		{
-			ChalkMeter.DisableChalkRegen();
+			chalkMeterSO.DisableChalkRegen();
 			UpdateLine();
 
 			if (isEnclosed())
@@ -39,14 +41,14 @@ public class DrawLine : MonoBehaviour
 				FinishLine();
 			}
 
-			if (ChalkMeter.currChalk <= 0)
+			if (chalkMeterSO.currChalk <= 0)
 			{
 				StopDrawing();
 			}
 		}
 		else
 		{
-			ChalkMeter.EnableChalkRegen();
+			chalkMeterSO.EnableChalkRegen();
 		}
 	}
 
@@ -69,7 +71,7 @@ public class DrawLine : MonoBehaviour
 	private void StartDrawing(InputAction.CallbackContext ctx)
 	{
 		//Check if can start drawing
-		if (ChalkMeter.currChalk == 0)
+		if (chalkMeterSO.currChalk == 0)
 		{
 			Debug.Log("Can't Start Draw: No Chalk");
 			return;
@@ -190,7 +192,7 @@ public class DrawLine : MonoBehaviour
 			lr.positionCount++;
 			lr.SetPosition(lr.positionCount - 1, nextSegment);
 			endCircle.transform.position = nextSegment;
-			ChalkMeter.UseChalk();
+			chalkMeterSO.UseChalk();
 		}
 	}
 
