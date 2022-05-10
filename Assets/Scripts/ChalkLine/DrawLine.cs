@@ -106,8 +106,8 @@ public class DrawLine : MonoBehaviour
 		//if line is too short, discard line
 		if (TooShort())
 		{
-			AbortLine();
 			Destroy(lineObject);
+			AbortLine();
 			return;
 		}
 
