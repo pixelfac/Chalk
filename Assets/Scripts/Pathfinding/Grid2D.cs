@@ -126,7 +126,7 @@ public class Grid2D : MonoBehaviour
                 else
                     Gizmos.color = Color.white;
 
-                if (path != null && path.Contains(n))
+                if (path != null && path.Exists(element => (element.worldPosition == n.worldPosition)))
                     Gizmos.color = Color.black;
                 Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeRadius));
 
