@@ -105,8 +105,8 @@ public class Grid2D : MonoBehaviour
 
     public Node2D NodeFromWorldPoint(Vector3 worldPosition)
     {
-        int x = Mathf.RoundToInt(worldPosition.x - 1 + (gridSizeX / 2));
-        int y = Mathf.RoundToInt(worldPosition.y + (gridSizeY / 2));
+        int x = (int)(worldPosition.x + (gridSizeX / 2)); //truncates with (int) bc node is at world pos (x.5, y.5)
+        int y = (int)(worldPosition.y + (gridSizeY / 2));
         return Grid[x, y];
     }
 
