@@ -105,13 +105,17 @@ public class Grid2D : MonoBehaviour
 
     public Node2D NodeFromWorldPoint(Vector3 worldPosition)
     {
-        int x = (int)(worldPosition.x + (gridSizeX / 2)); //truncates with (int) bc node is at world pos (x.5, y.5)
-        int y = (int)(worldPosition.y + (gridSizeY / 2));
+        //difference between bottom corner and current position in question
+        float diffX = worldPosition.x - worldBottomLeft.x;
+        float diffY = worldPosition.y - worldBottomLeft.y;
+
+        //convert difference in worldspace to difference in nodes
+        int x = (int)(diffX / nodeDiameter);
+        int y = (int)(diffY / nodeDiameter);
         return Grid[x, y];
     }
 
 
-    
     //Draws visual representation of grid
     void OnDrawGizmos()
     {
