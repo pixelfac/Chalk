@@ -25,8 +25,8 @@ public class ChalklingMovement : MonoBehaviour
 		pathfind.FindPath(transform.position, target.position);
 		path = pathfind.GetPath();
 
-		//if already at target, stop
-		if (path.Count == 0)
+		//if no path found OR already at target, stop
+		if (path == null || path.Count == 0)
 		{
 			return;
 		}

@@ -85,6 +85,9 @@ public class Pathfinding2D : MonoBehaviour
                 }
             }
         }
+
+        //No path possible
+        grid.path = null;
     }
 
     //reverses calculated path so first node is closest to seeker
