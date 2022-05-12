@@ -17,19 +17,19 @@ public class ChalklingMovement : MonoBehaviour
 		pathfind = GetComponent<Pathfinding2D>();
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		Debug.Log("currPos: " + transform.position);
+		Debug.Log("targetPos: " + target.position);
 
 		pathfind.FindPath(transform.position, target.position);
 		path = pathfind.GetPath();
 		Debug.Log("path-0: " + path[0].worldPosition);
-		Debug.Log("path-1: " + path[1].worldPosition);
 
-		Vector2 moveDir = (path[1].worldPosition - transform.position).normalized; //the direction to move towards target
+		Vector2 moveDir = (path[0].worldPosition - transform.position).normalized; //the direction to move towards target
 		Debug.Log("moveDir: " + moveDir);
 
-		Vector2 newPos = moveDir * moveSpeed;
+		Vector2 newPos = (moveDir * moveSpeed * Time.deltaTime) + (Vector2)transform.position;
 		Debug.Log("newPos: " + newPos);
 
 		rb.MovePosition(newPos);
