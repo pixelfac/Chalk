@@ -24,6 +24,13 @@ public class ChalklingMovement : MonoBehaviour
 
 		pathfind.FindPath(transform.position, target.position);
 		path = pathfind.GetPath();
+
+		//if already at target, stop
+		if (path.Count == 0)
+		{
+			return;
+		}
+
 		Debug.Log("path-0: " + path[0].worldPosition);
 
 		Vector2 moveDir = (path[0].worldPosition - transform.position).normalized; //the direction to move towards target

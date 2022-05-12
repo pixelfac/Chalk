@@ -28,6 +28,14 @@ public class Pathfinding2D : MonoBehaviour
         seekerNode = grid.NodeFromWorldPoint(startPos);
         targetNode = grid.NodeFromWorldPoint(targetPos);
 
+
+        //if already at target, skip calculations
+        if (seekerNode == targetNode)
+        {
+            RetracePath(seekerNode, targetNode);
+            return;
+        }
+
         List<Node2D> openSet = new List<Node2D>();
         HashSet<Node2D> closedSet = new HashSet<Node2D>();
         openSet.Add(seekerNode);
@@ -84,6 +92,13 @@ public class Pathfinding2D : MonoBehaviour
     {
         List<Node2D> path = new List<Node2D>();
         Node2D currentNode = endNode;
+
+        //if path is 0
+        if (startNode == endNode)
+		{
+            grid.path = path;
+            return;
+		}
 
         while (currentNode != startNode)
         {
