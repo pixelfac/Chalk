@@ -17,6 +17,10 @@ public class Pathfinding2D : MonoBehaviour
         grid = GridOwner.GetComponent<Grid2D>();
     }
 
+    public List<Node2D> GetPath()
+	{
+        return grid.path;
+	}
 
     public void FindPath(Vector3 startPos, Vector3 targetPos)
     {
