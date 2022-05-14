@@ -120,18 +120,17 @@ public class Grid2D : MonoBehaviour
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
 
-        if (Grid != null)
+        if (Grid == null) { return; }
+
+        foreach (Node2D n in Grid)
         {
-            foreach (Node2D n in Grid)
-            {
-                if (n.obstacle)
-                    Gizmos.color = Color.red;
-                else
-                    Gizmos.color = Color.white;
+            if (n.obstacle)
+                Gizmos.color = Color.red;
+            else
+                Gizmos.color = Color.white;
 
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeRadius));
+            Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeRadius));
 
-            }
         }
     }
 }
