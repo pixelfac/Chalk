@@ -6,6 +6,7 @@ public class Pathfinding2D : MonoBehaviour
 {
 
     public Transform seeker, target;
+    public List<Node2D> path { get; private set; }
     Grid2D grid;
     Node2D seekerNode, targetNode;
     public GameObject GridOwner;
@@ -17,13 +18,11 @@ public class Pathfinding2D : MonoBehaviour
         grid = GridOwner.GetComponent<Grid2D>();
     }
 
-    public List<Node2D> GetPath()
-	{
-        return grid.path;
-	}
-
-    public void FindPath(Vector3 startPos, Vector3 targetPos)
+    public List<Node2D> FindPath(Vector3 startPos, Vector3 targetPos)
     {
+        //reset path
+        path = new List<Node2D>();
+
         //get player and target position in grid coords
         seekerNode = grid.NodeFromWorldPoint(startPos);
         targetNode = grid.NodeFromWorldPoint(targetPos);
@@ -32,8 +31,7 @@ public class Pathfinding2D : MonoBehaviour
         //if already at target, skip calculations
         if (seekerNode == targetNode)
         {
-            RetracePath(seekerNode, targetNode);
-            return;
+            return RetracePath(seekerNode, targetNode);
         }
 
         List<Node2D> openSet = new List<Node2D>();
@@ -61,8 +59,7 @@ public class Pathfinding2D : MonoBehaviour
             //If target found, retrace path
             if (node == targetNode)
             {
-                RetracePath(seekerNode, targetNode);
-                return;
+                return RetracePath(seekerNode, targetNode);
             }
             
             //adds neighbor nodes to openSet
@@ -87,20 +84,18 @@ public class Pathfinding2D : MonoBehaviour
         }
 
         //No path possible
-        grid.path = null;
+        return null;
     }
 
     //reverses calculated path so first node is closest to seeker
-    void RetracePath(Node2D startNode, Node2D endNode)
+    List<Node2D> RetracePath(Node2D startNode, Node2D endNode)
     {
-        List<Node2D> path = new List<Node2D>();
         Node2D currentNode = endNode;
 
         //if path is 0
         if (startNode == endNode)
 		{
-            grid.path = path;
-            return;
+            return path;
 		}
 
         while (currentNode != startNode)
@@ -109,9 +104,7 @@ public class Pathfinding2D : MonoBehaviour
             currentNode = currentNode.parent;
         }
         path.Reverse();
-
-        grid.path = path;
-
+        return path;
     }
 
     //gets distance between 2 nodes for calculating cost
@@ -123,5 +116,17 @@ public class Pathfinding2D : MonoBehaviour
         if (dstX > dstY)
             return 14 * dstY + 10 * (dstX - dstY);
         return 14 * dstX + 10 * (dstY - dstX);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (path == null) { return; }
+
+        foreach(Node2D n in path)
+		{
+            Gizmos.color = Color.black;
+
+            Gizmos.DrawSphere(n.worldPosition, 1.1f * grid.nodeRadius);
+        }
     }
 }
