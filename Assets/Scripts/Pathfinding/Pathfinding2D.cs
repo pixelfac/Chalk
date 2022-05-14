@@ -6,7 +6,6 @@ public class Pathfinding2D : MonoBehaviour
 {
     public List<Node2D> path { get; private set; }
     Grid2D grid;
-    Node2D seekerNode, targetNode;
 
 	private void Awake()
 	{
@@ -15,6 +14,8 @@ public class Pathfinding2D : MonoBehaviour
 
     public List<Node2D> FindPath(Vector3 startPos, Vector3 targetPos)
     {
+        Node2D seekerNode, targetNode;
+
         //reset path
         path = new List<Node2D>();
 
