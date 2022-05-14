@@ -10,7 +10,7 @@ public class DrawLine : MonoBehaviour
 	[Range(0.1f,1f)] //arbitrary values, may need to adjust minNodesInLine if you change this one
 	[SerializeField] float maxNodeDistance;
 	[SerializeField] float minNodesInLine;
-
+		
 	[SerializeField] GameObject chalkLinePrefab;
 	[SerializeField] GameObject startLineTargetPrefab; //prefab for target on start of line while drawing
 
@@ -257,6 +257,11 @@ public class DrawLine : MonoBehaviour
 		lr = null;
 		nodePositions = null;
 		lineObject = null;
+	}
+
+	private void OnValidate()
+	{
+		minNodesInLine = Mathf.Max(5, minNodesInLine);
 	}
 }
 
