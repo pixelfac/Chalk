@@ -19,9 +19,6 @@ public class ChalklingMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		Debug.Log("currPos: " + transform.position);
-		Debug.Log("targetPos: " + target.position);
-
 		pathfind.FindPath(transform.position, target.position);
 		path = pathfind.path;
 
@@ -31,13 +28,8 @@ public class ChalklingMovement : MonoBehaviour
 			return;
 		}
 
-		Debug.Log("path-0: " + path[0].worldPosition);
-
 		Vector2 moveDir = (path[0].worldPosition - transform.position).normalized; //the direction to move towards target
-		Debug.Log("moveDir: " + moveDir);
-
 		Vector2 newPos = (moveDir * moveSpeed * Time.deltaTime) + (Vector2)transform.position;
-		Debug.Log("newPos: " + newPos);
 
 		rb.MovePosition(newPos);
 	}
