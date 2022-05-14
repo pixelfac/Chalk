@@ -7,14 +7,11 @@ public class Pathfinding2D : MonoBehaviour
     public List<Node2D> path { get; private set; }
     Grid2D grid;
     Node2D seekerNode, targetNode;
-    public GameObject GridOwner;
 
-
-    void Start()
-    {
-        //Instantiate grid
-        grid = GridOwner.GetComponent<Grid2D>();
-    }
+	private void Awake()
+	{
+        grid = FindObjectOfType<Grid2D>();
+	}
 
     public List<Node2D> FindPath(Vector3 startPos, Vector3 targetPos)
     {
@@ -116,15 +113,8 @@ public class Pathfinding2D : MonoBehaviour
         return 14 * dstX + 10 * (dstY - dstX);
     }
 
-    private void OnDrawGizmos()
-    {
-        if (path == null) { return; }
-
-        foreach(Node2D n in path)
-		{
-            Gizmos.color = Color.black;
-
-            Gizmos.DrawSphere(n.worldPosition, 1.1f * grid.nodeRadius);
-        }
-    }
+    public float GetNodeRadius()
+	{
+        return grid.nodeRadius;
+	}
 }
