@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class Pathfinding2D : MonoBehaviour
 {
-
-    public Transform seeker, target;
     public List<Node2D> path { get; private set; }
     Grid2D grid;
     Node2D seekerNode, targetNode;
