@@ -23,7 +23,6 @@ public class Pathfinding2D : MonoBehaviour
         seekerNode = grid.NodeFromWorldPoint(startPos);
         targetNode = grid.NodeFromWorldPoint(targetPos);
 
-
         //if already at target, skip calculations
         if (seekerNode == targetNode)
         {
@@ -37,7 +36,6 @@ public class Pathfinding2D : MonoBehaviour
         //calculates path for pathfinding
         while (openSet.Count > 0)
         {
-
             //iterates through openSet and finds lowest FCost
             Node2D node = openSet[0];
             for (int i = 1; i < openSet.Count; i++)
@@ -74,7 +72,9 @@ public class Pathfinding2D : MonoBehaviour
                     neighbour.parent = node;
 
                     if (!openSet.Contains(neighbour))
+					{
                         openSet.Add(neighbour);
+					}
                 }
             }
         }
@@ -110,7 +110,9 @@ public class Pathfinding2D : MonoBehaviour
         int dstY = Mathf.Abs(nodeA.GridY - nodeB.GridY);
 
         if (dstX > dstY)
+		{
             return 14 * dstY + 10 * (dstX - dstY);
+		}
         return 14 * dstX + 10 * (dstY - dstX);
     }
 
