@@ -5,7 +5,7 @@ using UnityEngine;
 public class Grid2D : MonoBehaviour
 {
     [SerializeField] Vector3 gridWorldSize;
-    [SerializeField] public float nodeRadius { get; private set; }
+    [SerializeField] public float nodeRadius;
     private Node2D[,] Grid;
     Vector3 worldBottomLeft;
     [SerializeField] LayerMask obstacleMask;

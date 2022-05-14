@@ -14,7 +14,7 @@ public class ChalklingMovement : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
-		pathfinder = GetComponent<Grid2D>();
+		pathfinder = FindObjectOfType<Grid2D>();
 	}
 
 	private void FixedUpdate()
