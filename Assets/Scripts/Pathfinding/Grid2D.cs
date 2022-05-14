@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Grid2D : MonoBehaviour
 {
-    public Vector3 gridWorldSize;
-    public float nodeRadius;
-    public Node2D[,] Grid;
+    [SerializeField] Vector3 gridWorldSize;
+    [SerializeField] public float nodeRadius { get; private set; }
+    private Node2D[,] Grid;
     Vector3 worldBottomLeft;
-    public LayerMask obstacleMask;
+    [SerializeField] LayerMask obstacleMask;
 
     float nodeDiameter;
-    [ReadOnly] public int gridSizeX, gridSizeY;
+    [SerializeField] public int gridSizeX { get; private set; }
+    [SerializeField] public int gridSizeY { get; private set; }
 
     void Awake()
     {
