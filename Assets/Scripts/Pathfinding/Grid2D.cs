@@ -11,14 +11,13 @@ public class Grid2D : MonoBehaviour
     [SerializeField] LayerMask obstacleMask;
 
     float nodeDiameter;
-    [SerializeField] public int gridSizeX { get; private set; }
-    [SerializeField] public int gridSizeY { get; private set; }
+    [SerializeField] public Vector2Int gridSize { get; private set; }
 
     void Awake()
     {
         nodeDiameter = nodeRadius * 2;
-        gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-        gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+        gridSize = new Vector2Int(Mathf.RoundToInt(gridWorldSize.x / nodeDiameter),
+                                  Mathf.RoundToInt(gridWorldSize.y / nodeDiameter));
     }
 
 	private void Start()
@@ -33,7 +32,7 @@ public class Grid2D : MonoBehaviour
 
 	void CreateGrid()
     {
-        Grid = new Node2D[gridSizeX, gridSizeY];
+        Grid = new Node2D[gridSize.x, gridSize.y];
         worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
 
         UpdateObstacles();
@@ -41,9 +40,9 @@ public class Grid2D : MonoBehaviour
 
     void UpdateObstacles()
 	{
-        for (int x = 0; x < gridSizeX; x++)
+        for (int x = 0; x < gridSize.x; x++)
         {
-            for (int y = 0; y < gridSizeY; y++)
+            for (int y = 0; y < gridSize.y; y++)
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
                 Grid[x, y] = new Node2D(false, worldPoint, x, y);
@@ -67,35 +66,35 @@ public class Grid2D : MonoBehaviour
         List<Node2D> neighbors = new List<Node2D>();
 
         //checks and adds top neighbor
-        if (node.GridX >= 0 && node.GridX < gridSizeX && node.GridY + 1 >= 0 && node.GridY + 1 < gridSizeY)
+        if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
             neighbors.Add(Grid[node.GridX, node.GridY + 1]);
 
         //checks and adds bottom neighbor
-        if (node.GridX >= 0 && node.GridX < gridSizeX && node.GridY - 1 >= 0 && node.GridY - 1 < gridSizeY)
+        if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
             neighbors.Add(Grid[node.GridX, node.GridY - 1]);
 
         //checks and adds right neighbor
-        if (node.GridX + 1 >= 0 && node.GridX + 1 < gridSizeX && node.GridY >= 0 && node.GridY < gridSizeY)
+        if (node.GridX + 1 >= 0 && node.GridX + 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
             neighbors.Add(Grid[node.GridX + 1, node.GridY]);
 
         //checks and adds left neighbor
-        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY >= 0 && node.GridY < gridSizeY)
+        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
             neighbors.Add(Grid[node.GridX - 1, node.GridY]);
 
         //checks and adds top right neighbor
-        if (node.GridX + 1 >= 0 && node.GridX + 1< gridSizeX && node.GridY + 1 >= 0 && node.GridY + 1 < gridSizeY)
+        if (node.GridX + 1 >= 0 && node.GridX + 1< gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
             neighbors.Add(Grid[node.GridX + 1, node.GridY + 1]);
 
         //checks and adds bottom right neighbor
-        if (node.GridX + 1>= 0 && node.GridX + 1 < gridSizeX && node.GridY - 1 >= 0 && node.GridY - 1 < gridSizeY)
+        if (node.GridX + 1>= 0 && node.GridX + 1 < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
             neighbors.Add(Grid[node.GridX + 1, node.GridY - 1]);
 
         //checks and adds top left neighbor
-        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY + 1>= 0 && node.GridY + 1 < gridSizeY)
+        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY + 1>= 0 && node.GridY + 1 < gridSize.y)
             neighbors.Add(Grid[node.GridX - 1, node.GridY + 1]);
 
         //checks and adds bottom left neighbor
-        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY  - 1>= 0 && node.GridY  - 1 < gridSizeY)
+        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY  - 1>= 0 && node.GridY  - 1 < gridSize.y)
             neighbors.Add(Grid[node.GridX - 1, node.GridY - 1]);
 
         return neighbors;
@@ -112,8 +111,8 @@ public class Grid2D : MonoBehaviour
         int y = (int)(diffY / nodeDiameter);
 
         //catch out-of-bounds
-        x = Mathf.Clamp(x, 0, gridSizeX - 1);
-        y = Mathf.Clamp(y, 0, gridSizeY - 1);
+        x = Mathf.Clamp(x, 0, gridSize.x - 1);
+        y = Mathf.Clamp(y, 0, gridSize.y - 1);
 
         return Grid[x, y];
     }
