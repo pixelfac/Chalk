@@ -41,4 +41,9 @@ public class ChalklingMovement : MonoBehaviour
 
 		rb.MovePosition(newPos);
 	}
+
+	private void OnValidate()
+	{
+		moveSpeed = Mathf.Max(moveSpeed, 0);
+	}
 }
