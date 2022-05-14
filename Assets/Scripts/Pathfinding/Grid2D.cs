@@ -134,8 +134,7 @@ public class Grid2D : MonoBehaviour
             else
                 Gizmos.color = Color.white;
 
-            Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeRadius));
-
+            Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
         }
     }
 }

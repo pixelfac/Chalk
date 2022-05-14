@@ -38,4 +38,16 @@ public class ChalklingMovement : MonoBehaviour
 	{
 		moveSpeed = Mathf.Max(moveSpeed, 0);
 	}
+
+	void OnDrawGizmos()
+	{
+		if (path == null) { return; }
+
+		foreach (Node2D n in path)
+		{
+			Gizmos.color = Color.black;
+
+			Gizmos.DrawSphere(n.worldPosition, pathfind.GetNodeRadius());
+		}
+	}
 }
