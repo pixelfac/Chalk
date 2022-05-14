@@ -8,18 +8,18 @@ public class ChalklingMovement : MonoBehaviour
 	[SerializeField] Transform target;
 
     Rigidbody2D rb;
-	Pathfinding2D pathfind;
+	Grid2D pathfinder;
 	List<Node2D> path;
 
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
-		pathfind = GetComponent<Pathfinding2D>();
+		pathfinder = GetComponent<Grid2D>();
 	}
 
 	private void FixedUpdate()
 	{
-		path = pathfind.FindPath(transform.position, target.position);
+		path = pathfinder.FindPath(transform.position, target.position);
 
 		//if no path found OR already at target, stop
 		if (path == null || path.Count == 0)
@@ -46,7 +46,7 @@ public class ChalklingMovement : MonoBehaviour
 		{
 			Gizmos.color = Color.black;
 
-			Gizmos.DrawSphere(n.worldPosition, pathfind.GetNodeRadius());
+			Gizmos.DrawSphere(n.worldPosition, pathfinder.nodeRadius);
 		}
 	}
 }
