@@ -19,8 +19,7 @@ public class ChalklingMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		pathfind.FindPath(transform.position, target.position);
-		path = pathfind.path;
+		path = pathfind.FindPath(transform.position, target.position);
 
 		//if no path found OR already at target, stop
 		if (path == null || path.Count == 0)

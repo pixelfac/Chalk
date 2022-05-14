@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Pathfinding2D : MonoBehaviour
 {
-    public List<Node2D> path { get; private set; }
     Grid2D grid;
 
 	private void Awake()
@@ -17,7 +16,7 @@ public class Pathfinding2D : MonoBehaviour
         Node2D seekerNode, targetNode;
 
         //reset path
-        path = new List<Node2D>();
+        List<Node2D> path = new List<Node2D>();
 
         //get player and target position in grid coords
         seekerNode = grid.NodeFromWorldPoint(startPos);
@@ -26,7 +25,7 @@ public class Pathfinding2D : MonoBehaviour
         //if already at target, skip calculations
         if (seekerNode == targetNode)
         {
-            return RetracePath(seekerNode, targetNode);
+            return RetracePath(ref path, seekerNode, targetNode);
         }
 
         List<Node2D> openSet = new List<Node2D>();
@@ -53,7 +52,7 @@ public class Pathfinding2D : MonoBehaviour
             //If target found, retrace path
             if (node == targetNode)
             {
-                return RetracePath(seekerNode, targetNode);
+                return RetracePath(ref path, seekerNode, targetNode);
             }
             
             //adds neighbor nodes to openSet
@@ -84,7 +83,7 @@ public class Pathfinding2D : MonoBehaviour
     }
 
     //reverses calculated path so first node is closest to seeker
-    List<Node2D> RetracePath(Node2D startNode, Node2D endNode)
+    List<Node2D> RetracePath(ref List<Node2D> path, Node2D startNode, Node2D endNode)
     {
         Node2D currentNode = endNode;
 

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Grid2D : MonoBehaviour
 {
@@ -101,7 +100,6 @@ public class Grid2D : MonoBehaviour
         return neighbors;
     }
 
-
     public Node2D NodeFromWorldPoint(Vector3 worldPosition)
     {
         //difference between bottom corner and current position in question
@@ -118,7 +116,6 @@ public class Grid2D : MonoBehaviour
 
         return Grid[x, y];
     }
-
 
     //Draws visual representation of grid
     void OnDrawGizmos()
