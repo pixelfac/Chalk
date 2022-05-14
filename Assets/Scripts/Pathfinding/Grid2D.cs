@@ -111,6 +111,11 @@ public class Grid2D : MonoBehaviour
         //convert difference in worldspace to difference in nodes
         int x = (int)(diffX / nodeDiameter);
         int y = (int)(diffY / nodeDiameter);
+
+        //catch out-of-bounds
+        x = Mathf.Clamp(x, 0, gridSizeX - 1);
+        y = Mathf.Clamp(y, 0, gridSizeY - 1);
+
         return Grid[x, y];
     }
 
