@@ -29,6 +29,7 @@ namespace ChalkLine
 		private void Awake()
 		{
 			controls = new Controls();
+			chalkMeterSO.ResetChalk();
 		}
 
 		private void FixedUpdate()

@@ -31,4 +31,11 @@ public class ChalkMeterSO : ScriptableObject
 			currChalk = maxChalk;
 		}
 	}
+
+	//sets chalk to max
+	//used at start of round
+	public void ResetChalk()
+	{
+		currChalk = maxChalk;
+	}
 }
