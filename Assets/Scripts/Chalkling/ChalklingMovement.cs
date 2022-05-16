@@ -3,51 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class ChalklingMovement : MonoBehaviour
+namespace Chalkling
 {
-    [SerializeField] private float moveSpeed;
-	[SerializeField] private Transform target;
-
-	private Rigidbody2D rb;
-	private Grid2D pathfinder;
-	private List<Node2D> path;
-
-	private void Awake()
+	public class ChalklingMovement : MonoBehaviour
 	{
-		rb = GetComponent<Rigidbody2D>();
-		pathfinder = FindObjectOfType<Grid2D>();
-	}
+		[SerializeField] private float moveSpeed;
+		[SerializeField] private Transform target;
 
-	private void FixedUpdate()
-	{
-		path = pathfinder.FindPath(transform.position, target.position);
+		private Rigidbody2D rb;
+		private Grid2D pathfinder;
+		private List<Node2D> path;
 
-		//if no path found OR already at target, stop
-		if (path == null || path.Count == 0)
+		private void Awake()
 		{
-			return;
+			rb = GetComponent<Rigidbody2D>();
+			pathfinder = FindObjectOfType<Grid2D>();
 		}
 
-		Vector2 moveDir = (path[0].worldPosition - transform.position).normalized; //the direction to move towards target
-		Vector2 newPos = (moveDir * moveSpeed * Time.deltaTime) + (Vector2)transform.position;
-
-		rb.MovePosition(newPos);
-	}
-
-	private void OnValidate()
-	{
-		moveSpeed = Mathf.Max(moveSpeed, 0);
-	}
-
-	private void OnDrawGizmos()
-	{
-		if (path == null) { return; }
-
-		foreach (Node2D n in path)
+		private void FixedUpdate()
 		{
-			Gizmos.color = Color.black;
+			path = pathfinder.FindPath(transform.position, target.position);
 
-			Gizmos.DrawSphere(n.worldPosition, pathfinder.nodeRadius);
+			//if no path found OR already at target, stop
+			if (path == null || path.Count == 0)
+			{
+				return;
+			}
+
+			Vector2 moveDir = (path[0].worldPosition - transform.position).normalized; //the direction to move towards target
+			Vector2 newPos = (moveDir * moveSpeed * Time.deltaTime) + (Vector2)transform.position;
+
+			rb.MovePosition(newPos);
+		}
+
+		private void OnValidate()
+		{
+			moveSpeed = Mathf.Max(moveSpeed, 0);
+		}
+
+		private void OnDrawGizmos()
+		{
+			if (path == null) { return; }
+
+			foreach (Node2D n in path)
+			{
+				Gizmos.color = Color.black;
+
+				Gizmos.DrawSphere(n.worldPosition, pathfinder.nodeRadius);
+			}
 		}
 	}
 }
