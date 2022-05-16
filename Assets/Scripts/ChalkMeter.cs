@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ChalkMeter : MonoBehaviour
 {
-    [SerializeField] RectTransform meterRectTransform;
-	[SerializeField] ChalkMeterSO chalkMeterSO;
+    [SerializeField] private RectTransform meterRectTransform;
+	[SerializeField] private ChalkMeterSO chalkMeterSO;
 
 	private void Update()
 	{

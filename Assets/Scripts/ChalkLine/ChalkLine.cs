@@ -7,12 +7,12 @@ public enum LineType { WARD, RESTRICT, MISSILE };
 
 public class ChalkLine : MonoBehaviour
 {
-	[SerializeField] int baseNodeHP;	//base HP for each node in a line
-	bool isEnclosed;
+	[SerializeField] private int baseNodeHP;	//base HP for each node in a line
+	private bool isEnclosed;
 
-	EdgeCollider2D hitbox;
-	List<LineNode> lineNodes;
-    LineRenderer lr;
+	private EdgeCollider2D hitbox;
+	private List<LineNode> lineNodes;
+	private LineRenderer lr;
 
 	public GameObject startCircle;
 	public GameObject endCircle;

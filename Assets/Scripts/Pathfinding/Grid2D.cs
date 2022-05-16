@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Grid2D : MonoBehaviour
 {
-    [SerializeField] Vector3 gridWorldSize;
+    [SerializeField] private Vector3 gridWorldSize;
     [SerializeField] public float nodeRadius;
     private Node2D[,] Grid;
-    Vector3 worldBottomLeft;
-    [SerializeField] LayerMask obstacleMask;
+    private Vector3 worldBottomLeft;
+    [SerializeField] private LayerMask obstacleMask;
 
-    float nodeDiameter;
+    private float nodeDiameter;
     [SerializeField] public Vector2Int gridSize { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
         nodeDiameter = nodeRadius * 2;
         gridSize = new Vector2Int(Mathf.RoundToInt(gridWorldSize.x / nodeDiameter),
@@ -30,7 +30,7 @@ public class Grid2D : MonoBehaviour
         UpdateObstacles();
 	}
 
-	void CreateGrid()
+    private void CreateGrid()
     {
         Grid = new Node2D[gridSize.x, gridSize.y];
         worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
@@ -38,7 +38,7 @@ public class Grid2D : MonoBehaviour
         UpdateObstacles();
     }
 
-    void UpdateObstacles()
+    private void UpdateObstacles()
 	{
         for (int x = 0; x < gridSize.x; x++)
         {
@@ -190,7 +190,7 @@ public class Grid2D : MonoBehaviour
     }
 
     //reverses calculated path so first node is closest to seeker
-    List<Node2D> RetracePath(ref List<Node2D> path, Node2D startNode, Node2D endNode)
+    private List<Node2D> RetracePath(ref List<Node2D> path, Node2D startNode, Node2D endNode)
     {
         Node2D currentNode = endNode;
 
@@ -210,7 +210,7 @@ public class Grid2D : MonoBehaviour
     }
 
     //gets distance between 2 nodes for calculating cost
-    int GetDistance(Node2D nodeA, Node2D nodeB)
+    private int GetDistance(Node2D nodeA, Node2D nodeB)
     {
         int dstX = Mathf.Abs(nodeA.GridX - nodeB.GridX);
         int dstY = Mathf.Abs(nodeA.GridY - nodeB.GridY);
@@ -223,7 +223,7 @@ public class Grid2D : MonoBehaviour
     }
 
     //Draws visual representation of grid
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
 

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ChalklingMovement : MonoBehaviour
 {
-    [SerializeField] float moveSpeed;
-	[SerializeField] Transform target;
+    [SerializeField] private float moveSpeed;
+	[SerializeField] private Transform target;
 
-    Rigidbody2D rb;
-	Grid2D pathfinder;
-	List<Node2D> path;
+	private Rigidbody2D rb;
+	private Grid2D pathfinder;
+	private List<Node2D> path;
 
 	private void Awake()
 	{
@@ -38,7 +38,7 @@ public class ChalklingMovement : MonoBehaviour
 		moveSpeed = Mathf.Max(moveSpeed, 0);
 	}
 
-	void OnDrawGizmos()
+	private void OnDrawGizmos()
 	{
 		if (path == null) { return; }
 

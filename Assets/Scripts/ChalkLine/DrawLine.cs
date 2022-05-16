@@ -4,24 +4,24 @@ using System.Collections.Generic;
 
 public class DrawLine : MonoBehaviour
 {
-    Controls controls;
-	[SerializeField] bool isDrawing = false;
+	private Controls controls;
+	[SerializeField] private bool isDrawing = false;
 
 	[Range(0.1f,1f)] //arbitrary values, may need to adjust minNodesInLine if you change this one
-	[SerializeField] float maxNodeDistance;
-	[SerializeField] float minNodesInLine;
+	[SerializeField] private float maxNodeDistance;
+	[SerializeField] private float minNodesInLine;
 		
-	[SerializeField] GameObject chalkLinePrefab;
-	[SerializeField] GameObject startLineTargetPrefab; //prefab for target on start of line while drawing
+	[SerializeField] private GameObject chalkLinePrefab;
+	[SerializeField] private GameObject startLineTargetPrefab; //prefab for target on start of line while drawing
 
-	[SerializeField] ChalkMeterSO chalkMeterSO;
+	[SerializeField] private ChalkMeterSO chalkMeterSO;
 
-	GameObject startLineTarget;
+	private GameObject startLineTarget;
 
-	GameObject lineObject;
-	List<Vector2> nodePositions;
-	LineRenderer lr;
-	GameObject startCircle, endCircle;
+	private GameObject lineObject;
+	private List<Vector2> nodePositions;
+	private LineRenderer lr;
+	private GameObject startCircle, endCircle;
 
 
 	private void Awake()
