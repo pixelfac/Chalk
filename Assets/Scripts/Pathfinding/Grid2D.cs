@@ -2,243 +2,246 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid2D : MonoBehaviour
+namespace Pathfinding
 {
-    [SerializeField] private Vector3 gridWorldSize;
-    [SerializeField] public float nodeRadius;
-    private Node2D[,] Grid;
-    private Vector3 worldBottomLeft;
-    [SerializeField] private LayerMask obstacleMask;
-
-    private float nodeDiameter;
-    [SerializeField] public Vector2Int gridSize { get; private set; }
-
-    private void Awake()
+    public class Grid2D : MonoBehaviour
     {
-        nodeDiameter = nodeRadius * 2;
-        gridSize = new Vector2Int(Mathf.RoundToInt(gridWorldSize.x / nodeDiameter),
-                                  Mathf.RoundToInt(gridWorldSize.y / nodeDiameter));
-    }
+        [SerializeField] private Vector3 gridWorldSize;
+        [SerializeField] public float nodeRadius;
+        private Node2D[,] Grid;
+        private Vector3 worldBottomLeft;
+        [SerializeField] private LayerMask obstacleMask;
 
-	private void Start()
-	{
-        CreateGrid();
-    }
+        private float nodeDiameter;
+        [SerializeField] public Vector2Int gridSize { get; private set; }
 
-	private void Update()
-	{
-        UpdateObstacles();
-	}
-
-    private void CreateGrid()
-    {
-        Grid = new Node2D[gridSize.x, gridSize.y];
-        worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
-
-        UpdateObstacles();
-    }
-
-    private void UpdateObstacles()
-	{
-        for (int x = 0; x < gridSize.x; x++)
+        private void Awake()
         {
-            for (int y = 0; y < gridSize.y; y++)
-            {
-                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
-                Grid[x, y] = new Node2D(false, worldPoint, x, y);
-
-                if (Physics2D.OverlapCircle(worldPoint, nodeRadius, obstacleMask) != null) //null == no collision
-                {
-                    Grid[x, y].SetObstacle(true);
-                }
-                else
-                {
-                    Grid[x, y].SetObstacle(false);
-                }
-            }
-        }
-    }
-
-
-    //gets the neighboring nodes in the 4 cardinal directions. If you would like to enable diagonal pathfinding, uncomment out that portion of code
-    public List<Node2D> GetNeighbors(Node2D node)
-    {
-        List<Node2D> neighbors = new List<Node2D>();
-
-        //checks and adds top neighbor
-        if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
-            neighbors.Add(Grid[node.GridX, node.GridY + 1]);
-
-        //checks and adds bottom neighbor
-        if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
-            neighbors.Add(Grid[node.GridX, node.GridY - 1]);
-
-        //checks and adds right neighbor
-        if (node.GridX + 1 >= 0 && node.GridX + 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
-            neighbors.Add(Grid[node.GridX + 1, node.GridY]);
-
-        //checks and adds left neighbor
-        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
-            neighbors.Add(Grid[node.GridX - 1, node.GridY]);
-
-        //checks and adds top right neighbor
-        if (node.GridX + 1 >= 0 && node.GridX + 1< gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
-            neighbors.Add(Grid[node.GridX + 1, node.GridY + 1]);
-
-        //checks and adds bottom right neighbor
-        if (node.GridX + 1>= 0 && node.GridX + 1 < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
-            neighbors.Add(Grid[node.GridX + 1, node.GridY - 1]);
-
-        //checks and adds top left neighbor
-        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY + 1>= 0 && node.GridY + 1 < gridSize.y)
-            neighbors.Add(Grid[node.GridX - 1, node.GridY + 1]);
-
-        //checks and adds bottom left neighbor
-        if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY  - 1>= 0 && node.GridY  - 1 < gridSize.y)
-            neighbors.Add(Grid[node.GridX - 1, node.GridY - 1]);
-
-        return neighbors;
-    }
-
-    public Node2D NodeFromWorldPoint(Vector3 worldPosition)
-    {
-        //difference between bottom corner and current position in question
-        float diffX = worldPosition.x - worldBottomLeft.x;
-        float diffY = worldPosition.y - worldBottomLeft.y;
-
-        //convert difference in worldspace to difference in nodes
-        int x = (int)(diffX / nodeDiameter);
-        int y = (int)(diffY / nodeDiameter);
-
-        //catch out-of-bounds
-        x = Mathf.Clamp(x, 0, gridSize.x - 1);
-        y = Mathf.Clamp(y, 0, gridSize.y - 1);
-
-        return Grid[x, y];
-    }
-
-    //A* pathfinding algorithm
-    public List<Node2D> FindPath(Vector3 startPos, Vector3 targetPos)
-    {
-        Node2D seekerNode, targetNode;
-
-        //reset path
-        List<Node2D> path = new List<Node2D>();
-
-        //get player and target position in grid coords
-        seekerNode = NodeFromWorldPoint(startPos);
-        targetNode = NodeFromWorldPoint(targetPos);
-
-        //if already at target, skip calculations
-        if (seekerNode == targetNode)
-        {
-            return RetracePath(ref path, seekerNode, targetNode);
+            nodeDiameter = nodeRadius * 2;
+            gridSize = new Vector2Int(Mathf.RoundToInt(gridWorldSize.x / nodeDiameter),
+                                      Mathf.RoundToInt(gridWorldSize.y / nodeDiameter));
         }
 
-        List<Node2D> openSet = new List<Node2D>();
-        HashSet<Node2D> closedSet = new HashSet<Node2D>();
-        openSet.Add(seekerNode);
+	    private void Start()
+	    {
+            CreateGrid();
+        }
 
-        //calculates path for pathfinding
-        while (openSet.Count > 0)
+	    private void Update()
+	    {
+            UpdateObstacles();
+	    }
+
+        private void CreateGrid()
         {
-            //iterates through openSet and finds lowest FCost
-            Node2D node = openSet[0];
-            for (int i = 1; i < openSet.Count; i++)
+            Grid = new Node2D[gridSize.x, gridSize.y];
+            worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
+
+            UpdateObstacles();
+        }
+
+        private void UpdateObstacles()
+	    {
+            for (int x = 0; x < gridSize.x; x++)
             {
-                if (openSet[i].FCost <= node.FCost)
+                for (int y = 0; y < gridSize.y; y++)
                 {
-                    if (openSet[i].hCost < node.hCost)
-                        node = openSet[i];
-                }
-            }
+                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
+                    Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
-            openSet.Remove(node);
-            closedSet.Add(node);
-
-            //If target found, retrace path
-            if (node == targetNode)
-            {
-                return RetracePath(ref path, seekerNode, targetNode);
-            }
-
-            //adds neighbor nodes to openSet
-            foreach (Node2D neighbour in GetNeighbors(node))
-            {
-                if (neighbour.obstacle || closedSet.Contains(neighbour))
-                {
-                    continue;
-                }
-
-                int newCostToNeighbour = node.gCost + GetDistance(node, neighbour);
-                if (newCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
-                {
-                    neighbour.gCost = newCostToNeighbour;
-                    neighbour.hCost = GetDistance(neighbour, targetNode);
-                    neighbour.parent = node;
-
-                    if (!openSet.Contains(neighbour))
+                    if (Physics2D.OverlapCircle(worldPoint, nodeRadius, obstacleMask) != null) //null == no collision
                     {
-                        openSet.Add(neighbour);
+                        Grid[x, y].SetObstacle(true);
+                    }
+                    else
+                    {
+                        Grid[x, y].SetObstacle(false);
                     }
                 }
             }
         }
 
-        //No path possible
-        return null;
-    }
 
-    //reverses calculated path so first node is closest to seeker
-    private List<Node2D> RetracePath(ref List<Node2D> path, Node2D startNode, Node2D endNode)
-    {
-        Node2D currentNode = endNode;
-
-        //if path is 0
-        if (startNode == endNode)
+        //gets the neighboring nodes in the 4 cardinal directions. If you would like to enable diagonal pathfinding, uncomment out that portion of code
+        public List<Node2D> GetNeighbors(Node2D node)
         {
+            List<Node2D> neighbors = new List<Node2D>();
+
+            //checks and adds top neighbor
+            if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
+                neighbors.Add(Grid[node.GridX, node.GridY + 1]);
+
+            //checks and adds bottom neighbor
+            if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
+                neighbors.Add(Grid[node.GridX, node.GridY - 1]);
+
+            //checks and adds right neighbor
+            if (node.GridX + 1 >= 0 && node.GridX + 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
+                neighbors.Add(Grid[node.GridX + 1, node.GridY]);
+
+            //checks and adds left neighbor
+            if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
+                neighbors.Add(Grid[node.GridX - 1, node.GridY]);
+
+            //checks and adds top right neighbor
+            if (node.GridX + 1 >= 0 && node.GridX + 1< gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
+                neighbors.Add(Grid[node.GridX + 1, node.GridY + 1]);
+
+            //checks and adds bottom right neighbor
+            if (node.GridX + 1>= 0 && node.GridX + 1 < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
+                neighbors.Add(Grid[node.GridX + 1, node.GridY - 1]);
+
+            //checks and adds top left neighbor
+            if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY + 1>= 0 && node.GridY + 1 < gridSize.y)
+                neighbors.Add(Grid[node.GridX - 1, node.GridY + 1]);
+
+            //checks and adds bottom left neighbor
+            if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY  - 1>= 0 && node.GridY  - 1 < gridSize.y)
+                neighbors.Add(Grid[node.GridX - 1, node.GridY - 1]);
+
+            return neighbors;
+        }
+
+        public Node2D NodeFromWorldPoint(Vector3 worldPosition)
+        {
+            //difference between bottom corner and current position in question
+            float diffX = worldPosition.x - worldBottomLeft.x;
+            float diffY = worldPosition.y - worldBottomLeft.y;
+
+            //convert difference in worldspace to difference in nodes
+            int x = (int)(diffX / nodeDiameter);
+            int y = (int)(diffY / nodeDiameter);
+
+            //catch out-of-bounds
+            x = Mathf.Clamp(x, 0, gridSize.x - 1);
+            y = Mathf.Clamp(y, 0, gridSize.y - 1);
+
+            return Grid[x, y];
+        }
+
+        //A* pathfinding algorithm
+        public List<Node2D> FindPath(Vector3 startPos, Vector3 targetPos)
+        {
+            Node2D seekerNode, targetNode;
+
+            //reset path
+            List<Node2D> path = new List<Node2D>();
+
+            //get player and target position in grid coords
+            seekerNode = NodeFromWorldPoint(startPos);
+            targetNode = NodeFromWorldPoint(targetPos);
+
+            //if already at target, skip calculations
+            if (seekerNode == targetNode)
+            {
+                return RetracePath(ref path, seekerNode, targetNode);
+            }
+
+            List<Node2D> openSet = new List<Node2D>();
+            HashSet<Node2D> closedSet = new HashSet<Node2D>();
+            openSet.Add(seekerNode);
+
+            //calculates path for pathfinding
+            while (openSet.Count > 0)
+            {
+                //iterates through openSet and finds lowest FCost
+                Node2D node = openSet[0];
+                for (int i = 1; i < openSet.Count; i++)
+                {
+                    if (openSet[i].FCost <= node.FCost)
+                    {
+                        if (openSet[i].hCost < node.hCost)
+                            node = openSet[i];
+                    }
+                }
+
+                openSet.Remove(node);
+                closedSet.Add(node);
+
+                //If target found, retrace path
+                if (node == targetNode)
+                {
+                    return RetracePath(ref path, seekerNode, targetNode);
+                }
+
+                //adds neighbor nodes to openSet
+                foreach (Node2D neighbour in GetNeighbors(node))
+                {
+                    if (neighbour.obstacle || closedSet.Contains(neighbour))
+                    {
+                        continue;
+                    }
+
+                    int newCostToNeighbour = node.gCost + GetDistance(node, neighbour);
+                    if (newCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
+                    {
+                        neighbour.gCost = newCostToNeighbour;
+                        neighbour.hCost = GetDistance(neighbour, targetNode);
+                        neighbour.parent = node;
+
+                        if (!openSet.Contains(neighbour))
+                        {
+                            openSet.Add(neighbour);
+                        }
+                    }
+                }
+            }
+
+            //No path possible
+            return null;
+        }
+
+        //reverses calculated path so first node is closest to seeker
+        private List<Node2D> RetracePath(ref List<Node2D> path, Node2D startNode, Node2D endNode)
+        {
+            Node2D currentNode = endNode;
+
+            //if path is 0
+            if (startNode == endNode)
+            {
+                return path;
+            }
+
+            while (currentNode != startNode)
+            {
+                path.Add(currentNode);
+                currentNode = currentNode.parent;
+            }
+            path.Reverse();
             return path;
         }
 
-        while (currentNode != startNode)
+        //gets distance between 2 nodes for calculating cost
+        private int GetDistance(Node2D nodeA, Node2D nodeB)
         {
-            path.Add(currentNode);
-            currentNode = currentNode.parent;
+            int dstX = Mathf.Abs(nodeA.GridX - nodeB.GridX);
+            int dstY = Mathf.Abs(nodeA.GridY - nodeB.GridY);
+
+            if (dstX > dstY)
+            {
+                return 14 * dstY + 10 * (dstX - dstY);
+            }
+            return 14 * dstX + 10 * (dstY - dstX);
         }
-        path.Reverse();
-        return path;
-    }
 
-    //gets distance between 2 nodes for calculating cost
-    private int GetDistance(Node2D nodeA, Node2D nodeB)
-    {
-        int dstX = Mathf.Abs(nodeA.GridX - nodeB.GridX);
-        int dstY = Mathf.Abs(nodeA.GridY - nodeB.GridY);
-
-        if (dstX > dstY)
+        //Draws visual representation of grid
+        private void OnDrawGizmos()
         {
-            return 14 * dstY + 10 * (dstX - dstY);
+            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
+
+            if (Grid == null) { return; }
+
+            foreach (Node2D n in Grid)
+            {
+                if (n.obstacle)
+                    Gizmos.color = Color.red;
+                else
+                    Gizmos.color = Color.white;
+
+                Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
+            }
         }
-        return 14 * dstX + 10 * (dstY - dstX);
-    }
-
-    //Draws visual representation of grid
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
-
-        if (Grid == null) { return; }
-
-        foreach (Node2D n in Grid)
-        {
-            if (n.obstacle)
-                Gizmos.color = Color.red;
-            else
-                Gizmos.color = Color.white;
-
-            Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
-        }
-    }
 
     
+    }
 }
