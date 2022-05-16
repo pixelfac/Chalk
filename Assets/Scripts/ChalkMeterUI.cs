@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChalkMeter : MonoBehaviour
+public class ChalkMeterUI : MonoBehaviour
 {
     [SerializeField] private RectTransform meterRectTransform;
 	[SerializeField] private ChalkMeterSO chalkMeterSO;
