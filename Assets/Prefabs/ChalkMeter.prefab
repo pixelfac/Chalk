@@ -162,8 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca279eb9fde6b645b24059d4b84f768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meterRectTransform: {fileID: 6540930779535186052}
-  chalkMeterSO: {fileID: 11400000, guid: e22fc09eecbc2d544ab1f25433a766c3, type: 2}
+  _meterRectTransform: {fileID: 6540930779535186052}
+  _chalkMeterSO: {fileID: 11400000, guid: e22fc09eecbc2d544ab1f25433a766c3, type: 2}
 --- !u!1 &6540930779364701287
 GameObject:
   m_ObjectHideFlags: 0

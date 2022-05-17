@@ -10,7 +10,7 @@ using UnityEngine;
 public class ChalkMeterSO : ScriptableObject
 {
     [SerializeField] public float maxChalk;
-    [SerializeField] int chalkRegenSpeed;
+    [SerializeField] private int _chalkRegenSpeed;
     public float currChalk;
 	
 	//when drawing, depletes chalk
@@ -25,7 +25,7 @@ public class ChalkMeterSO : ScriptableObject
 
 	public void RegenChalk()
 	{
-		currChalk += chalkRegenSpeed;
+		currChalk += _chalkRegenSpeed;
 		if (currChalk > maxChalk)
 		{
 			currChalk = maxChalk;

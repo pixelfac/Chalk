@@ -7,8 +7,8 @@ namespace Chalkling
 {
 	public class ChalklingMovement : MonoBehaviour
 	{
-		[SerializeField] private float moveSpeed;
-		[SerializeField] private Transform target;
+		[SerializeField] private float _moveSpeed;
+		[SerializeField] private Transform _targetTransform;
 
 		private Rigidbody2D rb;
 		private Grid2D pathfinder;
@@ -22,7 +22,7 @@ namespace Chalkling
 
 		private void FixedUpdate()
 		{
-			path = pathfinder.FindPath(transform.position, target.position);
+			path = pathfinder.FindPath(transform.position, _targetTransform.position);
 
 			//if no path found OR already at target, stop
 			if (path == null || path.Count == 0)
@@ -31,14 +31,14 @@ namespace Chalkling
 			}
 
 			Vector2 moveDir = (path[0].worldPosition - transform.position).normalized; //the direction to move towards target
-			Vector2 newPos = (moveDir * moveSpeed * Time.deltaTime) + (Vector2)transform.position;
+			Vector2 newPos = (moveDir * _moveSpeed * Time.deltaTime) + (Vector2)transform.position;
 
 			rb.MovePosition(newPos);
 		}
 
 		private void OnValidate()
 		{
-			moveSpeed = Mathf.Max(moveSpeed, 0);
+			_moveSpeed = Mathf.Max(_moveSpeed, 0);
 		}
 
 		private void OnDrawGizmos()

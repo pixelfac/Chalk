@@ -6,20 +6,20 @@ namespace Pathfinding
 {
     public class Grid2D : MonoBehaviour
     {
-        [SerializeField] private Vector3 gridWorldSize;
-        [SerializeField] public float nodeRadius;
-        private Node2D[,] Grid;
-        private Vector3 worldBottomLeft;
-        [SerializeField] private LayerMask obstacleMask;
-
-        private float nodeDiameter;
+        [SerializeField] private Vector3 _gridWorldSize;
         [SerializeField] public Vector2Int gridSize { get; private set; }
+        [SerializeField] public float nodeRadius;
+        [SerializeField] private LayerMask _obstacleMask;
+
+        private Node2D[,] _Grid;
+        private Vector3 _worldBottomLeft;
+        private float _nodeDiameter;
 
         private void Awake()
         {
-            nodeDiameter = nodeRadius * 2;
-            gridSize = new Vector2Int(Mathf.RoundToInt(gridWorldSize.x / nodeDiameter),
-                                      Mathf.RoundToInt(gridWorldSize.y / nodeDiameter));
+            _nodeDiameter = nodeRadius * 2;
+            gridSize = new Vector2Int(Mathf.RoundToInt(_gridWorldSize.x / _nodeDiameter),
+                                      Mathf.RoundToInt(_gridWorldSize.y / _nodeDiameter));
         }
 
 	    private void Start()
@@ -34,8 +34,8 @@ namespace Pathfinding
 
         private void CreateGrid()
         {
-            Grid = new Node2D[gridSize.x, gridSize.y];
-            worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
+            _Grid = new Node2D[gridSize.x, gridSize.y];
+            _worldBottomLeft = transform.position - Vector3.right * _gridWorldSize.x / 2 - Vector3.up * _gridWorldSize.y / 2;
 
             UpdateObstacles();
         }
@@ -46,16 +46,16 @@ namespace Pathfinding
             {
                 for (int y = 0; y < gridSize.y; y++)
                 {
-                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
-                    Grid[x, y] = new Node2D(false, worldPoint, x, y);
+                    Vector3 worldPoint = _worldBottomLeft + Vector3.right * (x * _nodeDiameter + nodeRadius) + Vector3.up * (y * _nodeDiameter + nodeRadius);
+                    _Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
-                    if (Physics2D.OverlapCircle(worldPoint, nodeRadius, obstacleMask) != null) //null == no collision
+                    if (Physics2D.OverlapCircle(worldPoint, nodeRadius, _obstacleMask) != null) //null == no collision
                     {
-                        Grid[x, y].SetObstacle(true);
+                        _Grid[x, y].SetObstacle(true);
                     }
                     else
                     {
-                        Grid[x, y].SetObstacle(false);
+                        _Grid[x, y].SetObstacle(false);
                     }
                 }
             }
@@ -69,35 +69,35 @@ namespace Pathfinding
 
             //checks and adds top neighbor
             if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
-                neighbors.Add(Grid[node.GridX, node.GridY + 1]);
+                neighbors.Add(_Grid[node.GridX, node.GridY + 1]);
 
             //checks and adds bottom neighbor
             if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
-                neighbors.Add(Grid[node.GridX, node.GridY - 1]);
+                neighbors.Add(_Grid[node.GridX, node.GridY - 1]);
 
             //checks and adds right neighbor
             if (node.GridX + 1 >= 0 && node.GridX + 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
-                neighbors.Add(Grid[node.GridX + 1, node.GridY]);
+                neighbors.Add(_Grid[node.GridX + 1, node.GridY]);
 
             //checks and adds left neighbor
             if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
-                neighbors.Add(Grid[node.GridX - 1, node.GridY]);
+                neighbors.Add(_Grid[node.GridX - 1, node.GridY]);
 
             //checks and adds top right neighbor
             if (node.GridX + 1 >= 0 && node.GridX + 1< gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
-                neighbors.Add(Grid[node.GridX + 1, node.GridY + 1]);
+                neighbors.Add(_Grid[node.GridX + 1, node.GridY + 1]);
 
             //checks and adds bottom right neighbor
             if (node.GridX + 1>= 0 && node.GridX + 1 < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
-                neighbors.Add(Grid[node.GridX + 1, node.GridY - 1]);
+                neighbors.Add(_Grid[node.GridX + 1, node.GridY - 1]);
 
             //checks and adds top left neighbor
             if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY + 1>= 0 && node.GridY + 1 < gridSize.y)
-                neighbors.Add(Grid[node.GridX - 1, node.GridY + 1]);
+                neighbors.Add(_Grid[node.GridX - 1, node.GridY + 1]);
 
             //checks and adds bottom left neighbor
             if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY  - 1>= 0 && node.GridY  - 1 < gridSize.y)
-                neighbors.Add(Grid[node.GridX - 1, node.GridY - 1]);
+                neighbors.Add(_Grid[node.GridX - 1, node.GridY - 1]);
 
             return neighbors;
         }
@@ -105,18 +105,18 @@ namespace Pathfinding
         public Node2D NodeFromWorldPoint(Vector3 worldPosition)
         {
             //difference between bottom corner and current position in question
-            float diffX = worldPosition.x - worldBottomLeft.x;
-            float diffY = worldPosition.y - worldBottomLeft.y;
+            float diffX = worldPosition.x - _worldBottomLeft.x;
+            float diffY = worldPosition.y - _worldBottomLeft.y;
 
             //convert difference in worldspace to difference in nodes
-            int x = (int)(diffX / nodeDiameter);
-            int y = (int)(diffY / nodeDiameter);
+            int x = (int)(diffX / _nodeDiameter);
+            int y = (int)(diffY / _nodeDiameter);
 
             //catch out-of-bounds
             x = Mathf.Clamp(x, 0, gridSize.x - 1);
             y = Mathf.Clamp(y, 0, gridSize.y - 1);
 
-            return Grid[x, y];
+            return _Grid[x, y];
         }
 
         //A* pathfinding algorithm
@@ -227,11 +227,11 @@ namespace Pathfinding
         //Draws visual representation of grid
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
+            Gizmos.DrawWireCube(transform.position, new Vector3(_gridWorldSize.x, _gridWorldSize.y, 1));
 
-            if (Grid == null) { return; }
+            if (_Grid == null) { return; }
 
-            foreach (Node2D n in Grid)
+            foreach (Node2D n in _Grid)
             {
                 if (n.obstacle)
                     Gizmos.color = Color.red;

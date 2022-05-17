@@ -6,35 +6,36 @@ namespace ChalkLine
 {
 	public class DrawLine : MonoBehaviour
 	{
-		private Controls controls;
-		[SerializeField] private bool isDrawing = false;
+		[SerializeField] private bool _isDrawing = false;
 
 		[Range(0.1f, 1f)] //arbitrary values, may need to adjust minNodesInLine if you change this one
-		[SerializeField] private float maxNodeDistance;
-		[SerializeField] private float minNodesInLine;
+		[SerializeField] private float _maxNodeDistance;
+		[SerializeField] private float _minNodesInLine;
 
-		[SerializeField] private GameObject chalkLinePrefab;
-		[SerializeField] private GameObject startLineTargetPrefab; //prefab for target on start of line while drawing
+		[SerializeField] private GameObject _chalkLinePrefab;
+		[SerializeField] private GameObject _startLineTargetPrefab; //prefab for target on start of line while drawing
 
-		[SerializeField] private ChalkMeterSO chalkMeterSO;
+		[SerializeField] private ChalkMeterSO _chalkMeterSO;
 
-		private GameObject startLineTarget;
+		private Controls _controls;
 
-		private GameObject lineObject;
-		private List<Vector2> nodePositions;
-		private LineRenderer lr;
-		private GameObject startCircle, endCircle;
+		private GameObject _startLineTarget;
+
+		private GameObject _lineObject;
+		private List<Vector2> _nodePositions;
+		private LineRenderer _lr;
+		private GameObject _startCircle, _endCircle;
 
 
 		private void Awake()
 		{
-			controls = new Controls();
-			chalkMeterSO.ResetChalk();
+			_controls = new Controls();
+			_chalkMeterSO.ResetChalk();
 		}
 
 		private void FixedUpdate()
 		{
-			if (isDrawing)
+			if (_isDrawing)
 			{
 				UpdateLine();
 
@@ -43,37 +44,37 @@ namespace ChalkLine
 					FinishLine();
 				}
 
-				if (chalkMeterSO.currChalk <= 0)
+				if (_chalkMeterSO.currChalk <= 0)
 				{
 					StopDrawing();
 				}
 			}
 			else
 			{
-				chalkMeterSO.RegenChalk();
+				_chalkMeterSO.RegenChalk();
 			}
 		}
 
 		public void OnEnable()
 		{
 			//add Start/StopDrawing coroutines to control scheme
-			controls.Draw.Draw.performed += StartDrawing;
-			controls.Draw.Draw.canceled += StopDrawing;
-			controls.Draw.Draw.Enable();
+			_controls.Draw.Draw.performed += StartDrawing;
+			_controls.Draw.Draw.canceled += StopDrawing;
+			_controls.Draw.Draw.Enable();
 		}
 
 		public void OnDisable()
 		{
 			//remove Start/StopDrawing coroutines to control scheme
-			controls.Draw.Draw.performed -= StartDrawing;
-			controls.Draw.Draw.canceled -= StopDrawing;
-			controls.Draw.Draw.Disable();
+			_controls.Draw.Draw.performed -= StartDrawing;
+			_controls.Draw.Draw.canceled -= StopDrawing;
+			_controls.Draw.Draw.Disable();
 		}
 
 		private void StartDrawing(InputAction.CallbackContext ctx)
 		{
 			//Check if can start drawing
-			if (chalkMeterSO.currChalk == 0)
+			if (_chalkMeterSO.currChalk == 0)
 			{
 				Debug.Log("Can't Start Draw: No Chalk");
 				return;
@@ -83,7 +84,7 @@ namespace ChalkLine
 
 			CreateLine();
 
-			isDrawing = true;
+			_isDrawing = true;
 		}
 
 		//Manual Stop Drawing
@@ -100,20 +101,20 @@ namespace ChalkLine
 		private void StopDrawing()
 		{
 			//if already stopped drawing, do nothing
-			if (!isDrawing) { return; }
+			if (!_isDrawing) { return; }
 
 			Debug.Log("Stopped Drawing");
-			isDrawing = false;
+			_isDrawing = false;
 
 			//if line is too short, discard line
 			if (TooShort())
 			{
-				Destroy(lineObject);
+				Destroy(_lineObject);
 				AbortLine();
 				return;
 			}
 
-			ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
+			ChalkLine chalkline = _lineObject.GetComponent<ChalkLine>();
 			BuildChalkLine(chalkline, false);
 			Debug.Log("Line Initiallized NOT ENCLOSED");
 		}
@@ -124,20 +125,20 @@ namespace ChalkLine
 		private void FinishLine()
 		{
 			//if already stopped drawing, do nothing
-			if (!isDrawing) { return; }
+			if (!_isDrawing) { return; }
 
 			Debug.Log("Finished Line");
-			isDrawing = false;
+			_isDrawing = false;
 			CloseLine();
 
 			if (TooShort())
 			{
-				Destroy(lineObject);
+				Destroy(_lineObject);
 				AbortLine();
 				return;
 			}
 
-			ChalkLine chalkline = lineObject.GetComponent<ChalkLine>();
+			ChalkLine chalkline = _lineObject.GetComponent<ChalkLine>();
 			BuildChalkLine(chalkline, true);
 			Debug.Log("Line Initiallized ENCLOSED");
 		}
@@ -148,32 +149,32 @@ namespace ChalkLine
 			Debug.Log("Creating Line");
 
 			//Make the actual Line object
-			lineObject = Instantiate(chalkLinePrefab, Vector3.zero, Quaternion.identity);
+			_lineObject = Instantiate(_chalkLinePrefab, Vector3.zero, Quaternion.identity);
 
 			//set internal lineNode List
-			nodePositions = new List<Vector2>();
+			_nodePositions = new List<Vector2>();
 			Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-			nodePositions.Add(mousePos);
-			nodePositions.Add(mousePos);
+			_nodePositions.Add(mousePos);
+			_nodePositions.Add(mousePos);
 
 			//assign and set lineRenderer
-			lr = lineObject.GetComponent<LineRenderer>();
-			lr.useWorldSpace = true;
-			lr.SetPosition(0, nodePositions[0]);
-			lr.SetPosition(1, nodePositions[1]);
+			_lr = _lineObject.GetComponent<LineRenderer>();
+			_lr.useWorldSpace = true;
+			_lr.SetPosition(0, _nodePositions[0]);
+			_lr.SetPosition(1, _nodePositions[1]);
 
 			//init and set startLineTarget
-			startLineTarget = Instantiate(startLineTargetPrefab, Vector3.zero, Quaternion.identity);
-			startLineTarget.SetActive(true);
-			startLineTarget.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
+			_startLineTarget = Instantiate(_startLineTargetPrefab, Vector3.zero, Quaternion.identity);
+			_startLineTarget.SetActive(true);
+			_startLineTarget.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
 
 			//assign and set start/end circles
 			//start stays at the start
-			startCircle = lineObject.GetComponent<ChalkLine>().startCircle;
-			startCircle.transform.position = nodePositions[0];
+			_startCircle = _lineObject.GetComponent<ChalkLine>().startCircle;
+			_startCircle.transform.position = _nodePositions[0];
 			//end starts at start
-			endCircle = lineObject.GetComponent<ChalkLine>().endCircle;
-			endCircle.transform.position = nodePositions[0];
+			_endCircle = _lineObject.GetComponent<ChalkLine>().endCircle;
+			_endCircle.transform.position = _nodePositions[0];
 		}
 
 		//update the length of the line
@@ -182,19 +183,19 @@ namespace ChalkLine
 			Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
 			//while mouse is far enough from line, add node to line
-			while (Vector2.Distance(nodePositions[nodePositions.Count - 1], mousePos) >= maxNodeDistance)
+			while (Vector2.Distance(_nodePositions[_nodePositions.Count - 1], mousePos) >= _maxNodeDistance)
 			{
 				//unit-vector pointing from last line segment to mousePos
-				Vector2 direction = (mousePos - nodePositions[nodePositions.Count - 1]).normalized;
+				Vector2 direction = (mousePos - _nodePositions[_nodePositions.Count - 1]).normalized;
 				//Vector of maxNodeDistance in length pointing towards mousePos
-				Vector2 nextSegment = nodePositions[nodePositions.Count - 1] + direction * maxNodeDistance;
+				Vector2 nextSegment = _nodePositions[_nodePositions.Count - 1] + direction * _maxNodeDistance;
 
 				//add new node + LineRenderer segment
-				nodePositions.Add(nextSegment);
-				lr.positionCount++;
-				lr.SetPosition(lr.positionCount - 1, nextSegment);
-				endCircle.transform.position = nextSegment;
-				chalkMeterSO.UseChalk();
+				_nodePositions.Add(nextSegment);
+				_lr.positionCount++;
+				_lr.SetPosition(_lr.positionCount - 1, nextSegment);
+				_endCircle.transform.position = nextSegment;
+				_chalkMeterSO.UseChalk();
 			}
 		}
 
@@ -205,9 +206,9 @@ namespace ChalkLine
 			if (TooShort()) { return false; }
 
 			//distance between first and last node
-			float distanceBetween = (nodePositions[0] - nodePositions[nodePositions.Count - 1]).magnitude;
+			float distanceBetween = (_nodePositions[0] - _nodePositions[_nodePositions.Count - 1]).magnitude;
 
-			if (distanceBetween < maxNodeDistance)
+			if (distanceBetween < _maxNodeDistance)
 			{
 				return true;
 			}
@@ -220,7 +221,7 @@ namespace ChalkLine
 		//true if # of nodes is too short to save, false otherwise
 		private bool TooShort()
 		{
-			if (nodePositions.Count < minNodesInLine)
+			if (_nodePositions.Count < _minNodesInLine)
 			{
 				Debug.Log("TOO short");
 				return true;
@@ -234,8 +235,8 @@ namespace ChalkLine
 		//closes start and end of line renderer
 		private void CloseLine()
 		{
-			lr.loop = true;
-			endCircle.transform.position = nodePositions[0];
+			_lr.loop = true;
+			_endCircle.transform.position = _nodePositions[0];
 		}
 
 		//called when drawing is finished, but line is too short so is deleted
@@ -249,22 +250,22 @@ namespace ChalkLine
 		//initialize lineObject
 		public void BuildChalkLine(ChalkLine line, bool isEnclosed)
 		{
-			line.Init(ref nodePositions, isEnclosed);
+			line.Init(ref _nodePositions, isEnclosed);
 			ResetLineVars();
 		}
 
 		//resets local line variables to prevent bugs
 		private void ResetLineVars()
 		{
-			Destroy(startLineTarget);
-			lr = null;
-			nodePositions = null;
-			lineObject = null;
+			Destroy(_startLineTarget);
+			_lr = null;
+			_nodePositions = null;
+			_lineObject = null;
 		}
 
 		private void OnValidate()
 		{
-			minNodesInLine = Mathf.Max(5, minNodesInLine);
+			_minNodesInLine = Mathf.Max(5, _minNodesInLine);
 		}
 	}
 }

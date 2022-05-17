@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ChalkMeterSO
   m_EditorClassIdentifier: 
   maxChalk: 300
-  chalkRegenSpeed: 1
+  _chalkRegenSpeed: 2
   currChalk: 300

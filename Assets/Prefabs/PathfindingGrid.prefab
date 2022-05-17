@@ -43,10 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32ff71e5b324c3478569e42757e0f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWorldSize: {x: 16, y: 10, z: 0}
+  _gridWorldSize: {x: 18, y: 10, z: 0}
   nodeRadius: 0.1
-  obstacleMask:
+  _obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  gridSizeX: 0
-  gridSizeY: 0

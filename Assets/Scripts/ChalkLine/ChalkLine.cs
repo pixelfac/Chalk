@@ -9,12 +9,12 @@ namespace ChalkLine
 
 	public class ChalkLine : MonoBehaviour
 	{
-		[SerializeField] private int baseNodeHP;    //base HP for each node in a line
-		private bool isEnclosed;
+		[SerializeField] private int _baseNodeHP;    //base HP for each node in a line
 
-		private EdgeCollider2D hitbox;
-		private List<LineNode> lineNodes;
-		private LineRenderer lr;
+		private bool _isEnclosed;
+		private EdgeCollider2D _hitbox;
+		private List<LineNode> _lineNodes;
+		private LineRenderer _lr;
 
 		public GameObject startCircle;
 		public GameObject endCircle;
@@ -22,10 +22,10 @@ namespace ChalkLine
 
 		private void Awake()
 		{
-			hitbox = GetComponent<EdgeCollider2D>();
-			lr = GetComponent<LineRenderer>();
-			startCircle.GetComponent<SpriteRenderer>().color = lr.startColor;
-			endCircle.GetComponent<SpriteRenderer>().color = lr.endColor;
+			_hitbox = GetComponent<EdgeCollider2D>();
+			_lr = GetComponent<LineRenderer>();
+			startCircle.GetComponent<SpriteRenderer>().color = _lr.startColor;
+			endCircle.GetComponent<SpriteRenderer>().color = _lr.endColor;
 		}
 		//basically a constructor, but since can't call constructor
 		//on gameobject prefab component, this is the best alternative
@@ -41,32 +41,32 @@ namespace ChalkLine
 			{
 				lrNodes.Add(node);
 			}
-			lr.SetPositions(lrNodes.ToArray());
+			_lr.SetPositions(lrNodes.ToArray());
 
 			//Set EdgeCollider
-			hitbox.SetPoints(nodePositions);
-			hitbox.edgeRadius = lr.startWidth;
+			_hitbox.SetPoints(nodePositions);
+			_hitbox.edgeRadius = _lr.startWidth;
 			//loop EdgeCollider
-			hitbox.adjacentEndPoint = nodePositions[0];
-			hitbox.useAdjacentEndPoint = true;
+			_hitbox.adjacentEndPoint = nodePositions[0];
+			_hitbox.useAdjacentEndPoint = true;
 
-			lineNodes = new List<LineNode>();
+			_lineNodes = new List<LineNode>();
 			foreach (Vector2 nodePos in nodePositions)
 			{
-				lineNodes.Add(new LineNode(nodePos));
+				_lineNodes.Add(new LineNode(nodePos));
 			}
 			Debug.Log("lineNodes populated");
 
-			isEnclosed = _isEnclosed;
+			this._isEnclosed = _isEnclosed;
 
 			UpdateHP();
 		}
 
 		public void UpdateHP()
 		{
-			for (int i = 1; i < lineNodes.Count - 1; i++)
+			for (int i = 1; i < _lineNodes.Count - 1; i++)
 			{
-				lineNodes[i].health = 42;
+				_lineNodes[i].health = 42;
 			}
 		}
 
