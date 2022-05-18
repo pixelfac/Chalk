@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Pathfinding;
 
 namespace ChalkLine
 {
@@ -25,15 +26,13 @@ namespace ChalkLine
 		private List<Vector2> _nodePositions;
 		private LineRenderer _lr;
 		private GameObject _startCircle, _endCircle;
-
-		//delegate for GridUpdate event
-		public delegate void GridUpdateHandler();
-		public event GridUpdateHandler Updated;
+		private Grid2D _grid;
 
 		private void Awake()
 		{
 			_controls = new Controls();
 			_chalkMeterSO.ResetChalk();
+			_grid = FindObjectOfType<Grid2D>();
 		}
 
 		private void FixedUpdate()
@@ -146,9 +145,8 @@ namespace ChalkLine
 		public void BuildChalkLine(bool isEnclosed)
 		{
 			ChalkLine chalkline = _lineObject.GetComponent<ChalkLine>();
-			chalkline.Init(ref _nodePositions, isEnclosed);
+			chalkline.Init(_nodePositions, _grid, isEnclosed);
 			ResetLineVars();
-			Updated?.Invoke();
 		}
 
 		//Create and set up new line object
@@ -254,7 +252,6 @@ namespace ChalkLine
 			Debug.Log("Abort Line");
 			ResetLineVars();
 		}
-
 
 		//resets local line variables to prevent bugs
 		private void ResetLineVars()

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
+using Pathfinding;
 
 namespace ChalkLine
 {
@@ -19,6 +21,8 @@ namespace ChalkLine
 		public GameObject startCircle;
 		public GameObject endCircle;
 
+		private Grid2D _grid;
+
 
 		private void Awake()
 		{
@@ -29,7 +33,7 @@ namespace ChalkLine
 		}
 		//basically a constructor, but since can't call constructor
 		//on gameobject prefab component, this is the best alternative
-		public void Init(ref List<Vector2> nodePositions, bool _isEnclosed)
+		public void Init(List<Vector2> nodePositions, Grid2D grid, bool _isEnclosed)
 		{
 			//first node is duplicated in creation process
 			//this line removes the duplicated node
@@ -49,6 +53,9 @@ namespace ChalkLine
 			//loop EdgeCollider
 			_hitbox.adjacentEndPoint = nodePositions[0];
 			_hitbox.useAdjacentEndPoint = true;
+
+			_grid = grid;
+			_grid.UpdateGrid();
 
 			_lineNodes = new List<LineNode>();
 			foreach (Vector2 nodePos in nodePositions)
@@ -84,6 +91,18 @@ namespace ChalkLine
 		private void redrawLineRenderer()
 		{
 			throw new System.NotImplementedException();
+		}
+
+
+		public void Dissipate()
+		{
+			//clear hitboxes
+			_hitbox.points = Array.Empty<Vector2>();
+
+			//call UpdateGrid
+			_grid.UpdateGrid();
+
+			Destroy(gameObject);
 		}
 	}
 }
