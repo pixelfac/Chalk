@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ChalkLine;
 namespace Pathfinding
 {
     public class Grid2D : MonoBehaviour
@@ -15,11 +15,14 @@ namespace Pathfinding
         private Vector3 _worldBottomLeft;
         private float _nodeDiameter;
 
+        private DrawLine drawLine;
+
         private void Awake()
         {
             _nodeDiameter = nodeRadius * 2;
             gridSize = new Vector2Int(Mathf.RoundToInt(_gridWorldSize.x / _nodeDiameter),
                                       Mathf.RoundToInt(_gridWorldSize.y / _nodeDiameter));
+            drawLine = FindObjectOfType<DrawLine>();
         }
 
 	    private void Start()
@@ -27,10 +30,15 @@ namespace Pathfinding
             CreateGrid();
         }
 
-	    private void Update()
-	    {
-            UpdateObstacles();
-	    }
+		private void OnEnable()
+		{
+            drawLine.Updated += UpdateObstacles;
+        }
+
+		private void OnDisable()
+		{
+            drawLine.Updated -= UpdateObstacles;
+        }
 
         private void CreateGrid()
         {

@@ -26,6 +26,9 @@ namespace ChalkLine
 		private LineRenderer _lr;
 		private GameObject _startCircle, _endCircle;
 
+		//delegate for GridUpdate event
+		public delegate void GridUpdateHandler();
+		public event GridUpdateHandler Updated;
 
 		private void Awake()
 		{
@@ -114,9 +117,7 @@ namespace ChalkLine
 				return;
 			}
 
-			ChalkLine chalkline = _lineObject.GetComponent<ChalkLine>();
-			BuildChalkLine(chalkline, false);
-			Debug.Log("Line Initiallized NOT ENCLOSED");
+			BuildChalkLine(false);
 		}
 
 		//Automatically Stop Drawing
@@ -138,9 +139,16 @@ namespace ChalkLine
 				return;
 			}
 
+			BuildChalkLine(true);
+		}
+
+		//initialize lineObject
+		public void BuildChalkLine(bool isEnclosed)
+		{
 			ChalkLine chalkline = _lineObject.GetComponent<ChalkLine>();
-			BuildChalkLine(chalkline, true);
-			Debug.Log("Line Initiallized ENCLOSED");
+			chalkline.Init(ref _nodePositions, isEnclosed);
+			ResetLineVars();
+			Updated?.Invoke();
 		}
 
 		//Create and set up new line object
@@ -247,12 +255,6 @@ namespace ChalkLine
 			ResetLineVars();
 		}
 
-		//initialize lineObject
-		public void BuildChalkLine(ChalkLine line, bool isEnclosed)
-		{
-			line.Init(ref _nodePositions, isEnclosed);
-			ResetLineVars();
-		}
 
 		//resets local line variables to prevent bugs
 		private void ResetLineVars()
