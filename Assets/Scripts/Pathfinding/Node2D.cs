@@ -7,6 +7,7 @@ namespace Pathfinding
     public class Node2D
     {
         public int gCost, hCost;
+        public int goalDist;
         public bool obstacle;
         public Vector3 worldPosition;
 
@@ -20,6 +21,7 @@ namespace Pathfinding
             worldPosition = _worldPos;
             GridX = _gridX;
             GridY = _gridY;
+            goalDist = int.MaxValue;
         }
 
         public int FCost

@@ -63,6 +63,14 @@ namespace Pathfinding
             }
         }
 
+        //resets the goalDist for all nodes
+        private void ResetGoalDists()
+		{
+            foreach (Node2D n in _Grid)
+			{
+                n.goalDist = int.MaxValue;
+			}
+		}
 
         //Vector-goal pathfinding
         //computes vectors for each node to direct towards goal
@@ -70,10 +78,12 @@ namespace Pathfinding
 		{
             List<Node2D> open = new List<Node2D>();
             HashSet<Node2D> closed = new HashSet<Node2D>();
+            ResetGoalDists();
 
             Node2D goalNode = NodeFromWorldPoint(goalPos);
+            goalNode.goalDist = 0;
 
-            if (goalNode.parent.obstacle)
+            if (goalNode.obstacle)
             {
                 //path not possible, grid defaults to max distance for all nodes
                 Debug.LogError("Grid goal is on an obstacle node");
@@ -92,16 +102,20 @@ namespace Pathfinding
 
                 foreach (Node2D n in GetNeighbors(currNode))
                 {
-                    if (n.parent.obstacle)
+                    if (n.obstacle)
                     {
                         continue;
                     }
 
                     if (closed.Contains(n))
                     {
-                        continue;
+                        if (n.goalDist > currNode.goalDist + GetDistance(n,currNode))
+						{
+                            n.goalDist = currNode.goalDist + GetDistance(n, currNode);
+                        }
                     }
 
+                    n.goalDist = currNode.goalDist + GetDistance(n, currNode);
                     open.Add(n);
                 }
 			}
