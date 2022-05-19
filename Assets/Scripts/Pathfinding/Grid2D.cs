@@ -64,6 +64,52 @@ namespace Pathfinding
         }
 
 
+        //Vector-goal pathfinding
+        //computes vectors for each node to direct towards goal
+        private void ComputeVectorField()
+		{
+            List<Node2D> open = new List<Node2D>();
+            HashSet<Node2D> closed = new HashSet<Node2D>();
+
+            Node2D goalNode = NodeFromWorldPoint(goalPos);
+
+            if (goalNode.parent.obstacle)
+            {
+                //path not possible, grid defaults to max distance for all nodes
+                Debug.LogError("Grid goal is on an obstacle node");
+                return;
+            }
+
+            Node2D currNode;
+            open.Add(goalNode);
+
+            //start computation
+            while (open.Count > 0)
+			{
+                currNode = open[0];
+                open.RemoveAt(0);
+                closed.Add(currNode);
+
+                foreach (Node2D n in GetNeighbors(currNode))
+                {
+                    if (n.parent.obstacle)
+                    {
+                        continue;
+                    }
+
+                    if (closed.Contains(n))
+                    {
+                        continue;
+                    }
+
+                    open.Add(n);
+                }
+			}
+
+        }
+
+
+
         //gets the neighboring nodes in the 4 cardinal directions. If you would like to enable diagonal pathfinding, uncomment out that portion of code
         public List<Node2D> GetNeighbors(Node2D node)
         {
