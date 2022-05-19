@@ -9,7 +9,7 @@ namespace Pathfinding
         [SerializeField] private Vector2 _gridWorldSize;
         [SerializeField] public Vector2Int gridSize { get; private set; }
         [SerializeField] public float nodeRadius;
-        [SerializeField] public Vector2 goalPos;
+        [SerializeField] public Vector2 _goalPos;
         [SerializeField] private LayerMask _obstacleMask;
 
         private Node2D[,] _Grid;
@@ -80,7 +80,7 @@ namespace Pathfinding
             HashSet<Node2D> closed = new HashSet<Node2D>();
             ResetGoalDists();
 
-            Node2D goalNode = NodeFromWorldPoint(goalPos);
+            Node2D goalNode = NodeFromWorldPoint(_goalPos);
             goalNode.goalDist = 0;
 
             if (goalNode.obstacle)
@@ -307,7 +307,7 @@ namespace Pathfinding
 		private void OnValidate()
 		{
             //clamps goalPos within valid range
-            goalPos = new Vector2(Mathf.Clamp(goalPos.x, 0, gridSize.x), Mathf.Clamp(goalPos.y, 0, gridSize.y));
+            _goalPos = new Vector2(Mathf.Clamp(_goalPos.x, 0, _gridWorldSize.x), Mathf.Clamp(_goalPos.y, 0, _gridWorldSize.y));
         }
 	}
 }
