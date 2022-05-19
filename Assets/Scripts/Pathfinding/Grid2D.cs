@@ -293,18 +293,18 @@ namespace Pathfinding
 
             if (_Grid == null) { return; }
 
-            foreach (Node2D n in _Grid)
-            {
-                if (n.obstacle)
-                    Gizmos.color = Color.red;
-                else
-                    Gizmos.color = Color.white;
+			foreach (Node2D n in _Grid)
+			{
+				if (n.obstacle)
+					Gizmos.color = Color.red;
+				else
+					Gizmos.color = Color.white;
 
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
-            }
-        }
+				Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
+			}
+		}
 
-		private void OnValidate()
+        private void OnValidate()
 		{
             //clamps goalPos within valid range
             _goalPos = new Vector2(Mathf.Clamp(_goalPos.x, 0, _gridWorldSize.x), Mathf.Clamp(_goalPos.y, 0, _gridWorldSize.y));
