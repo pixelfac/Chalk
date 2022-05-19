@@ -9,6 +9,7 @@ namespace Pathfinding
         [SerializeField] private Vector2 _gridWorldSize;
         [SerializeField] public Vector2Int gridSize { get; private set; }
         [SerializeField] public float nodeRadius;
+        [SerializeField] public Vector2 goalPos;
         [SerializeField] private LayerMask _obstacleMask;
 
         private Node2D[,] _Grid;
@@ -243,6 +244,10 @@ namespace Pathfinding
             }
         }
 
-    
-    }
+		private void OnValidate()
+		{
+            //clamps goalPos within valid range
+            goalPos = new Vector2(Mathf.Clamp(goalPos.x, 0, gridSize.x), Mathf.Clamp(goalPos.y, 0, gridSize.y));
+        }
+	}
 }
