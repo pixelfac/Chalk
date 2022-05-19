@@ -6,7 +6,7 @@ namespace Pathfinding
 {
     public class Grid2D : MonoBehaviour
     {
-        [SerializeField] private Vector3 _gridWorldSize;
+        [SerializeField] private Vector2 _gridWorldSize;
         [SerializeField] public Vector2Int gridSize { get; private set; }
         [SerializeField] public float nodeRadius;
         [SerializeField] private LayerMask _obstacleMask;
