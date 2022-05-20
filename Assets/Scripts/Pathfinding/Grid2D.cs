@@ -27,7 +27,6 @@ namespace Pathfinding
 	    private void Start()
 	    {
             CreateGrid();
-            //ComputeDistField();
         }
 
 		private void CreateGrid()
@@ -71,6 +70,7 @@ namespace Pathfinding
             foreach (Node2D n in _Grid)
 			{
                 n.goalDist = int.MaxValue;
+                n.visited = false;
 			}
 		}
 
@@ -78,8 +78,9 @@ namespace Pathfinding
         //computes vectors for each node to direct towards goal
         private void ComputeDistField()
 		{
+            Debug.Log("Begin ComputeDistField");
+
             List<Node2D> open = new List<Node2D>();
-            HashSet<Node2D> closed = new HashSet<Node2D>();
             ResetGoalDists();
 
             Node2D goalNode = NodeFromWorldPoint(_goalPos);
@@ -96,12 +97,16 @@ namespace Pathfinding
             open.Add(goalNode);
 
             //start computation
-            Debug.Log("Start ComputeDistField");
+            Debug.Log("Start Computation");
+
             while (open.Count > 0)
 			{
                 currNode = open[0];
+                if (currNode.visited) { continue; }
+
                 open.RemoveAt(0);
-                closed.Add(currNode);
+                currNode.visited = true;
+
 
                 foreach (Node2D n in GetNeighbors(currNode))
                 {
@@ -110,7 +115,7 @@ namespace Pathfinding
                         continue;
                     }
 
-                    if (closed.Contains(n))
+                    if (n.visited)
                     {
                         if (n.goalDist > currNode.goalDist + GetDistance(n,currNode))
 						{
@@ -124,7 +129,6 @@ namespace Pathfinding
 					}
                 }
 			}
-
         }
 
 
@@ -298,7 +302,9 @@ namespace Pathfinding
 
             if (_Grid == null) { return; }
 
-			foreach (Node2D n in _Grid)
+            //ComputeDistField();
+
+            foreach (Node2D n in _Grid)
 			{
                 if (n == null) { continue; }
 
@@ -315,9 +321,9 @@ namespace Pathfinding
 				{
                     Gizmos.color = Color.yellow;
                 }
-                else if (n.goalDist < 100)
+                else
                 {
-                    Gizmos.color = Color.white;
+                    Gizmos.color = Color.red;
                 }
 
                 Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));

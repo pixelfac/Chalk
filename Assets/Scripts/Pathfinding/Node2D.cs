@@ -9,6 +9,7 @@ namespace Pathfinding
         public int gCost, hCost;
         public int goalDist;
         public bool obstacle;
+        public bool visited;
         public Vector3 worldPosition;
 
         public int GridX, GridY;
@@ -22,6 +23,7 @@ namespace Pathfinding
             GridX = _gridX;
             GridY = _gridY;
             goalDist = int.MaxValue;
+            visited = true;
         }
 
         public int FCost
