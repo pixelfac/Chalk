@@ -104,10 +104,8 @@ namespace Pathfinding
             Debug.Log("Start Computation");
 
             Node2D currNode;
-            int count = 0;
-            while (open.Count > 0 && count < (gridSize.x * gridSize.y))
+            while (open.Count > 0)
 			{
-                count++;
                 Debug.Log(open.Count);
                 currNode = open[0];
 
@@ -137,7 +135,6 @@ namespace Pathfinding
 					}
                 }
 			}
-            Debug.Log("Count: " + count);
         }
 
 
