@@ -31,17 +31,20 @@ namespace Pathfinding
 
 		private void CreateGrid()
         {
+            //defaults to double array of nulls
             _Grid = new Node2D[gridSize.x, gridSize.y];
+
             _worldBottomLeft = transform.position - Vector3.right * _gridWorldSize.x / 2 - Vector3.up * _gridWorldSize.y / 2;
 
-            UpdateObstacles();
-            ResetGoalDists();
+            UpdateGrid();
+            Debug.Log("Grid created");
         }
 
         public void UpdateGrid()
 		{
             UpdateObstacles();
-		}
+            ComputeDistField();
+        }
 
         private void UpdateObstacles()
 	    {
@@ -49,7 +52,7 @@ namespace Pathfinding
             {
                 for (int y = 0; y < gridSize.y; y++)
                 {
-                    Vector3 worldPoint = _worldBottomLeft + Vector3.right * (x * _nodeDiameter + nodeRadius) + Vector3.up * (y * _nodeDiameter + nodeRadius);
+                    Vector3 worldPoint = WorldPointFromGridPos(x, y);
                     _Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
                     if (Physics2D.OverlapCircle(worldPoint, nodeRadius, _obstacleMask) != null) //null == no collision
@@ -71,6 +74,7 @@ namespace Pathfinding
 			{
                 n.goalDist = int.MaxValue;
                 n.visited = false;
+                n.inOpen = false;
 			}
 		}
 
@@ -80,7 +84,6 @@ namespace Pathfinding
 		{
             Debug.Log("Begin ComputeDistField");
 
-            List<Node2D> open = new List<Node2D>();
             ResetGoalDists();
 
             Node2D goalNode = NodeFromWorldPoint(_goalPos);
@@ -93,22 +96,26 @@ namespace Pathfinding
                 return;
             }
 
-            Node2D currNode;
+            List<Node2D> open = new List<Node2D>();
             open.Add(goalNode);
+            goalNode.inOpen = true;
 
             //start computation
             Debug.Log("Start Computation");
 
-            while (open.Count > 0)
+            Node2D currNode;
+            int count = 0;
+            while (open.Count > 0 && count < (gridSize.x * gridSize.y))
 			{
+                count++;
+                Debug.Log(open.Count);
                 currNode = open[0];
-                if (currNode.visited) { continue; }
 
                 open.RemoveAt(0);
                 currNode.visited = true;
 
-
-                foreach (Node2D n in GetNeighbors(currNode))
+                List<Node2D> neighbors = GetNeighbors(currNode);
+                foreach (Node2D n in neighbors)
                 {
                     if (n.obstacle)
                     {
@@ -122,13 +129,15 @@ namespace Pathfinding
                             n.goalDist = currNode.goalDist + GetDistance(n, currNode);
                         }
                     }
-                    else
+                    else if (!n.inOpen)
 					{
                         n.goalDist = currNode.goalDist + GetDistance(n, currNode);
                         open.Add(n);
+                        n.inOpen = true;
 					}
                 }
 			}
+            Debug.Log("Count: " + count);
         }
 
 
@@ -188,6 +197,15 @@ namespace Pathfinding
             y = Mathf.Clamp(y, 0, gridSize.y - 1);
 
             return _Grid[x, y];
+        }
+
+        public Vector3 WorldPointFromGridPos(int x, int y)
+		{
+            float scale = _nodeDiameter;
+            float diffX = x * scale;
+            float diffY = y * scale;
+            return _worldBottomLeft + Vector3.right * (diffX + nodeRadius) + Vector3.up * (diffY + nodeRadius);
+
         }
 
         //A* pathfinding algorithm
@@ -302,8 +320,6 @@ namespace Pathfinding
 
             if (_Grid == null) { return; }
 
-            //ComputeDistField();
-
             foreach (Node2D n in _Grid)
 			{
                 if (n == null) { continue; }
@@ -314,10 +330,9 @@ namespace Pathfinding
 				}
 				else if (n.goalDist<30)
 				{
-                    Debug.Log(n.goalDist);
 					Gizmos.color = Color.green;
 				}
-                else if (n.goalDist < 60)
+                else if (n.goalDist < int.MaxValue)
 				{
                     Gizmos.color = Color.yellow;
                 }

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridWorldSize: {x: 18, y: 10}
   nodeRadius: 0.1
-  _goalPos: {x: 1, y: 3}
+  _goalPos: {x: 3, y: 6}
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 64
