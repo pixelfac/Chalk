@@ -50,9 +50,12 @@ namespace ChalkLine
 			//Set EdgeCollider
 			_hitbox.SetPoints(nodePositions);
 			_hitbox.edgeRadius = _lr.startWidth;
-			//loop EdgeCollider
-			_hitbox.adjacentEndPoint = nodePositions[0];
-			_hitbox.useAdjacentEndPoint = true;
+			if (_isEnclosed)
+			{
+				//loop EdgeCollider
+				_hitbox.adjacentEndPoint = nodePositions[0];
+				_hitbox.useAdjacentEndPoint = true;
+			}
 
 			_grid = grid;
 			_grid.UpdateGrid();
