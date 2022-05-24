@@ -23,14 +23,6 @@ namespace Chalkling
 
 		private void FixedUpdate()
 		{
-			//path = pathfinder.FindPath(transform.position, _targetTransform.position);
-
-			////if no path found OR already at target, stop
-			//if (path == null || path.Count == 0)
-			//{
-			//	return;
-			//}
-
 			Vector2 moveDir = pathfinder.NodeFromWorldPoint(transform.position).goalVector; //the direction to move towards target
 
 			Vector2 newPos = transform.position;

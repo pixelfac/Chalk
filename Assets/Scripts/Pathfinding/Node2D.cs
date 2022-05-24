@@ -6,7 +6,6 @@ namespace Pathfinding
 {
     public class Node2D
     {
-        public int gCost, hCost;
         public int goalDist;
         public bool obstacle;
         public bool visited;
@@ -29,16 +28,6 @@ namespace Pathfinding
             inOpen = false;
             goalVector = Vector2.zero;
         }
-
-        public int FCost
-        {
-            get
-            {
-                return gCost + hCost;
-            }
-
-        }
-    
 
         public void SetObstacle(bool isOb)
         {
