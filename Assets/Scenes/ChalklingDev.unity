@@ -467,7 +467,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948379770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.54, y: 2.46, z: 0}
+  m_LocalPosition: {x: 6.28, y: -3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -480,6 +480,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4586374766254549960, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
+      propertyPath: goalTransform
+      value: 
+      objectReference: {fileID: 1948379772}
     - target: {fileID: 4586374766254549961, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
       propertyPath: m_Name
       value: PathfindingGrid

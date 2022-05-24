@@ -22,15 +22,15 @@ namespace Chalkling
 
 		private void FixedUpdate()
 		{
-			path = pathfinder.FindPath(transform.position, _targetTransform.position);
+			//path = pathfinder.FindPath(transform.position, _targetTransform.position);
 
-			//if no path found OR already at target, stop
-			if (path == null || path.Count == 0)
-			{
-				return;
-			}
+			////if no path found OR already at target, stop
+			//if (path == null || path.Count == 0)
+			//{
+			//	return;
+			//}
 
-			Vector2 moveDir = (path[0].worldPosition - transform.position).normalized; //the direction to move towards target
+			Vector2 moveDir = pathfinder.NodeFromWorldPoint(transform.position).goalVector; //the direction to move towards target
 			Vector2 newPos = (moveDir * _moveSpeed * Time.deltaTime) + (Vector2)transform.position;
 
 			rb.MovePosition(newPos);

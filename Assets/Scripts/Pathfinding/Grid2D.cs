@@ -9,9 +9,10 @@ namespace Pathfinding
         [SerializeField] private Vector2 _gridWorldSize;
         [SerializeField] public Vector2Int gridSize { get; private set; }
         [SerializeField] public float nodeRadius;
-        [SerializeField] public Vector2 _goalPos;
+        [SerializeField] public Transform goalTransform;
         [SerializeField] private LayerMask _obstacleMask;
 
+        private Vector2 _goalPos;
         private Node2D[,] _Grid;
         private Vector3 _worldBottomLeft;
         private float _nodeDiameter;
@@ -20,6 +21,7 @@ namespace Pathfinding
         private void Awake()
         {
             _nodeDiameter = nodeRadius * 2;
+            _goalPos = goalTransform.position;
             gridSize = new Vector2Int(Mathf.RoundToInt(_gridWorldSize.x / _nodeDiameter),
                                       Mathf.RoundToInt(_gridWorldSize.y / _nodeDiameter));
         }
@@ -76,6 +78,7 @@ namespace Pathfinding
                 n.goalDist = int.MaxValue;
                 n.visited = false;
                 n.inOpen = false;
+                n.goalVector = Vector2.zero;
 			}
 		}
 
