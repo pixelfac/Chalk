@@ -38,8 +38,9 @@ namespace Pathfinding
 
             _worldBottomLeft = transform.position - Vector3.right * _gridWorldSize.x / 2 - Vector3.up * _gridWorldSize.y / 2;
 
-            UpdateGrid();
             Debug.Log("Grid created");
+            UpdateGrid();
+            Debug.Log("Grid updated");
         }
 
         public void UpdateGrid()
@@ -104,13 +105,9 @@ namespace Pathfinding
             open.Add(goalNode);
             goalNode.inOpen = true;
 
-            //start computation
-            Debug.Log("Start Computation");
-
             Node2D currNode;
             while (open.Count > 0)
 			{
-                Debug.Log(open.Count);
                 currNode = open[0];
 
                 open.RemoveAt(0);
