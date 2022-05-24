@@ -44,6 +44,7 @@ namespace Pathfinding
 		{
             UpdateObstacles();
             ComputeDistField();
+            ComputeVectorField();
         }
 
         private void UpdateObstacles()
@@ -79,7 +80,7 @@ namespace Pathfinding
 		}
 
         //Vector-goal pathfinding
-        //computes vectors for each node to direct towards goal
+        //computes distance for each node to goal
         private void ComputeDistField()
 		{
             Debug.Log("Begin ComputeDistField");
@@ -137,6 +138,26 @@ namespace Pathfinding
 			}
         }
 
+        //Vector-goal pathfinding
+        //computes vector field directing towards goal
+        private void ComputeVectorField()
+		{
+            Debug.Log("Begin ComputeVectorField");
+
+            foreach (Node2D n in _Grid)
+			{
+                Vector2 goalVec = Vector2.zero;
+                List<Node2D> neighbors = GetNeighbors(n);
+
+                foreach (Node2D nbr in neighbors)
+				{
+                    Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
+                    goalVec += direction / nbr.goalDist;
+				}
+
+                n.goalVector = goalVec.normalized;
+			}
+		}
 
 
         //gets the neighboring nodes in the 4 cardinal directions. If you would like to enable diagonal pathfinding, uncomment out that portion of code

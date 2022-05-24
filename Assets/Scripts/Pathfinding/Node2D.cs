@@ -11,6 +11,7 @@ namespace Pathfinding
         public bool obstacle;
         public bool visited;
         public bool inOpen;
+        public Vector2 goalVector;
         public Vector3 worldPosition;
 
         public int GridX, GridY;
@@ -26,6 +27,7 @@ namespace Pathfinding
             goalDist = int.MaxValue;
             visited = true;
             inOpen = false;
+            goalVector = Vector2.zero;
         }
 
         public int FCost
