@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,14 @@ namespace Chalkling
 			//}
 
 			Vector2 moveDir = pathfinder.NodeFromWorldPoint(transform.position).goalVector; //the direction to move towards target
-			Vector2 newPos = (moveDir * _moveSpeed * Time.deltaTime) + (Vector2)transform.position;
+
+			Vector2 newPos = transform.position;
+
+			//if moveDir not infinity, add scaled moveDir
+			if (!float.IsNaN(moveDir.magnitude))
+			{
+				newPos += (moveDir * _moveSpeed * Time.deltaTime);
+			}
 
 			rb.MovePosition(newPos);
 		}
