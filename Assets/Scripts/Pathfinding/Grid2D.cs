@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -146,18 +147,37 @@ namespace Pathfinding
 
             foreach (Node2D n in _Grid)
 			{
-                if (n.obstacle) { continue; }
+                //if (n.obstacle) { continue; }
 
-                Vector2 goalVec = Vector2.zero;
                 List<Node2D> neighbors = GetNeighbors(n);
 
-                foreach (Node2D nbr in neighbors)
-				{
-                    Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
-                    goalVec += direction / nbr.goalDist;
-				}
+                //does neighbors contain an obstacle?
+                bool containsObstacle = neighbors.Any(n => n.obstacle);
 
-                n.goalVector = goalVec.normalized;
+                if (containsObstacle)
+                {
+                    //find min
+                    int minDist = int.MaxValue;
+                    foreach (Node2D nbr in neighbors)
+                    {
+                        if (nbr.goalDist < minDist)
+                        {
+                            minDist = nbr.goalDist;
+                            n.goalVector = nbr.goalVector.normalized;
+                        }
+                    }
+                }
+                else
+                {
+                    //find lowest gradient
+                    Vector2 goalVec = Vector2.zero;
+                    foreach (Node2D nbr in neighbors)
+                    {
+                        Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
+                        goalVec += direction / nbr.goalDist;
+                    }
+                    n.goalVector = goalVec.normalized;
+                }
 			}
 		}
 
