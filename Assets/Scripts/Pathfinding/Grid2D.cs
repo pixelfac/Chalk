@@ -146,6 +146,8 @@ namespace Pathfinding
 
             foreach (Node2D n in _Grid)
 			{
+                if (n.obstacle) { continue; }
+
                 Vector2 goalVec = Vector2.zero;
                 List<Node2D> neighbors = GetNeighbors(n);
 
@@ -248,6 +250,7 @@ namespace Pathfinding
 
             foreach (Node2D n in _Grid)
 			{
+                //draw cubes
                 if (n == null) { continue; }
 
 				if (n.obstacle)
@@ -258,16 +261,20 @@ namespace Pathfinding
 				{
 					Gizmos.color = Color.green;
 				}
-                else if (n.goalDist < int.MaxValue)
+                else if (n.goalDist < 200)
 				{
                     Gizmos.color = Color.yellow;
                 }
                 else
                 {
-                    Gizmos.color = Color.red;
+                    Gizmos.color = Color.white;
                 }
 
                 Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
+
+                //draw lines
+                Gizmos.color = Color.black;
+                Gizmos.DrawLine(n.worldPosition, n.worldPosition + nodeRadius * (Vector3)n.goalVector);
 			}
 		}
 
