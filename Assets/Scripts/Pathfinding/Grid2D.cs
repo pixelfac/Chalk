@@ -158,12 +158,14 @@ namespace Pathfinding
                 {
                     //find min
                     int minDist = int.MaxValue;
+                    Vector2 direction = Vector2.zero;
                     foreach (Node2D nbr in neighbors)
                     {
                         if (nbr.goalDist < minDist)
                         {
                             minDist = nbr.goalDist;
-                            n.goalVector = nbr.goalVector.normalized;
+                            direction = (nbr.worldPosition - n.worldPosition).normalized;
+                            n.goalVector = direction;
                         }
                     }
                 }
@@ -178,6 +180,7 @@ namespace Pathfinding
                     }
                     n.goalVector = goalVec.normalized;
                 }
+
 			}
 		}
 
