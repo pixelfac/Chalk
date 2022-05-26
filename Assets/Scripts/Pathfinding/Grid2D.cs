@@ -189,38 +189,20 @@ namespace Pathfinding
         public List<Node2D> GetNeighbors(Node2D node)
         {
             List<Node2D> neighbors = new List<Node2D>();
+                
+            for (int x = node.GridX - 1; x <= node.GridX + 1; x++)
+			{
+                for (int y = node.GridY - 1; y <= node.GridY + 1; y++)
+				{
+                    //skip center node
+                    if (x == node.GridX && y == node.GridY) { continue; }
 
-            //checks and adds top neighbor
-            if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
-                neighbors.Add(_Grid[node.GridX, node.GridY + 1]);
-
-            //checks and adds bottom neighbor
-            if (node.GridX >= 0 && node.GridX < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
-                neighbors.Add(_Grid[node.GridX, node.GridY - 1]);
-
-            //checks and adds right neighbor
-            if (node.GridX + 1 >= 0 && node.GridX + 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
-                neighbors.Add(_Grid[node.GridX + 1, node.GridY]);
-
-            //checks and adds left neighbor
-            if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY >= 0 && node.GridY < gridSize.y)
-                neighbors.Add(_Grid[node.GridX - 1, node.GridY]);
-
-            //checks and adds top right neighbor
-            if (node.GridX + 1 >= 0 && node.GridX + 1< gridSize.x && node.GridY + 1 >= 0 && node.GridY + 1 < gridSize.y)
-                neighbors.Add(_Grid[node.GridX + 1, node.GridY + 1]);
-
-            //checks and adds bottom right neighbor
-            if (node.GridX + 1>= 0 && node.GridX + 1 < gridSize.x && node.GridY - 1 >= 0 && node.GridY - 1 < gridSize.y)
-                neighbors.Add(_Grid[node.GridX + 1, node.GridY - 1]);
-
-            //checks and adds top left neighbor
-            if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY + 1>= 0 && node.GridY + 1 < gridSize.y)
-                neighbors.Add(_Grid[node.GridX - 1, node.GridY + 1]);
-
-            //checks and adds bottom left neighbor
-            if (node.GridX - 1 >= 0 && node.GridX - 1 < gridSize.x && node.GridY  - 1>= 0 && node.GridY  - 1 < gridSize.y)
-                neighbors.Add(_Grid[node.GridX - 1, node.GridY - 1]);
+                    if (CoordsInGrid(x, y))
+                    {
+                        neighbors.Add(_Grid[x, y]);
+                    }
+                }
+            }
 
             return neighbors;
         }
@@ -263,6 +245,12 @@ namespace Pathfinding
             }
             return 14 * dstX + 10 * (dstY - dstX);
         }
+
+        //return true if parameters are in Grid, false otherwise
+        private bool CoordsInGrid(int x, int y)
+		{
+            return (x >= 0 && x < gridSize.x && y >= 0 && y < gridSize.y);
+		}
 
         //Draws visual representation of grid
         private void OnDrawGizmos()
