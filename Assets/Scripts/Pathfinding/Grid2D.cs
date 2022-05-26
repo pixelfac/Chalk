@@ -142,7 +142,7 @@ namespace Pathfinding
         //Vector-goal pathfinding
         //computes vector field directing towards goal
         private void ComputeVectorField()
-		{
+        {
             Debug.Log("Begin ComputeVectorField");
 
             foreach (Node2D n in _Grid)
@@ -189,19 +189,53 @@ namespace Pathfinding
         public List<Node2D> GetNeighbors(Node2D node)
         {
             List<Node2D> neighbors = new List<Node2D>();
-                
-            for (int x = node.GridX - 1; x <= node.GridX + 1; x++)
-			{
-                for (int y = node.GridY - 1; y <= node.GridY + 1; y++)
-				{
-                    //skip center node
-                    if (x == node.GridX && y == node.GridY) { continue; }
+            
+            //top neighbor
+            if (CoordsInGrid(node.GridX, node.GridY + 1))
+            {
+                neighbors.Add(_Grid[node.GridX, node.GridY + 1]);
+            }
 
-                    if (CoordsInGrid(x, y))
-                    {
-                        neighbors.Add(_Grid[x, y]);
-                    }
-                }
+            //bottom neighbor
+            if (CoordsInGrid(node.GridX, node.GridY - 1))
+            {
+                neighbors.Add(_Grid[node.GridX, node.GridY - 1]);
+            }
+
+            //right neighbor
+            if (CoordsInGrid(node.GridX + 1, node.GridY))
+            {
+                neighbors.Add(_Grid[node.GridX + 1, node.GridY]);
+            }
+
+            //left neighbor
+            if (CoordsInGrid(node.GridX - 1, node.GridY))
+            {
+                neighbors.Add(_Grid[node.GridX - 1, node.GridY]);
+            }
+
+            //topright neighbor
+            if (CoordsInGrid(node.GridX - 1, node.GridY + 1))
+            {
+                neighbors.Add(_Grid[node.GridX - 1, node.GridY + 1]);
+            }
+
+            //bottomleft neighbor
+            if (CoordsInGrid(node.GridX - 1, node.GridY - 1))
+            {
+                neighbors.Add(_Grid[node.GridX - 1, node.GridY - 1]);
+            }
+
+            //bottomright neighbor
+            if (CoordsInGrid(node.GridX + 1, node.GridY - 1))
+            {
+                neighbors.Add(_Grid[node.GridX + 1, node.GridY - 1]);
+            }
+
+            //topleft neighbor
+            if (CoordsInGrid(node.GridX + 1, node.GridY + 1))
+            {
+                neighbors.Add(_Grid[node.GridX + 1, node.GridY + 1]);
             }
 
             return neighbors;
@@ -268,17 +302,17 @@ namespace Pathfinding
 				{
 					Gizmos.color = Color.red;
 				}
-				else if (n.goalDist<30)
+				else if (n.goalDist % 30 < 10)
 				{
 					Gizmos.color = Color.green;
 				}
-                else if (n.goalDist < 200)
+                else if (n.goalDist % 30 < 20)
 				{
-                    Gizmos.color = Color.yellow;
+                    Gizmos.color = Color.cyan;
                 }
                 else
                 {
-                    Gizmos.color = Color.white;
+                    Gizmos.color = Color.blue;
                 }
 
                 Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
