@@ -49,7 +49,7 @@ namespace ChalkLine
 
 			//Set EdgeCollider
 			_hitbox.SetPoints(nodePositions);
-			_hitbox.edgeRadius = _lr.startWidth;
+			_hitbox.edgeRadius = _lr.startWidth / 2;
 			if (_isEnclosed)
 			{
 				//loop EdgeCollider
