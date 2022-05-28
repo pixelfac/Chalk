@@ -119,8 +119,10 @@ namespace Pathfinding
                 currNode.visited = true;
 
                 List<Node2D> neighbors = GetNeighbors(currNode);
-                foreach (Node2D n in neighbors)
+                for (int i = 0; i < neighbors.Count; i++)
                 {
+                    Node2D n = neighbors[i];
+
                     if (n.obstacle) { continue; }
 
                     int nodeDist = currNode.goalDist + GetDistance(n, currNode);
@@ -161,8 +163,10 @@ namespace Pathfinding
                         //find min
                         int minDist = int.MaxValue;
                         Vector2 direction = Vector2.zero;
-                        foreach (Node2D nbr in neighbors)
+                        for (int i = 0; i < neighbors.Count; i++)
                         {
+                            Node2D nbr = neighbors[i];
+
                             if (nbr.goalDist < minDist)
                             {
                                 minDist = nbr.goalDist;
@@ -175,8 +179,10 @@ namespace Pathfinding
                     {
                         //find lowest gradient
                         Vector2 goalVec = Vector2.zero;
-                        foreach (Node2D nbr in neighbors)
+                        for (int i = 0; i < neighbors.Count; i++)
                         {
+                            Node2D nbr = neighbors[i];
+
                             Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
                             goalVec += direction / nbr.goalDist;
                         }
@@ -295,35 +301,40 @@ namespace Pathfinding
 
             if (_Grid == null) { return; }
 
-            foreach (Node2D n in _Grid)
-			{
-                //draw cubes
-                if (n == null) { continue; }
-
-				if (n.obstacle)
-				{
-					Gizmos.color = Color.red;
-				}
-				else if (n.goalDist % 30 < 10)
-				{
-					Gizmos.color = Color.green;
-				}
-                else if (n.goalDist % 30 < 20)
-				{
-                    Gizmos.color = Color.cyan;
-                }
-                else
+            //for loop faster than foreach
+            for (int x = 0; x < _Grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < _Grid.GetLength(1); y++)
                 {
-                    Gizmos.color = Color.blue;
+                    Node2D n = _Grid[x, y];
+                    //draw cubes
+                    if (n == null) { continue; }
+
+                    if (n.obstacle)
+                    {
+                        Gizmos.color = Color.red;
+                    }
+                    else if (n.goalDist % 30 < 10)
+                    {
+                        Gizmos.color = Color.green;
+                    }
+                    else if (n.goalDist % 30 < 20)
+                    {
+                        Gizmos.color = Color.cyan;
+                    }
+                    else
+                    {
+                        Gizmos.color = Color.blue;
+                    }
+
+                    Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
+
+                    //draw lines
+                    Gizmos.color = Color.black;
+                    Gizmos.DrawLine(n.worldPosition, n.worldPosition + nodeRadius * (Vector3)n.goalVector);
                 }
-
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
-
-                //draw lines
-                Gizmos.color = Color.black;
-                Gizmos.DrawLine(n.worldPosition, n.worldPosition + nodeRadius * (Vector3)n.goalVector);
-			}
-		}
+            }
+        }
 
         private void OnValidate()
 		{
