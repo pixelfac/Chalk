@@ -108,16 +108,14 @@ namespace Pathfinding
                 return;
             }
 
-            List<Node2D> open = new List<Node2D>();
-            open.Add(goalNode);
+            Queue<Node2D> open = new Queue<Node2D>();
+            open.Enqueue(goalNode);
             goalNode.inOpen = true;
 
             Node2D currNode;
             while (open.Count > 0)
 			{
-                currNode = open[0];
-
-                open.RemoveAt(0);
+                currNode = open.Dequeue();
                 currNode.visited = true;
 
                 List<Node2D> neighbors = GetNeighbors(currNode);
@@ -136,7 +134,7 @@ namespace Pathfinding
                     else if (!n.inOpen)
 					{
                         n.goalDist = nodeDist;
-                        open.Add(n);
+                        open.Enqueue(n);
                         n.inOpen = true;
 					}
                 }
