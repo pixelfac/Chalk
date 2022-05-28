@@ -53,13 +53,14 @@ namespace Pathfinding
 
         public void UpdateGrid()
 		{
-            UpdateObstacles();
-            ComputeDistField();
-            ComputeVectorField();
+            UpdateObstacles();    //set which nodes are obstacles
+            ComputeDistField();   //calc distance to goal around obstacles
+            ComputeVectorField(); //calc vectors to goal from distance
         }
 
         private void UpdateObstacles()
 	    {
+            //for loop faster than foreach
             for (int x = 0; x < gridSize.x; x++)
             {
                 for (int y = 0; y < gridSize.y; y++)
@@ -146,6 +147,7 @@ namespace Pathfinding
         //computes vector field directing towards goal
         private void ComputeVectorField()
         {
+            //for loop faster than foreach
             for (int x = 0; x < _Grid.GetLength(0); x++)
 			{
                 for (int y = 0; y < _Grid.GetLength(1); y++)
