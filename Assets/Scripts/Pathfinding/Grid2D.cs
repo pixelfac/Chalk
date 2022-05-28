@@ -13,7 +13,7 @@ namespace Pathfinding
         [SerializeField] public Transform goalTransform;
         [SerializeField] private LayerMask _obstacleMask;
         [Range(0.1f, 1f)]
-        [SerializeField] private float nodeOverlapRadius; //how big the OverlapCircle radius is relative to nodeRadius
+        [SerializeField] private float nodeOverlapRadius; //how big the OverlapBox radius is relative to nodeRadius
 
         private Vector2 _goalPos;
         private Node2D[,] _Grid;
@@ -68,7 +68,7 @@ namespace Pathfinding
                     Vector3 worldPoint = WorldPointFromGridPos(x, y);
                     _Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
-                    if (Physics2D.OverlapCircle(worldPoint, nodeRadius * nodeOverlapRadius, _obstacleMask) != null) //null == no collision
+                    if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * nodeOverlapRadius, _obstacleMask) != null) //null == no collision
                     {
                         _Grid[x, y].SetObstacle(true);
                     }
