@@ -484,6 +484,10 @@ PrefabInstance:
       propertyPath: goalTransform
       value: 
       objectReference: {fileID: 1948379772}
+    - target: {fileID: 4586374766254549960, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
+      propertyPath: _gridWorldSize.x
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 4586374766254549961, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
       propertyPath: m_Name
       value: PathfindingGrid
@@ -494,11 +498,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4586374766254549963, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.413
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4586374766254549963, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4586374766254549963, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
       propertyPath: m_LocalPosition.z
