@@ -12,6 +12,8 @@ namespace Pathfinding
         [SerializeField] public float nodeRadius;
         [SerializeField] public Transform goalTransform;
         [SerializeField] private LayerMask _obstacleMask;
+        [Range(0.1f, 1f)]
+        [SerializeField] private float nodeOverlapRadius; //how big the OverlapCircle radius is relative to nodeRadius
 
         private Vector2 _goalPos;
         private Node2D[,] _Grid;
@@ -31,6 +33,11 @@ namespace Pathfinding
 	    {
             CreateGrid();
         }
+
+		private void FixedUpdate()
+		{
+            UpdateGrid();
+		}
 
 		private void CreateGrid()
         {
@@ -60,7 +67,7 @@ namespace Pathfinding
                     Vector3 worldPoint = WorldPointFromGridPos(x, y);
                     _Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
-                    if (Physics2D.OverlapCircle(worldPoint, nodeRadius, _obstacleMask) != null) //null == no collision
+                    if (Physics2D.OverlapCircle(worldPoint, nodeRadius * nodeOverlapRadius, _obstacleMask) != null) //null == no collision
                     {
                         _Grid[x, y].SetObstacle(true);
                     }
@@ -88,8 +95,6 @@ namespace Pathfinding
         //computes distance for each node to goal
         private void ComputeDistField()
 		{
-            Debug.Log("Begin ComputeDistField");
-
             ResetGoalDists();
 
             Node2D goalNode = NodeFromWorldPoint(_goalPos);
@@ -117,21 +122,19 @@ namespace Pathfinding
                 List<Node2D> neighbors = GetNeighbors(currNode);
                 foreach (Node2D n in neighbors)
                 {
-                    if (n.obstacle)
-                    {
-                        continue;
-                    }
+                    if (n.obstacle) { continue; }
 
+                    int nodeDist = currNode.goalDist + GetDistance(n, currNode);
                     if (n.visited)
                     {
-                        if (n.goalDist > currNode.goalDist + GetDistance(n,currNode))
+                        if (n.goalDist > nodeDist)
 						{
-                            n.goalDist = currNode.goalDist + GetDistance(n, currNode);
+                            n.goalDist = nodeDist;
                         }
                     }
                     else if (!n.inOpen)
 					{
-                        n.goalDist = currNode.goalDist + GetDistance(n, currNode);
+                        n.goalDist = nodeDist;
                         open.Add(n);
                         n.inOpen = true;
 					}
@@ -143,12 +146,8 @@ namespace Pathfinding
         //computes vector field directing towards goal
         private void ComputeVectorField()
         {
-            Debug.Log("Begin ComputeVectorField");
-
             foreach (Node2D n in _Grid)
 			{
-                //if (n.obstacle) { continue; }
-
                 List<Node2D> neighbors = GetNeighbors(n);
 
                 //does neighbors contain an obstacle?

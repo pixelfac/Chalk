@@ -49,3 +49,4 @@ MonoBehaviour:
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 64
+  nodeOverlapRadius: 0
