@@ -146,40 +146,43 @@ namespace Pathfinding
         //computes vector field directing towards goal
         private void ComputeVectorField()
         {
-            foreach (Node2D n in _Grid)
+            for (int x = 0; x < _Grid.GetLength(0); x++)
 			{
-                List<Node2D> neighbors = GetNeighbors(n);
-
-                //does neighbors contain an obstacle?
-                bool containsObstacle = neighbors.Any(n => n.obstacle);
-
-                if (containsObstacle)
+                for (int y = 0; y < _Grid.GetLength(1); y++)
                 {
-                    //find min
-                    int minDist = int.MaxValue;
-                    Vector2 direction = Vector2.zero;
-                    foreach (Node2D nbr in neighbors)
+                    Node2D n = _Grid[x, y];
+                    List<Node2D> neighbors = GetNeighbors(n);
+
+                    //does neighbors contain an obstacle?
+                    bool containsObstacle = neighbors.Any(n => n.obstacle);
+
+                    if (containsObstacle)
                     {
-                        if (nbr.goalDist < minDist)
+                        //find min
+                        int minDist = int.MaxValue;
+                        Vector2 direction = Vector2.zero;
+                        foreach (Node2D nbr in neighbors)
                         {
-                            minDist = nbr.goalDist;
-                            direction = (nbr.worldPosition - n.worldPosition).normalized;
-                            n.goalVector = direction;
+                            if (nbr.goalDist < minDist)
+                            {
+                                minDist = nbr.goalDist;
+                                direction = (nbr.worldPosition - n.worldPosition).normalized;
+                                n.goalVector = direction;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    //find lowest gradient
-                    Vector2 goalVec = Vector2.zero;
-                    foreach (Node2D nbr in neighbors)
+                    else
                     {
-                        Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
-                        goalVec += direction / nbr.goalDist;
+                        //find lowest gradient
+                        Vector2 goalVec = Vector2.zero;
+                        foreach (Node2D nbr in neighbors)
+                        {
+                            Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
+                            goalVec += direction / nbr.goalDist;
+                        }
+                        n.goalVector = goalVec.normalized;
                     }
-                    n.goalVector = goalVec.normalized;
                 }
-
 			}
 		}
 
