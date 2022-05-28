@@ -12,7 +12,7 @@ namespace ChalkLine
 	public class ChalkLine : MonoBehaviour
 	{
 		[SerializeField] private int _baseNodeHP;    //base HP for each node in a line
-		[Range(0.1f, 1f)]
+		[Range(0.1f, 2f)]
 		[SerializeField] private float colliderRadiusFactor; //how big the collider is relative to rendered line. 0.5f matches visual
 
 

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseNodeHP: 0
-  colliderRadiusFactor: 1
+  colliderRadiusFactor: 2
   startCircle: {fileID: 6606843272337416317}
   endCircle: {fileID: 8389614668473047742}
 --- !u!120 &4958036785349629166
