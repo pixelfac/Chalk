@@ -12,6 +12,9 @@ namespace ChalkLine
 	public class ChalkLine : MonoBehaviour
 	{
 		[SerializeField] private int _baseNodeHP;    //base HP for each node in a line
+		[Range(0.1f, 1f)]
+		[SerializeField] private float colliderRadiusFactor; //how big the collider is relative to rendered line. 0.5f matches visual
+
 
 		private bool _isEnclosed;
 		private EdgeCollider2D _hitbox;
@@ -49,7 +52,7 @@ namespace ChalkLine
 
 			//Set EdgeCollider
 			_hitbox.SetPoints(nodePositions);
-			_hitbox.edgeRadius = _lr.startWidth / 2;
+			_hitbox.edgeRadius = _lr.startWidth * colliderRadiusFactor;
 			if (_isEnclosed)
 			{
 				//loop EdgeCollider

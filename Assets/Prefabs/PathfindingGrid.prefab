@@ -43,10 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32ff71e5b324c3478569e42757e0f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridWorldSize: {x: 10, y: 10}
+  _gridWorldSize: {x: 18, y: 10}
   nodeRadius: 0.2
   goalTransform: {fileID: 0}
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  nodeOverlapRadius: 0.5
+  nodeOverlapRadius: 0.7
