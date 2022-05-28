@@ -68,7 +68,11 @@ namespace Pathfinding
                     Vector3 worldPoint = WorldPointFromGridPos(x, y);
                     _Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
-                    if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * nodeOverlapRadius, _obstacleMask) != null) //null == no collision
+                    ContactFilter2D overlapFilter = new ContactFilter2D();
+                    overlapFilter.layerMask = _obstacleMask;
+                    Collider2D[] results = new Collider2D[1];
+
+                    if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * nodeOverlapRadius, 0f, overlapFilter, results) != 0) //0 == no collision
                     {
                         _Grid[x, y].SetObstacle(true);
                     }
