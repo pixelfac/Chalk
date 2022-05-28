@@ -34,11 +34,6 @@ namespace Pathfinding
             CreateGrid();
         }
 
-		private void FixedUpdate()
-		{
-            UpdateGrid();
-		}
-
 		private void CreateGrid()
         {
             //defaults to double array of nulls
