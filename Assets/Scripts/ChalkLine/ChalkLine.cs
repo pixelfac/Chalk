@@ -7,7 +7,7 @@ using Pathfinding;
 
 namespace ChalkLine
 {
-	public enum LineType { WARD, RESTRICT, MISSILE };
+	public enum LineType { WARD, MISSILE };
 
 	public class ChalkLine : MonoBehaviour
 	{
