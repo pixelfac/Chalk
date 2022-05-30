@@ -36,7 +36,7 @@ namespace ChalkLine
 		}
 		//basically a constructor, but since can't call constructor
 		//on gameobject prefab component, this is the best alternative
-		public void Init(List<Vector2> nodePositions, Grid2D grid, bool _isEnclosed)
+		public void Init(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
 		{
 			//first node is duplicated in creation process
 			//this line removes the duplicated node
@@ -53,7 +53,7 @@ namespace ChalkLine
 			//Set EdgeCollider
 			_hitbox.SetPoints(nodePositions);
 			_hitbox.edgeRadius = _lr.startWidth * colliderRadiusFactor;
-			if (_isEnclosed)
+			if (isEnclosed)
 			{
 				//loop EdgeCollider
 				_hitbox.adjacentEndPoint = nodePositions[0];
@@ -74,7 +74,7 @@ namespace ChalkLine
 			}
 			Debug.Log("lineNodes populated");
 
-			this._isEnclosed = _isEnclosed;
+			this._isEnclosed = isEnclosed;
 
 			UpdateHP();
 		}
