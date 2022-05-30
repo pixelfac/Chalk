@@ -61,7 +61,11 @@ namespace ChalkLine
 			}
 
 			_grid = grid;
-			_grid.UpdateGrid();
+			if (_grid) //not dependent on grid
+			{
+				_grid.UpdateGrid();
+			}
+			
 
 			_lineNodes = new List<LineNode>();
 			foreach (Vector2 nodePos in nodePositions)
@@ -106,7 +110,10 @@ namespace ChalkLine
 			_hitbox.points = Array.Empty<Vector2>();
 
 			//call UpdateGrid
-			_grid.UpdateGrid();
+			if (_grid) //not dependent on grid
+			{
+				_grid.UpdateGrid();
+			}
 
 			Destroy(gameObject);
 		}
