@@ -36,8 +36,23 @@ namespace ChalkLine
 		//on gameobject prefab component, this is the best alternative
 		public void Init(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
 		{
-			lineType = LineType.WARD;
+			lineType = IdentifyLineType();
 
+			switch (lineType)
+			{
+				case LineType.WARD:
+					InitWard(nodePositions, grid, isEnclosed);
+					break;
+			}
+		}
+
+		private LineType IdentifyLineType()
+		{
+			return LineType.WARD;
+		}
+
+		private void InitWard(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
+		{
 			//first node is duplicated in creation process
 			//this line removes the duplicated node
 			nodePositions.RemoveAt(1);
@@ -65,7 +80,7 @@ namespace ChalkLine
 			{
 				_grid.UpdateGrid();
 			}
-			
+
 			//populate _lineNodes
 			_lineNodes = new List<LineNode>();
 			foreach (Vector2 nodePos in nodePositions)
