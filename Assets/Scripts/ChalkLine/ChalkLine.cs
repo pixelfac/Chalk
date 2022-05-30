@@ -15,17 +15,15 @@ namespace ChalkLine
 		[Range(0.1f, 2f)]
 		[SerializeField] private float colliderRadiusFactor; //how big the collider is relative to rendered line. 0.5f matches visual
 
-
 		private bool _isEnclosed;
 		private EdgeCollider2D _hitbox;
 		private List<LineNode> _lineNodes;
 		private LineRenderer _lr;
-
-		public GameObject startCircle;
-		public GameObject endCircle;
-
 		private Grid2D _grid;
 
+		public LineType lineType { get; private set; }
+		public GameObject startCircle;
+		public GameObject endCircle;
 
 		private void Awake()
 		{
@@ -38,6 +36,8 @@ namespace ChalkLine
 		//on gameobject prefab component, this is the best alternative
 		public void Init(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
 		{
+			lineType = LineType.WARD;
+
 			//first node is duplicated in creation process
 			//this line removes the duplicated node
 			nodePositions.RemoveAt(1);
@@ -66,15 +66,14 @@ namespace ChalkLine
 				_grid.UpdateGrid();
 			}
 			
-
+			//populate _lineNodes
 			_lineNodes = new List<LineNode>();
 			foreach (Vector2 nodePos in nodePositions)
 			{
 				_lineNodes.Add(new LineNode(nodePos));
 			}
-			Debug.Log("lineNodes populated");
 
-			this._isEnclosed = isEnclosed;
+			_isEnclosed = isEnclosed;
 
 			UpdateHP();
 		}
