@@ -197,7 +197,6 @@ namespace Pathfinding
 			}
 		}
 
-
         //gets the neighboring nodes in the 4 cardinal directions. If you would like to enable diagonal pathfinding, uncomment out that portion of code
         public List<Node2D> GetNeighbors(Node2D node)
         {

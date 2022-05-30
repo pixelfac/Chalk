@@ -32,6 +32,7 @@ namespace ChalkLine
 			startCircle.GetComponent<SpriteRenderer>().color = _lr.startColor;
 			endCircle.GetComponent<SpriteRenderer>().color = _lr.endColor;
 		}
+
 		//basically a constructor, but since can't call constructor
 		//on gameobject prefab component, this is the best alternative
 		public void Init(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
@@ -102,9 +103,6 @@ namespace ChalkLine
 				throw new NotImplementedException();
 			}
 		}
-
-
-
 
 		//TODO: only placeholder value presently
 		public void UpdateHP()
