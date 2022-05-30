@@ -41,57 +41,70 @@ namespace ChalkLine
 			switch (lineType)
 			{
 				case LineType.WARD:
-					InitWard(nodePositions, grid, isEnclosed);
+					InitWard();
+					break;
+				case LineType.MISSILE:
+					InitMissile();
 					break;
 			}
+
+			LineType IdentifyLineType()
+			{
+				return LineType.WARD;
+			}
+
+			//initializes this object as a Warding Line
+			void InitWard()
+			{
+				//first node is duplicated in creation process
+				//this line removes the duplicated node
+				nodePositions.RemoveAt(1);
+
+				//redraw LineRenderer to omit duplicated point
+				List<Vector3> lrNodes = new List<Vector3>();
+				foreach (Vector2 node in nodePositions)
+				{
+					lrNodes.Add(node);
+				}
+				_lr.SetPositions(lrNodes.ToArray());
+
+				//Set EdgeCollider
+				_hitbox.SetPoints(nodePositions);
+				_hitbox.edgeRadius = _lr.startWidth * colliderRadiusFactor;
+				if (isEnclosed)
+				{
+					//loop EdgeCollider
+					_hitbox.adjacentEndPoint = nodePositions[0];
+					_hitbox.useAdjacentEndPoint = true;
+				}
+
+				_grid = grid;
+				if (_grid) //not dependent on grid
+				{
+					_grid.UpdateGrid();
+				}
+
+				//populate _lineNodes
+				_lineNodes = new List<LineNode>();
+				foreach (Vector2 nodePos in nodePositions)
+				{
+					_lineNodes.Add(new LineNode(nodePos));
+				}
+
+				_isEnclosed = isEnclosed;
+
+				UpdateHP();
+			}
+
+			//initializes this object as a Line Missile
+			void InitMissile()
+			{
+				throw new NotImplementedException();
+			}
 		}
 
-		private LineType IdentifyLineType()
-		{
-			return LineType.WARD;
-		}
 
-		private void InitWard(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
-		{
-			//first node is duplicated in creation process
-			//this line removes the duplicated node
-			nodePositions.RemoveAt(1);
 
-			//redraw LineRenderer to omit duplicated point
-			List<Vector3> lrNodes = new List<Vector3>();
-			foreach (Vector2 node in nodePositions)
-			{
-				lrNodes.Add(node);
-			}
-			_lr.SetPositions(lrNodes.ToArray());
-
-			//Set EdgeCollider
-			_hitbox.SetPoints(nodePositions);
-			_hitbox.edgeRadius = _lr.startWidth * colliderRadiusFactor;
-			if (isEnclosed)
-			{
-				//loop EdgeCollider
-				_hitbox.adjacentEndPoint = nodePositions[0];
-				_hitbox.useAdjacentEndPoint = true;
-			}
-
-			_grid = grid;
-			if (_grid) //not dependent on grid
-			{
-				_grid.UpdateGrid();
-			}
-
-			//populate _lineNodes
-			_lineNodes = new List<LineNode>();
-			foreach (Vector2 nodePos in nodePositions)
-			{
-				_lineNodes.Add(new LineNode(nodePos));
-			}
-
-			_isEnclosed = isEnclosed;
-
-			UpdateHP();
-		}
 
 		//TODO: only placeholder value presently
 		public void UpdateHP()
