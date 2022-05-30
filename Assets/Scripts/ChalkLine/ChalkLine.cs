@@ -79,6 +79,7 @@ namespace ChalkLine
 			UpdateHP();
 		}
 
+		//TODO: only placeholder value presently
 		public void UpdateHP()
 		{
 			for (int i = 1; i < _lineNodes.Count - 1; i++)
@@ -88,22 +89,14 @@ namespace ChalkLine
 		}
 
 		//TODO
-		//checks to see if lineNodes encloses a region i.e. is a shape w/ no holes
-		//Only gets the first enclosed region, ignores rest
-		//RETURN the starting and ending indices that make the enclosed line segment
-		private void checkEnclosed(out int startPos, out int endPos)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		//TODO
 		//redraws the line renderer based on current lineNodes info
 		private void redrawLineRenderer()
 		{
 			throw new System.NotImplementedException();
 		}
 
-
+		//TODO: Not Finished
+		//When chalkline is broken, dissipates
 		public void Dissipate()
 		{
 			//clear hitboxes
@@ -114,6 +107,8 @@ namespace ChalkLine
 			{
 				_grid.UpdateGrid();
 			}
+
+			//play fade-out animation
 
 			Destroy(gameObject);
 		}
