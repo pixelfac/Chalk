@@ -144,7 +144,7 @@ namespace ChalkLine
 			//initializes this object as a Line Missile
 			void InitMissile()
 			{
-				throw new NotImplementedException();
+				Debug.LogWarning("InitMissile not implemented");
 			}
 		}
 
@@ -161,7 +161,7 @@ namespace ChalkLine
 		//redraws the line renderer based on current lineNodes info
 		private void redrawLineRenderer()
 		{
-			throw new System.NotImplementedException();
+			Debug.LogWarning("InitMissile not implemented");
 		}
 
 		//TODO: Not Finished
