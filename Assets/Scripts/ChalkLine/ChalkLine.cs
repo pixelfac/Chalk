@@ -14,6 +14,7 @@ namespace ChalkLine
 		[SerializeField] private int _baseNodeHP;    //base HP for each node in a line
 		[Range(0.1f, 2f)]
 		[SerializeField] private float colliderRadiusFactor; //how big the collider is relative to rendered line. 0.5f matches visual
+		[SerializeField] private int nodeReduceFactor;
 
 		private bool _isEnclosed;
 		private EdgeCollider2D _hitbox;
@@ -37,6 +38,17 @@ namespace ChalkLine
 		//on gameobject prefab component, this is the best alternative
 		public void Init(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
 		{
+			Debug.Log("NodeCount b4 reduction " + nodePositions.Count);
+			//reduce # of nodes in nodePositions
+			List<Vector2> reducedNodePos = new List<Vector2>();
+			for (int i = 1; i < nodePositions.Count; i += nodeReduceFactor)
+			{
+				reducedNodePos.Add(nodePositions[i]);
+			}
+			nodePositions = reducedNodePos;
+			Debug.Log("NodeCount after reduction " + nodePositions.Count);
+
+
 			lineType = IdentifyLineType();
 
 			switch (lineType)
@@ -51,16 +63,14 @@ namespace ChalkLine
 
 			LineType IdentifyLineType()
 			{
+				//if enclosed, defaults to WARD
+
 				return LineType.WARD;
 			}
 
 			//initializes this object as a Warding Line
 			void InitWard()
 			{
-				//first node is duplicated in creation process
-				//this line removes the duplicated node
-				nodePositions.RemoveAt(1);
-
 				//redraw LineRenderer to omit duplicated point
 				List<Vector3> lrNodes = new List<Vector3>();
 				foreach (Vector2 node in nodePositions)
@@ -136,6 +146,11 @@ namespace ChalkLine
 			//play fade-out animation
 
 			Destroy(gameObject);
+		}
+
+		private void OnValidate()
+		{
+			nodeReduceFactor = Mathf.Max(nodeReduceFactor, 1);
 		}
 	}
 }
