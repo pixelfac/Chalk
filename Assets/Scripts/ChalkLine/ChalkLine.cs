@@ -15,6 +15,8 @@ namespace ChalkLine
 		[Range(0.1f, 2f)]
 		[SerializeField] private float colliderRadiusFactor; //how big the collider is relative to rendered line. 0.5f matches visual
 		[SerializeField] private int nodeReduceFactor;
+		[Range(0f, 1f)]
+		[SerializeField] private float straightnessThreshold;
 
 		private bool _isEnclosed;
 		private EdgeCollider2D _hitbox;
@@ -72,11 +74,15 @@ namespace ChalkLine
 					return LineType.WARD;
 				}
 
-				float s = Straightness();
+				if (Straightness() > straightnessThreshold)
+				{
+					return LineType.MISSILE;
+				}
 
 				return LineType.WARD;
 
 				//measure straightness of chalkline
+				//1f = straight, 0f = not straight
 				float Straightness()
 				{
 					float sumOfDelta = 0f;
