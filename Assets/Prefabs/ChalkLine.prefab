@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseNodeHP: 0
   colliderRadiusFactor: 2
-  nodeReduceFactor: 2
+  nodeReduceFactor: 4
   startCircle: {fileID: 6606843272337416317}
   endCircle: {fileID: 8389614668473047742}
 --- !u!120 &4958036785349629166
