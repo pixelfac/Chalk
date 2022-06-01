@@ -38,6 +38,9 @@ namespace ChalkLine
 		//on gameobject prefab component, this is the best alternative
 		public void Init(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
 		{
+			_grid = grid;
+			_isEnclosed = isEnclosed;
+
 			//reduce # of nodes in nodePositions
 			List<Vector2> reducedNodePos = new List<Vector2>();
 			for (int i = 1; i < nodePositions.Count; i += nodeReduceFactor)
@@ -64,7 +67,10 @@ namespace ChalkLine
 
 			LineType IdentifyLineType()
 			{
-				//if enclosed, defaults to WARD
+				if (_isEnclosed)
+				{
+					return LineType.WARD;
+				}
 
 				return LineType.WARD;
 			}
@@ -72,8 +78,6 @@ namespace ChalkLine
 			//initializes this object as a Warding Line
 			void InitWard()
 			{
-				_isEnclosed = isEnclosed;
-
 				//redraw LineRenderer to omit duplicated point
 				List<Vector3> lrNodes = new List<Vector3>();
 				for (int i = 0; i < nodePositions.Count; i++)
@@ -92,7 +96,6 @@ namespace ChalkLine
 					_hitbox.useAdjacentEndPoint = true;
 				}
 
-				_grid = grid;
 				if (_grid) //not dependent on grid
 				{
 					_grid.UpdateGrid();
