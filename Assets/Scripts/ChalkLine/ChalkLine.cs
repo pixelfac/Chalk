@@ -72,7 +72,31 @@ namespace ChalkLine
 					return LineType.WARD;
 				}
 
+				float s = Straightness();
+
 				return LineType.WARD;
+
+				//measure straightness of chalkline
+				float Straightness()
+				{
+					float sumOfDelta = 0f;
+
+					for (int i = 0; i < reducedNodePos.Count - 3; i++)
+					{
+						Vector2 segment1 = (reducedNodePos[i + 1] - reducedNodePos[i]).normalized;
+						Vector2 segment2 = (reducedNodePos[i + 2] - reducedNodePos[i + 1]).normalized;
+						Vector2 segment3 = (reducedNodePos[i + 3] - reducedNodePos[i + 2]).normalized;
+
+						Vector2 delta1 = segment2 - segment1;
+						Vector2 delta2 = segment3 - segment2;
+
+						sumOfDelta += (delta2 - delta1).sqrMagnitude;
+					}
+
+					float straightness = 1 / (1 + sumOfDelta / reducedNodePos.Count);
+					Debug.Log("Straightness: " + straightness);
+					return straightness;
+				}
 			}
 
 			//initializes this object as a Warding Line
