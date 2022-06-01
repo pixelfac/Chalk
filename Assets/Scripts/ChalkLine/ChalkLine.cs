@@ -50,8 +50,7 @@ namespace ChalkLine
 			{
 				reducedNodePos.Add(nodePositions[nodePositions.Count - 1]);
 			}
-			nodePositions = reducedNodePos;
-			Debug.Log("NodeCount after reduction " + nodePositions.Count);
+			Debug.Log("NodeCount after reduction " + reducedNodePos.Count);
 
 			lineType = IdentifyLineType();
 
@@ -75,21 +74,23 @@ namespace ChalkLine
 			//initializes this object as a Warding Line
 			void InitWard()
 			{
+				_isEnclosed = isEnclosed;
+
 				//redraw LineRenderer to omit duplicated point
 				List<Vector3> lrNodes = new List<Vector3>();
-				foreach (Vector2 node in nodePositions)
+				for (int i = 0; i < nodePositions.Count; i++)
 				{
-					lrNodes.Add(node);
+					lrNodes.Add(nodePositions[i]);
 				}
 				_lr.SetPositions(lrNodes.ToArray());
 
 				//Set EdgeCollider
-				_hitbox.SetPoints(nodePositions);
+				_hitbox.SetPoints(reducedNodePos);
 				_hitbox.edgeRadius = _lr.startWidth * colliderRadiusFactor;
 				if (isEnclosed)
 				{
 					//loop EdgeCollider
-					_hitbox.adjacentEndPoint = nodePositions[0];
+					_hitbox.adjacentEndPoint = reducedNodePos[0];
 					_hitbox.useAdjacentEndPoint = true;
 				}
 
@@ -101,12 +102,10 @@ namespace ChalkLine
 
 				//populate _lineNodes
 				_lineNodes = new List<LineNode>();
-				foreach (Vector2 nodePos in nodePositions)
+				for (int i = 0; i < reducedNodePos.Count; i++)
 				{
-					_lineNodes.Add(new LineNode(nodePos));
+					_lineNodes.Add(new LineNode(reducedNodePos[i]));
 				}
-
-				_isEnclosed = isEnclosed;
 
 				UpdateHP();
 			}
