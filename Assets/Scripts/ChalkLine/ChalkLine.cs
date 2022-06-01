@@ -45,9 +45,13 @@ namespace ChalkLine
 			{
 				reducedNodePos.Add(nodePositions[i]);
 			}
+			//if last node not added, add it
+			if (reducedNodePos[reducedNodePos.Count-1] != nodePositions[nodePositions.Count-1])
+			{
+				reducedNodePos.Add(nodePositions[nodePositions.Count - 1]);
+			}
 			nodePositions = reducedNodePos;
 			Debug.Log("NodeCount after reduction " + nodePositions.Count);
-
 
 			lineType = IdentifyLineType();
 
