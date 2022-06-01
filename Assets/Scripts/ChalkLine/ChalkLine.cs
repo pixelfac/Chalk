@@ -99,7 +99,7 @@ namespace ChalkLine
 						sumOfDelta += (delta2 - delta1).sqrMagnitude;
 					}
 
-					float straightness = 1 / (1 + sumOfDelta / reducedNodePos.Count);
+					float straightness = 1 / (1 + sumOfDelta);
 					Debug.Log("Straightness: " + straightness);
 					return straightness;
 				}
