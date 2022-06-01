@@ -38,7 +38,6 @@ namespace ChalkLine
 		//on gameobject prefab component, this is the best alternative
 		public void Init(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
 		{
-			Debug.Log("NodeCount b4 reduction " + nodePositions.Count);
 			//reduce # of nodes in nodePositions
 			List<Vector2> reducedNodePos = new List<Vector2>();
 			for (int i = 1; i < nodePositions.Count; i += nodeReduceFactor)
@@ -50,7 +49,6 @@ namespace ChalkLine
 			{
 				reducedNodePos.Add(nodePositions[nodePositions.Count - 1]);
 			}
-			Debug.Log("NodeCount after reduction " + reducedNodePos.Count);
 
 			lineType = IdentifyLineType();
 
