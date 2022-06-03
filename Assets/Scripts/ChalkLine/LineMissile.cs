@@ -10,10 +10,12 @@ public class LineMissile : MonoBehaviour
 	private float _strength;
 	private Vector2 _direction;
 	private LineRenderer _lr;
+	private EdgeCollider2D _hitbox;
 
 	private void Awake()
 	{
 		_lr = GetComponent<LineRenderer>();
+		_hitbox = GetComponent<EdgeCollider2D>();
 	}
 
 	//basically a constructor, but since can't call constructor
@@ -34,7 +36,8 @@ public class LineMissile : MonoBehaviour
 
 		_strength = CalcStrength();
 
-		CopyLR();
+		SetLR();
+		SetHitbox();
 
 		float CalcStrength()
 		{
@@ -42,13 +45,19 @@ public class LineMissile : MonoBehaviour
 		}
 
 		//copy relevant line renderer values
-		void CopyLR()
+		void SetLR()
 		{
 			_lr.endWidth = lr.endWidth;
 			_lr.startWidth = lr.startWidth;
 			_lr.startColor = lr.startColor;
 			_lr.endColor = lr.endColor;
 			_lr.materials = lr.materials;
+		}
+
+		void SetHitbox()
+		{
+			_hitbox.points = new Vector2[] { startPos, endPos };
+			_hitbox.edgeRadius = lr.startWidth * 2;
 		}
 	}
 }
