@@ -17,6 +17,7 @@ namespace ChalkLine
 		[SerializeField] private int nodeReduceFactor;
 		[Range(0f, 1f)]
 		[SerializeField] private float straightnessThreshold;
+		[SerializeField] private GameObject lineMissilePrefab;
 
 		private bool _isEnclosed;
 		private EdgeCollider2D _hitbox;
@@ -144,7 +145,9 @@ namespace ChalkLine
 			//initializes this object as a Line Missile
 			void InitMissile()
 			{
-				Debug.LogWarning("InitMissile not implemented");
+				GameObject lm = Instantiate(lineMissilePrefab);
+				lm.GetComponent<LineMissile>().Init(startCircle, endCircle, reducedNodePos.Count, _lr);
+				Destroy(gameObject);
 			}
 		}
 
@@ -161,7 +164,7 @@ namespace ChalkLine
 		//redraws the line renderer based on current lineNodes info
 		private void redrawLineRenderer()
 		{
-			Debug.LogWarning("InitMissile not implemented");
+			Debug.LogWarning("redrawLineRenderer not implemented");
 		}
 
 		//TODO: Not Finished
