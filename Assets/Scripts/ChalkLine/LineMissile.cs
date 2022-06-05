@@ -24,21 +24,25 @@ public class LineMissile : MonoBehaviour
 	//on gameobject prefab component, this is the best alternative
 	public void Init(GameObject startCircle, GameObject endCircle, float length, LineRenderer lr)
 	{
-		Vector3 startPos = startCircle.transform.position;
-		Vector3 endPos = endCircle.transform.position;
 
-		_direction = (endPos - startPos).normalized;
+		transform.position = endCircle.transform.position;
+		//world coords for transforms, line renderer
+		Vector3 worldStartPos = startCircle.transform.position;
+		Vector3 worldEndPos = endCircle.transform.position;
+		//local coords for hitbox
+		Vector3 localStartPos = worldStartPos - worldEndPos;
+		Vector3 localEndPos = Vector3.zero;
 
-		_lr.SetPositions(new Vector3[] { startPos, endPos });
+		_direction = (worldEndPos - worldStartPos).normalized;
 
 		//set startCircle pos
 		_startCircle = startCircle;
 		_startCircle.transform.SetParent(transform);
-		_startCircle.transform.position = startPos;
+		_startCircle.transform.position = worldStartPos;
 		//set endCircle pos
 		_endCircle = endCircle;
 		_endCircle.transform.SetParent(transform);
-		_endCircle.transform.position = endPos;
+		_endCircle.transform.position = worldEndPos;
 
 		_strength = CalcStrength();
 
@@ -53,6 +57,7 @@ public class LineMissile : MonoBehaviour
 		//copy relevant line renderer values
 		void SetLR()
 		{
+			_lr.SetPositions(new Vector3[] { worldStartPos, worldEndPos });
 			_lr.endWidth = lr.endWidth;
 			_lr.startWidth = lr.startWidth;
 			_lr.startColor = lr.startColor;
@@ -62,7 +67,7 @@ public class LineMissile : MonoBehaviour
 
 		void SetHitbox()
 		{
-			_hitbox.points = new Vector2[] { startPos, endPos };
+			_hitbox.points = new Vector2[] { localStartPos, localEndPos };
 			_hitbox.edgeRadius = lr.startWidth * 2;
 		}
 	}
