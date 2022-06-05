@@ -127,10 +127,7 @@ namespace ChalkLine
 					_hitbox.useAdjacentEndPoint = true;
 				}
 
-				if (_grid) //not dependent on grid
-				{
-					_grid.UpdateGrid();
-				}
+				UpdateGrid();
 
 				//populate _lineNodes
 				_lineNodes = new List<LineNode>();
@@ -174,15 +171,20 @@ namespace ChalkLine
 			//clear hitboxes
 			_hitbox.points = Array.Empty<Vector2>();
 
-			//call UpdateGrid
-			if (_grid) //not dependent on grid
-			{
-				_grid.UpdateGrid();
-			}
+			UpdateGrid();
 
 			//play fade-out animation
 
 			Destroy(gameObject);
+		}
+
+		//Use this instead of _grid.UpdateGrid()
+		private void UpdateGrid()
+		{
+			if (_grid) //not dependent on grid
+			{
+				_grid.UpdateGrid();
+			}
 		}
 
 		private void OnValidate()
