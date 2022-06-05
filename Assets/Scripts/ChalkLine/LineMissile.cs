@@ -31,9 +31,13 @@ public class LineMissile : MonoBehaviour
 
 		_lr.SetPositions(new Vector3[] { startPos, endPos });
 
+		//set startCircle pos
 		_startCircle = startCircle;
-		_endCircle = endCircle;
+		_startCircle.transform.SetParent(transform);
 		_startCircle.transform.position = startPos;
+		//set endCircle pos
+		_endCircle = endCircle;
+		_endCircle.transform.SetParent(transform);
 		_endCircle.transform.position = endPos;
 
 		_strength = CalcStrength();
