@@ -11,11 +11,13 @@ public class LineMissile : MonoBehaviour
 	private Vector2 _direction;
 	private LineRenderer _lr;
 	private EdgeCollider2D _hitbox;
+	private Rigidbody2D _rb;
 
 	private void Awake()
 	{
 		_lr = GetComponent<LineRenderer>();
 		_hitbox = GetComponent<EdgeCollider2D>();
+		_rb = GetComponent<Rigidbody2D>();
 	}
 
 	//basically a constructor, but since can't call constructor
