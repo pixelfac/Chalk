@@ -54,7 +54,7 @@ public class LineMissile : MonoBehaviour
 			return length;
 		}
 
-		//copy relevant line renderer values
+		//set line renderer values
 		void SetLR()
 		{
 			_lr.SetPositions(new Vector3[] { worldStartPos, worldEndPos });
@@ -65,6 +65,7 @@ public class LineMissile : MonoBehaviour
 			_lr.materials = lr.materials;
 		}
 
+		//set edge collider values
 		void SetHitbox()
 		{
 			_hitbox.points = new Vector2[] { localStartPos, localEndPos };
