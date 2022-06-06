@@ -28,23 +28,19 @@ public class LineMissile : MonoBehaviour
 	{
 
 		transform.position = endCircle.transform.position;
-		//world coords for transforms, line renderer
-		Vector3 worldStartPos = startCircle.transform.position;
-		Vector3 worldEndPos = endCircle.transform.position;
-		//local coords for hitbox
-		Vector3 localStartPos = worldStartPos - worldEndPos;
-		Vector3 localEndPos = Vector3.zero;
+		Vector3 startPos = startCircle.transform.position - endCircle.transform.position;
+		Vector3 endPos = Vector3.zero;
 
-		_direction = (worldEndPos - worldStartPos).normalized;
+		_direction = (endPos - startPos).normalized;
 
 		//set startCircle pos
 		_startCircle = startCircle;
 		_startCircle.transform.SetParent(transform);
-		_startCircle.transform.position = worldStartPos;
+		_startCircle.transform.position = startCircle.transform.position;
 		//set endCircle pos
 		_endCircle = endCircle;
 		_endCircle.transform.SetParent(transform);
-		_endCircle.transform.position = worldEndPos;
+		_endCircle.transform.position = endCircle.transform.position;
 
 		_strength = CalcStrength();
 
@@ -61,7 +57,7 @@ public class LineMissile : MonoBehaviour
 		//set line renderer values
 		void SetLR()
 		{
-			_lr.SetPositions(new Vector3[] { worldStartPos, worldEndPos });
+			_lr.SetPositions(new Vector3[] { startPos, endPos });
 			_lr.endWidth = lr.endWidth;
 			_lr.startWidth = lr.startWidth;
 			_lr.startColor = lr.startColor;
@@ -72,7 +68,7 @@ public class LineMissile : MonoBehaviour
 		//set edge collider values
 		void SetHitbox()
 		{
-			_hitbox.points = new Vector2[] { localStartPos, localEndPos };
+			_hitbox.points = new Vector2[] { startPos, endPos };
 			_hitbox.edgeRadius = lr.startWidth * 2;
 		}
 	}
