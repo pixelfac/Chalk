@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LineMissile : MonoBehaviour
 {
+	[SerializeField] private float _speed;
+
 	private GameObject _startCircle;
 	private GameObject _endCircle;
 
@@ -48,6 +50,8 @@ public class LineMissile : MonoBehaviour
 
 		SetLR();
 		SetHitbox();
+
+		_rb.velocity = _direction * _speed;
 
 		float CalcStrength()
 		{
