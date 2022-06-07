@@ -44,17 +44,8 @@ namespace ChalkLine
 			_grid = grid;
 			_isEnclosed = isEnclosed;
 
-			//reduce # of nodes in nodePositions
 			List<Vector2> reducedNodePos = new List<Vector2>();
-			for (int i = 1; i < nodePositions.Count; i += nodeReduceFactor)
-			{
-				reducedNodePos.Add(nodePositions[i]);
-			}
-			//if last node not added, add it
-			if (reducedNodePos[reducedNodePos.Count-1] != nodePositions[nodePositions.Count-1])
-			{
-				reducedNodePos.Add(nodePositions[nodePositions.Count - 1]);
-			}
+			ReduceNodes();
 
 			lineType = IdentifyLineType();
 
@@ -103,6 +94,21 @@ namespace ChalkLine
 					float straightness = 1 / (1 + sumOfDelta);
 					Debug.Log("Straightness: " + straightness);
 					return straightness;
+				}
+			}
+
+
+			//reduce # of nodes in nodePositions
+			void ReduceNodes()
+			{
+				for (int i = 1; i < nodePositions.Count; i += nodeReduceFactor)
+				{
+					reducedNodePos.Add(nodePositions[i]);
+				}
+				//if last node not added, add it
+				if (reducedNodePos[reducedNodePos.Count - 1] != nodePositions[nodePositions.Count - 1])
+				{
+					reducedNodePos.Add(nodePositions[nodePositions.Count - 1]);
 				}
 			}
 

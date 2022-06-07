@@ -63,6 +63,7 @@ namespace Pathfinding
                     Vector3 worldPoint = WorldPointFromGridPos(x, y);
                     _Grid[x, y] = new Node2D(false, worldPoint, x, y);
 
+                    //using ContactFilter2D for more performance
                     ContactFilter2D overlapFilter = new ContactFilter2D();
                     overlapFilter.layerMask = _obstacleMask;
                     Collider2D[] results = new Collider2D[1];
@@ -117,6 +118,7 @@ namespace Pathfinding
             open.Enqueue(goalNode);
             goalNode.inOpen = true;
 
+            //Dijkstra's-esque iterate through all nodes and assign distance from goal
             Node2D currNode;
             while (open.Count > 0)
 			{
@@ -165,92 +167,89 @@ namespace Pathfinding
 
                     if (containsObstacle)
                     {
-                        //find min
-                        int minDist = int.MaxValue;
-                        Vector2 direction = Vector2.zero;
-                        for (int i = 0; i < neighbors.Count; i++)
-                        {
-                            Node2D nbr = neighbors[i];
-
-                            if (nbr.goalDist < minDist)
-                            {
-                                minDist = nbr.goalDist;
-                                direction = (nbr.worldPosition - n.worldPosition).normalized;
-                                n.goalVector = direction;
-                            }
-                        }
+                        VectorMin(n, neighbors);
                     }
                     else
                     {
-                        //find lowest gradient
-                        Vector2 goalVec = Vector2.zero;
-                        for (int i = 0; i < neighbors.Count; i++)
-                        {
-                            Node2D nbr = neighbors[i];
-
-                            Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
-                            goalVec += direction / nbr.goalDist;
-                        }
-                        n.goalVector = goalVec.normalized;
+                        VectorGradient(n, neighbors);
                     }
                 }
 			}
-		}
+
+            //sets node vector to be towards min of neighbor dist
+            void VectorMin(Node2D n, List<Node2D> neighbors)
+			{
+                int minDist = int.MaxValue;
+                Vector2 direction = Vector2.zero;
+                for (int i = 0; i < neighbors.Count; i++)
+                {
+                    Node2D nbr = neighbors[i];
+
+                    if (nbr.goalDist < minDist)
+                    {
+                        minDist = nbr.goalDist;
+                        direction = (nbr.worldPosition - n.worldPosition).normalized;
+                        n.goalVector = direction;
+                    }
+                }
+            }
+
+            //sets node vector to be weighted gradient of neighbor dist
+            void VectorGradient(Node2D n, List<Node2D> neighbors)
+			{
+                //find lowest gradient
+                Vector2 goalVec = Vector2.zero;
+                for (int i = 0; i < neighbors.Count; i++)
+                {
+                    Node2D nbr = neighbors[i];
+
+                    Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
+                    goalVec += direction / nbr.goalDist;
+                }
+                n.goalVector = goalVec.normalized;
+            }
+
+
+        }
 
         //gets the neighboring nodes in the 4 cardinal directions. If you would like to enable diagonal pathfinding, uncomment out that portion of code
         public List<Node2D> GetNeighbors(Node2D node)
         {
             List<Node2D> neighbors = new List<Node2D>();
-            
+
             //top neighbor
-            if (CoordsInGrid(node.GridX, node.GridY + 1))
-            {
-                neighbors.Add(_Grid[node.GridX, node.GridY + 1]);
-            }
-
+            AddNeighbor(0, 1);
             //bottom neighbor
-            if (CoordsInGrid(node.GridX, node.GridY - 1))
-            {
-                neighbors.Add(_Grid[node.GridX, node.GridY - 1]);
-            }
-
+            AddNeighbor(0, -1);
             //right neighbor
-            if (CoordsInGrid(node.GridX + 1, node.GridY))
-            {
-                neighbors.Add(_Grid[node.GridX + 1, node.GridY]);
-            }
-
+            AddNeighbor(1, 0);
             //left neighbor
-            if (CoordsInGrid(node.GridX - 1, node.GridY))
-            {
-                neighbors.Add(_Grid[node.GridX - 1, node.GridY]);
-            }
-
-            //topright neighbor
-            if (CoordsInGrid(node.GridX - 1, node.GridY + 1))
-            {
-                neighbors.Add(_Grid[node.GridX - 1, node.GridY + 1]);
-            }
-
-            //bottomleft neighbor
-            if (CoordsInGrid(node.GridX - 1, node.GridY - 1))
-            {
-                neighbors.Add(_Grid[node.GridX - 1, node.GridY - 1]);
-            }
-
-            //bottomright neighbor
-            if (CoordsInGrid(node.GridX + 1, node.GridY - 1))
-            {
-                neighbors.Add(_Grid[node.GridX + 1, node.GridY - 1]);
-            }
-
+            AddNeighbor(-1, 0);
             //topleft neighbor
-            if (CoordsInGrid(node.GridX + 1, node.GridY + 1))
-            {
-                neighbors.Add(_Grid[node.GridX + 1, node.GridY + 1]);
-            }
+            AddNeighbor(-1, +1);
+            //bottomleft neighbor
+            AddNeighbor(-1, -1);
+            //bottomright neighbor
+            AddNeighbor(+1, -1);
+            //topright neighbor
+            AddNeighbor(+1, +1);
 
             return neighbors;
+
+            //Adds neighbor node, if valid position in Grid
+            void AddNeighbor(int x, int y)
+			{
+                if (CoordsInGrid(node.GridX + x, node.GridY + y))
+                {
+                    neighbors.Add(_Grid[node.GridX + x, node.GridY + y]);
+                }
+            }
+
+            //return true if parameters are in Grid, false otherwise
+            bool CoordsInGrid(int x, int y)
+            {
+                return (x >= 0 && x < gridSize.x && y >= 0 && y < gridSize.y);
+            }
         }
 
         public Node2D NodeFromWorldPoint(Vector3 worldPosition)
@@ -291,12 +290,6 @@ namespace Pathfinding
             }
             return 14 * dstX + 10 * (dstY - dstX);
         }
-
-        //return true if parameters are in Grid, false otherwise
-        private bool CoordsInGrid(int x, int y)
-		{
-            return (x >= 0 && x < gridSize.x && y >= 0 && y < gridSize.y);
-		}
 
         //Draws visual representation of grid
         private void OnDrawGizmos()

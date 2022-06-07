@@ -163,16 +163,17 @@ namespace ChalkLine
 			_nodePositions.Add(mousePos);
 			_nodePositions.Add(mousePos);
 
-			//assign and set lineRenderer
-			_lr = _lineObject.GetComponent<LineRenderer>();
-			_lr.useWorldSpace = true;
-			_lr.SetPosition(0, _nodePositions[0]);
-			_lr.SetPosition(1, _nodePositions[1]);
 
 			//init and set startLineTarget
 			_startLineTarget = Instantiate(_startLineTargetPrefab, Vector3.zero, Quaternion.identity);
 			_startLineTarget.SetActive(true);
 			_startLineTarget.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
+
+			//assign and set lineRenderer
+			_lr = _lineObject.GetComponent<LineRenderer>();
+			_lr.useWorldSpace = true;
+			_lr.SetPosition(0, _nodePositions[0]);
+			_lr.SetPosition(1, _nodePositions[1]);
 
 			//assign and set start/end circles
 			//start stays at the start
@@ -196,11 +197,13 @@ namespace ChalkLine
 				//Vector of maxNodeDistance in length pointing towards mousePos
 				Vector2 nextSegment = _nodePositions[_nodePositions.Count - 1] + direction * _maxNodeDistance;
 
-				//add new node + LineRenderer segment
+				//add new node
 				_nodePositions.Add(nextSegment);
+				//update line visual representation
 				_lr.positionCount++;
 				_lr.SetPosition(_lr.positionCount - 1, nextSegment);
 				_endCircle.transform.position = nextSegment;
+
 				_chalkMeterSO.UseChalk();
 			}
 		}
