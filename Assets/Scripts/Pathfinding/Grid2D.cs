@@ -66,6 +66,7 @@ namespace Pathfinding
                     //using ContactFilter2D for more performance
                     ContactFilter2D overlapFilter = new ContactFilter2D();
                     overlapFilter.layerMask = _obstacleMask;
+                    overlapFilter.useLayerMask = true;
                     Collider2D[] results = new Collider2D[1];
 
                     if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * nodeOverlapRadius, 0f, overlapFilter, results) != 0) //0 == no collision
