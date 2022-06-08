@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 121285640}
   - component: {fileID: 121285644}
   - component: {fileID: 121285639}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Chalkling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
