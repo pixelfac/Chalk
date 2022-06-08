@@ -82,8 +82,6 @@ namespace ChalkLine
 				return;
 			}
 
-			Debug.Log("Started Drawing");
-
 			CreateLine();
 
 			_isDrawing = true;
@@ -105,7 +103,6 @@ namespace ChalkLine
 			//if already stopped drawing, do nothing
 			if (!_isDrawing) { return; }
 
-			Debug.Log("Stopped Drawing");
 			_isDrawing = false;
 
 			//if line is too short, discard line
@@ -127,7 +124,6 @@ namespace ChalkLine
 			//if already stopped drawing, do nothing
 			if (!_isDrawing) { return; }
 
-			Debug.Log("Finished Line");
 			_isDrawing = false;
 			CloseLine();
 
@@ -152,8 +148,6 @@ namespace ChalkLine
 		//Create and set up new line object
 		private void CreateLine()
 		{
-			Debug.Log("Creating Line");
-
 			//Make the actual Line object
 			_lineObject = Instantiate(_chalkLinePrefab, Vector3.zero, Quaternion.identity);
 
@@ -232,7 +226,6 @@ namespace ChalkLine
 		{
 			if (_nodePositions.Count < _minNodesInLine)
 			{
-				Debug.Log("TOO short");
 				return true;
 			}
 			else
@@ -252,7 +245,6 @@ namespace ChalkLine
 		//deleting the actual line object happens in Draw.cs
 		public void AbortLine()
 		{
-			Debug.Log("Abort Line");
 			ResetLineVars();
 		}
 
