@@ -23,6 +23,25 @@ namespace Chalkling
 			currHP = maxHP;
 			movement._moveSpeed = speed;
 		}
+
+		public void Damage(int damage)
+		{
+			currHP -= damage;
+
+			UpdateState();
+		}
+
+		private void UpdateState()
+		{
+			if (currHP <= 0)
+			{
+				Destroy(gameObject);
+			}
+			else if (currHP > maxHP)
+			{
+				currHP = maxHP;
+			}
+		}
 	}
 
 }

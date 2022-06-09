@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Chalkling;
 
 namespace ChalkLine
 {
@@ -77,6 +78,9 @@ namespace ChalkLine
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			Debug.Log("collided with " + collision.gameObject.name);
+			ChalklingCore chalkling = collision.gameObject.GetComponent<ChalklingCore>();
+
+			chalkling.Damage(10);
 		}
 	} 
 }
