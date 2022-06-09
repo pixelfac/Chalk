@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridWorldSize: {x: 18, y: 10}
-  nodeRadius: 0.2
+  nodeRadius: 0.1
   goalTransform: {fileID: 0}
   _obstacleMask:
     serializedVersion: 2
