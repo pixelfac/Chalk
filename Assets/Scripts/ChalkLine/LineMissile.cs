@@ -73,5 +73,10 @@ namespace ChalkLine
 				_hitbox.edgeRadius = lr.startWidth * 2;
 			}
 		}
+
+		private void OnTriggerEnter2D(Collider2D collision)
+		{
+			Debug.Log("collided with " + collision.gameObject.name);
+		}
 	} 
 }
