@@ -62,12 +62,25 @@ namespace ChalkLine
 			//set line renderer values
 			void SetLR()
 			{
-				_lr.SetPositions(new Vector3[] { startPos, endPos });
 				_lr.endWidth = lr.endWidth;
 				_lr.startWidth = lr.startWidth;
 				_lr.startColor = lr.startColor;
 				_lr.endColor = lr.endColor;
 				_lr.materials = lr.materials;
+
+				//number of nodes in line renderer, based on line speed
+				int lrNodeLength = (int)(length / (_speed * Time.fixedDeltaTime)) + 1;
+				Vector3[] lrNodes = new Vector3[lrNodeLength];
+
+				for (int i = 0; i < lrNodeLength; i++)
+				{
+					lrNodes[i] = endPos - (Vector3)_direction * length * i / (float)lrNodeLength;
+				}
+				//Debug.Log("Startpos " + startPos);
+				//lrNodes[lrNodeLength - 1] = startPos;
+
+				_lr.positionCount = lrNodeLength;
+				_lr.SetPositions(lrNodes);
 			}
 
 			//set edge collider values
