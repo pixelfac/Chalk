@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Chalkling;
 
@@ -27,12 +28,14 @@ namespace ChalkLine
 
 		//basically a constructor, but since can't call constructor
 		//on gameobject prefab component, this is the best alternative
-		public void Init(GameObject startCircle, GameObject endCircle, float length, LineRenderer lr)
+		public void Init(GameObject startCircle, GameObject endCircle, float numNodes, LineRenderer lr)
 		{
+
 			transform.position = endCircle.transform.position;
 			Vector3 startPos = startCircle.transform.position - endCircle.transform.position;
 			Vector3 endPos = Vector3.zero;
 
+			float length = (endPos - startPos).magnitude;
 			_direction = (endPos - startPos).normalized;
 
 			//set startCircle pos
