@@ -107,7 +107,7 @@ namespace ChalkLine
 
 		private void OnTriggerExit2D(Collider2D collision)
 		{
-			Debug.Log(collision.gameObject.name + " left collision");
+			Debug.Log("Stopped colliding with " + collision.gameObject.name);
 
 			switch (collision.gameObject.layer)
 			{
