@@ -189,6 +189,8 @@ namespace ChalkLine
 						currNode.strongHealth = CalcNodeHealth(90f - angle / 4);
 						currNode.weakHealth = CalcNodeHealth(angle / 4);
 					}
+
+					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
 				}
 			}
 			else
