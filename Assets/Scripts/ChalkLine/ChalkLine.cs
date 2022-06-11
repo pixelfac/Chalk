@@ -187,6 +187,50 @@ namespace ChalkLine
 					}
 				}
 			}
+			else
+			{
+				LineNode startNode = _lineNodes[0];
+				startNode.strongSideNormal = Vector2.zero;
+				startNode.weakSideNormal = Vector2.zero;
+				startNode.strongHealth = _baseNodeHP;
+				startNode.weakHealth = _baseNodeHP;
+
+				for (int i = 1; i < _lineNodes.Count - 2; i++)
+				{
+					//cache data
+					LineNode currNode = _lineNodes[i];
+					Vector2 leftNodePos = _lineNodes[i - 1].nodePos;
+					Vector2 rightNodePos = _lineNodes[i + 1].nodePos;
+
+					Vector2 leftVector = leftNodePos - currNode.nodePos;
+					Vector2 rightVector = rightNodePos - currNode.nodePos;
+
+					float angle = Vector2.SignedAngle(leftVector, rightVector);
+
+					if (angle > 0)
+					{
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * leftVector).normalized;
+						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
+						currNode.strongHealth = CalcNodeHealth(angle / 4);
+						currNode.weakHealth = CalcNodeHealth(90f - angle / 4);
+					}
+					else
+					{
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
+						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
+						currNode.strongHealth = CalcNodeHealth(90f - angle / 4);
+						currNode.weakHealth = CalcNodeHealth(angle / 4);
+					}
+
+					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+				}
+
+				LineNode endNode = _lineNodes[_lineNodes.Count - 1];
+				endNode.strongSideNormal = Vector2.zero;
+				endNode.weakSideNormal = Vector2.zero;
+				endNode.strongHealth = _baseNodeHP;
+				endNode.weakHealth = _baseNodeHP;
+			}
 
 			//always returns positive val, even for negative mod
 			//taken from https://stackoverflow.com/questions/1082917/mod-of-negative-number-is-melting-my-brain
@@ -205,7 +249,7 @@ namespace ChalkLine
 			//calc health value for node, given angle in degrees
 			int CalcNodeHealth(float angle)
 			{
-				float bonusScale = Mathf.Cos(ToRad(angle)) * _enclosedHPScale;
+				float bonusScale = Mathf.Cos(ToRad(angle)) * ((_isEnclosed) ? _enclosedHPScale : 1f);
 				int bonusHP = (int)(_baseNodeHP * bonusScale);
 				int baseHP = 2 * _baseNodeHP;
 				return baseHP + bonusHP;
