@@ -169,24 +169,22 @@ namespace ChalkLine
 					Vector2 leftVector = leftNodePos - currNode.nodePos;
 					Vector2 rightVector = rightNodePos - currNode.nodePos;
 
-					float angle = Vector2.Angle(leftVector, rightVector);
+					float angle = Vector2.SignedAngle(leftVector, rightVector);
 
-					if (angle > 180)
-					{
-						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
-						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
-						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(180f - angle / 2)) * _enclosedHPScale);
-						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(angle / 2)) * _enclosedHPScale);
-					}
-					else
+					if (angle > 0)
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * leftVector).normalized;
 						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
-						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(angle / 2)) * _enclosedHPScale);
-						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(180f - angle / 2)) * _enclosedHPScale);
+						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(angle / 4)) * _enclosedHPScale);
+						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(90f - angle / 4)) * _enclosedHPScale);
 					}
-					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
-
+					else
+					{
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
+						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
+						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(90f - angle / 4)) * _enclosedHPScale);
+						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(angle / 4)) * _enclosedHPScale);
+					}
 				}
 			}
 
