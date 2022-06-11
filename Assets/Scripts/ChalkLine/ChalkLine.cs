@@ -44,6 +44,10 @@ namespace ChalkLine
 		{
 			_grid = grid;
 			_isEnclosed = isEnclosed;
+			if (!_isEnclosed)
+			{
+				_enclosedHPScale = 1;
+			}
 
 			List<Vector2> reducedNodePos = new List<Vector2>();
 			ReduceNodes();
@@ -249,7 +253,7 @@ namespace ChalkLine
 			//calc health value for node, given angle in degrees
 			int CalcNodeHealth(float angle)
 			{
-				float bonusScale = Mathf.Cos(ToRad(angle)) * ((_isEnclosed) ? _enclosedHPScale : 1f);
+				float bonusScale = Mathf.Cos(ToRad(angle)) * _enclosedHPScale;
 				int bonusHP = (int)(_baseNodeHP * bonusScale);
 				int baseHP = 2 * _baseNodeHP;
 				return baseHP + bonusHP;
