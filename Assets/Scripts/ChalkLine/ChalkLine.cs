@@ -163,8 +163,8 @@ namespace ChalkLine
 				{
 					//cache data
 					LineNode currNode = _lineNodes[i];
-					Vector2 leftNodePos = _lineNodes[mod(i - 1, _lineNodes.Count)].nodePos;
-					Vector2 rightNodePos = _lineNodes[mod(i + 1, _lineNodes.Count)].nodePos;
+					Vector2 leftNodePos = _lineNodes[Mod(i - 1, _lineNodes.Count)].nodePos;
+					Vector2 rightNodePos = _lineNodes[Mod(i + 1, _lineNodes.Count)].nodePos;
 
 					Vector2 leftVector = leftNodePos - currNode.nodePos;
 					Vector2 rightVector = rightNodePos - currNode.nodePos;
@@ -174,28 +174,33 @@ namespace ChalkLine
 					if (angle > 180)
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
-						currNode.weakSideNormal = (Quaternion.Euler(0, 0, 180f - angle / 2) * rightVector).normalized;
-						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(180f - angle / 2) * _enclosedHPScale);
-						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(angle / 2) * _enclosedHPScale);
+						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
+						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(180f - angle / 2)) * _enclosedHPScale);
+						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(angle / 2)) * _enclosedHPScale);
 					}
 					else
 					{
-						currNode.strongSideNormal = (Quaternion.Euler(0, 0, 180f - angle / 2) * leftVector).normalized;
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * leftVector).normalized;
 						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
-						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(angle / 2) * _enclosedHPScale);
-						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(180f - angle / 2) * _enclosedHPScale);
+						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(angle / 2)) * _enclosedHPScale);
+						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(180f - angle / 2)) * _enclosedHPScale);
 					}
-					Debug.Log("Strong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
 
 				}
 			}
 
 			//always returns positive val, even for negative mod
 			//taken from https://stackoverflow.com/questions/1082917/mod-of-negative-number-is-melting-my-brain
-			int mod(int num, int mod)
+			int Mod(int num, int mod)
 			{
 				int rem = num % mod;
 				return rem < 0 ? rem + mod : rem;
+			}
+
+			float ToRad(float angle)
+			{
+				return angle * Mathf.Deg2Rad;
 			}
 		}
 
