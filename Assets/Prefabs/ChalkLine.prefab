@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseNodeHP: 0
-  colliderRadiusFactor: 2
+  colliderRadiusFactor: 1
   nodeReduceFactor: 4
   straightnessThreshold: 0.9
   lineMissilePrefab: {fileID: 8226823533943006091, guid: 67a8b8b8d09bc584a9e892b4bfdecc31, type: 3}
