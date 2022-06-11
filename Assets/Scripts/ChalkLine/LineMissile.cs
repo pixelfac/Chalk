@@ -94,9 +94,9 @@ namespace ChalkLine
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			Debug.Log("collided with " + collision.gameObject.name);
-			ChalklingCore chalkling = collision.gameObject.GetComponent<ChalklingCore>();
+			//ChalklingCore chalkling = collision.gameObject.GetComponent<ChalklingCore>();
 
-			chalkling.Damage(10);
+			//chalkling.Damage(10);
 		}
 	} 
 }
