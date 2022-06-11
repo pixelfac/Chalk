@@ -12,6 +12,7 @@ namespace ChalkLine
 	public class ChalkLine : MonoBehaviour
 	{
 		[SerializeField] private int _baseNodeHP;    //base HP for each node in a line
+		[SerializeField] private float _enclosedHPScale;
 		[Range(0.1f, 2f)]
 		[SerializeField] private float colliderRadiusFactor; //how big the collider is relative to rendered line. 0.5f matches visual
 		[SerializeField] private int nodeReduceFactor;
@@ -96,8 +97,7 @@ namespace ChalkLine
 					return straightness;
 				}
 			}
-
-
+			
 			//reduce # of nodes in nodePositions
 			void ReduceNodes()
 			{
@@ -157,9 +157,45 @@ namespace ChalkLine
 		//TODO: only placeholder value presently
 		public void UpdateHP()
 		{
-			for (int i = 1; i < _lineNodes.Count - 1; i++)
+			if (_isEnclosed)
 			{
-				_lineNodes[i].health = 42;
+				for (int i = 0; i < _lineNodes.Count - 1; i++)
+				{
+					//cache data
+					LineNode currNode = _lineNodes[i];
+					Vector2 leftNodePos = _lineNodes[mod(i - 1, _lineNodes.Count)].nodePos;
+					Vector2 rightNodePos = _lineNodes[mod(i + 1, _lineNodes.Count)].nodePos;
+
+					Vector2 leftVector = leftNodePos - currNode.nodePos;
+					Vector2 rightVector = rightNodePos - currNode.nodePos;
+
+					float angle = Vector2.Angle(leftVector, rightVector);
+
+					if (angle > 180)
+					{
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
+						currNode.weakSideNormal = (Quaternion.Euler(0, 0, 180f - angle / 2) * rightVector).normalized;
+						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(180f - angle / 2) * _enclosedHPScale);
+						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(angle / 2) * _enclosedHPScale);
+					}
+					else
+					{
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, 180f - angle / 2) * leftVector).normalized;
+						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
+						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(angle / 2) * _enclosedHPScale);
+						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(180f - angle / 2) * _enclosedHPScale);
+					}
+					Debug.Log("Strong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+
+				}
+			}
+
+			//always returns positive val, even for negative mod
+			//taken from https://stackoverflow.com/questions/1082917/mod-of-negative-number-is-melting-my-brain
+			int mod(int num, int mod)
+			{
+				int rem = num % mod;
+				return rem < 0 ? rem + mod : rem;
 			}
 		}
 
@@ -196,6 +232,7 @@ namespace ChalkLine
 		private void OnValidate()
 		{
 			nodeReduceFactor = Mathf.Max(nodeReduceFactor, 1);
+			_enclosedHPScale = Mathf.Max(_enclosedHPScale, 1);
 		}
 	}
 }
