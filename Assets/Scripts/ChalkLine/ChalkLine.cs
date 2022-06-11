@@ -175,15 +175,15 @@ namespace ChalkLine
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * leftVector).normalized;
 						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
-						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(angle / 4)) * _enclosedHPScale);
-						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(90f - angle / 4)) * _enclosedHPScale);
+						currNode.strongHealth = CalcNodeHealth(angle / 4);
+						currNode.weakHealth = CalcNodeHealth(90f - angle / 4);
 					}
 					else
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
 						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
-						currNode.strongHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(90f - angle / 4)) * _enclosedHPScale);
-						currNode.weakHealth = (int)(_baseNodeHP * Mathf.Cos(ToRad(angle / 4)) * _enclosedHPScale);
+						currNode.strongHealth = CalcNodeHealth(90f - angle / 4);
+						currNode.weakHealth = CalcNodeHealth(angle / 4);
 					}
 				}
 			}
@@ -199,6 +199,11 @@ namespace ChalkLine
 			float ToRad(float angle)
 			{
 				return angle * Mathf.Deg2Rad;
+			}
+
+			int CalcNodeHealth(float angle)
+			{
+				return (int)(_baseNodeHP * Mathf.Cos(ToRad(angle)) * _enclosedHPScale);
 			}
 		}
 
