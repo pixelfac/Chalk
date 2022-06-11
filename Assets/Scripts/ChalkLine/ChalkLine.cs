@@ -196,14 +196,19 @@ namespace ChalkLine
 				return rem < 0 ? rem + mod : rem;
 			}
 
+			//converts angle in degrees to radians
 			float ToRad(float angle)
 			{
 				return angle * Mathf.Deg2Rad;
 			}
 
+			//calc health value for node, given angle in degrees
 			int CalcNodeHealth(float angle)
 			{
-				return (int)(_baseNodeHP * Mathf.Cos(ToRad(angle)) * _enclosedHPScale);
+				float bonusScale = Mathf.Cos(ToRad(angle)) * _enclosedHPScale;
+				int bonusHP = (int)(_baseNodeHP * bonusScale);
+				int baseHP = 2 * _baseNodeHP;
+				return baseHP + bonusHP;
 			}
 		}
 

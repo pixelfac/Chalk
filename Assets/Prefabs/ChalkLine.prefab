@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseNodeHP: 100
-  _enclosedHPScale: 4
+  _enclosedHPScale: 2
   colliderRadiusFactor: 1
   nodeReduceFactor: 2
   straightnessThreshold: 0.915
