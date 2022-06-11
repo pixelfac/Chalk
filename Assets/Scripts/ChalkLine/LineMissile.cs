@@ -91,6 +91,17 @@ namespace ChalkLine
 			}
 		}
 
+		private void CollideChalkling(Collider2D collision)
+		{
+			ChalklingCore chalkling = collision.gameObject.GetComponent<ChalklingCore>();
+			chalkling.Damage(10);
+		}
+
+		private void CollideWall(Collider2D collision)
+		{
+			Destroy(gameObject);
+		}
+
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			Debug.Log("collided with " + collision.gameObject.name);
@@ -98,8 +109,7 @@ namespace ChalkLine
 			switch(collision.gameObject.layer)
 			{
 				case 8: //Chalkling
-					ChalklingCore chalkling = collision.gameObject.GetComponent<ChalklingCore>();
-					chalkling.Damage(10);
+					CollideChalkling(collision);
 					break;
 
 			}
@@ -112,7 +122,7 @@ namespace ChalkLine
 			switch (collision.gameObject.layer)
 			{
 				case 9: //Wall
-					Destroy(gameObject);
+					CollideWall(collision);
 					break;
 			}
 		}
