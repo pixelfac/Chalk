@@ -101,6 +101,16 @@ namespace ChalkLine
 					ChalklingCore chalkling = collision.gameObject.GetComponent<ChalklingCore>();
 					chalkling.Damage(10);
 					break;
+
+			}
+		}
+
+		private void OnTriggerExit2D(Collider2D collision)
+		{
+			Debug.Log(collision.gameObject.name + " left collision");
+
+			switch (collision.gameObject.layer)
+			{
 				case 9: //Wall
 					Destroy(gameObject);
 					break;
