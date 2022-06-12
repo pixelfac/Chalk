@@ -186,8 +186,8 @@ namespace ChalkLine
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
 						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
-						currNode.strongHealth = CalcNodeHealth(90f - angle / 4);
-						currNode.weakHealth = CalcNodeHealth(angle / 4);
+						currNode.strongHealth = CalcNodeHealth(angle / 4);
+						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
 
 					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
@@ -224,8 +224,8 @@ namespace ChalkLine
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
 						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
-						currNode.strongHealth = CalcNodeHealth(90f - angle / 4);
-						currNode.weakHealth = CalcNodeHealth(angle / 4);
+						currNode.strongHealth = CalcNodeHealth(angle / 4);
+						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
 
 					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
