@@ -190,7 +190,8 @@ namespace ChalkLine
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
 
-					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+					//Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongSideNormal + "\tWeak: " + currNode.weakSideNormal);
 				}
 			}
 			else
@@ -228,7 +229,8 @@ namespace ChalkLine
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
 
-					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+					//Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongSideNormal + "\tWeak: " + currNode.weakSideNormal);
 				}
 
 				LineNode endNode = _lineNodes[_lineNodes.Count - 1];
