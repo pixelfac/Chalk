@@ -299,5 +299,13 @@ namespace ChalkLine
 			nodeReduceFactor = Mathf.Max(nodeReduceFactor, 1);
 			_enclosedHPScale = Mathf.Max(_enclosedHPScale, 1);
 		}
+
+		private void OnDrawGizmos()
+		{
+			for (int i = 0; i < _lineNodes.Count; i++)
+			{
+				Gizmos.DrawLine(_lineNodes[i].nodePos, _lineNodes[i].nodePos + _lineNodes[i].strongSideNormal);
+			}
+		}
 	}
 }
