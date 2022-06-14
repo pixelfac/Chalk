@@ -178,17 +178,20 @@ namespace ChalkLine
 					if (angle > 0)
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -angle / 2) * leftVector).normalized;
-						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
+						currNode.weakSideNormal = -currNode.strongSideNormal;
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f - angle / 4);
 					}
 					else
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -angle / 2) * leftVector).normalized;
-						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
+						currNode.weakSideNormal = -currNode.strongSideNormal;
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
+
+					//Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongSideNormal + "\tWeak: " + currNode.weakSideNormal);
 				}
 			}
 			else
@@ -214,17 +217,20 @@ namespace ChalkLine
 					if (angle > 0)
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -angle / 2) * leftVector).normalized;
-						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
+						currNode.weakSideNormal = -currNode.strongSideNormal;
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f - angle / 4);
 					}
 					else
 					{
 						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -angle / 2) * leftVector).normalized;
-						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
+						currNode.weakSideNormal = -currNode.strongSideNormal;
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
+
+					//Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongHealth + "\tWeak: " + currNode.weakHealth);
+					Debug.Log("Angle: " + angle + "\tStrong: " + currNode.strongSideNormal + "\tWeak: " + currNode.weakSideNormal);
 				}
 
 				LineNode endNode = _lineNodes[_lineNodes.Count - 1];
@@ -292,6 +298,13 @@ namespace ChalkLine
 		{
 			nodeReduceFactor = Mathf.Max(nodeReduceFactor, 1);
 			_enclosedHPScale = Mathf.Max(_enclosedHPScale, 1);
+		}
+		private void OnDrawGizmos()
+		{
+			for (int i = 0; i < _lineNodes.Count; i++)
+			{
+				Gizmos.DrawLine(_lineNodes[i].nodePos, _lineNodes[i].nodePos + _lineNodes[i].strongSideNormal);
+			}
 		}
 	}
 }
