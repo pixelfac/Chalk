@@ -177,15 +177,15 @@ namespace ChalkLine
 
 					if (angle > 0)
 					{
-						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * leftVector).normalized;
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -angle / 2) * leftVector).normalized;
 						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f - angle / 4);
 					}
 					else
 					{
-						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
-						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -angle / 2) * leftVector).normalized;
+						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
@@ -216,15 +216,15 @@ namespace ChalkLine
 
 					if (angle > 0)
 					{
-						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * leftVector).normalized;
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -angle / 2) * leftVector).normalized;
 						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f - angle / 4);
 					}
 					else
 					{
-						currNode.strongSideNormal = (Quaternion.Euler(0, 0, angle / 2) * leftVector).normalized;
-						currNode.weakSideNormal = (Quaternion.Euler(0, 0, -180f + angle / 2) * rightVector).normalized;
+						currNode.strongSideNormal = (Quaternion.Euler(0, 0, -angle / 2) * leftVector).normalized;
+						currNode.weakSideNormal = (Quaternion.Euler(0, 0, angle / 2) * rightVector).normalized;
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
