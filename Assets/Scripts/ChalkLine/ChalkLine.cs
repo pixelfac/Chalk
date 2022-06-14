@@ -101,7 +101,7 @@ namespace ChalkLine
 					return straightness;
 				}
 			}
-			
+
 			//reduce # of nodes in nodePositions
 			void ReduceNodes()
 			{
@@ -293,4 +293,5 @@ namespace ChalkLine
 			nodeReduceFactor = Mathf.Max(nodeReduceFactor, 1);
 			_enclosedHPScale = Mathf.Max(_enclosedHPScale, 1);
 		}
+	}
 }
