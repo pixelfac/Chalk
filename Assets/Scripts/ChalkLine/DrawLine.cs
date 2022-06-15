@@ -239,6 +239,14 @@ namespace ChalkLine
 		//closes start and end of line renderer
 		private void CloseLine()
 		{
+			//smooth where line ends are connected
+			Vector2 startPos = _nodePositions[0];
+			Vector2 nextLastPos = _nodePositions[_nodePositions.Count - 2];
+			Vector2 lastPos = (startPos + nextLastPos) / 2;
+
+			_nodePositions[_nodePositions.Count - 1] = (lastPos + _nodePositions[_nodePositions.Count - 1]) / 2;
+			_lr.SetPosition(_lr.positionCount - 1, lastPos);
+
 			_lr.loop = true;
 			_endCircle.transform.position = _nodePositions[0];
 		}
