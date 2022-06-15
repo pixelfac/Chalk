@@ -161,6 +161,17 @@ namespace ChalkLine
 		//TODO: only placeholder value presently
 		public void UpdateHP()
 		{
+			if (_lineNodes.Count < 3)
+			{
+				foreach (LineNode n in _lineNodes)
+				{
+					n.strongSideNormal = Vector2.zero;
+					n.weakSideNormal = Vector2.zero;
+					n.strongHealth = _baseNodeHP;
+					n.weakHealth = _baseNodeHP;
+				}
+			}
+
 			if (_isEnclosed)
 			{
 				for (int i = 0; i < _lineNodes.Count - 1; i++)
