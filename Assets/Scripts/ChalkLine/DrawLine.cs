@@ -11,6 +11,8 @@ namespace ChalkLine
 
 		[Range(0.1f, 1f)] //arbitrary values, may need to adjust minNodesInLine if you change this one
 		[SerializeField] private float _maxNodeDistance;
+		[Range(0.1f, 1f)] //arbitrary values, may need to adjust minNodesInLine if you change this one
+		[SerializeField] private float _maxEncloseDistance; //the farthest apart ends of a line can be to be considered enclosed
 		[SerializeField] private float _minNodesInLine;
 
 		[SerializeField] private GameObject _chalkLinePrefab;
@@ -211,7 +213,7 @@ namespace ChalkLine
 			//distance between first and last node
 			float distanceBetween = (_nodePositions[0] - _nodePositions[_nodePositions.Count - 1]).magnitude;
 
-			if (distanceBetween < _maxNodeDistance)
+			if (distanceBetween < _maxEncloseDistance)
 			{
 				return true;
 			}
