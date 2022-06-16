@@ -43,6 +43,13 @@ namespace ChalkLine
 			{
 				UpdateLine();
 
+				//if line goes over goal node (preventing pathfinding entirely) abort line
+				if (_grid.PosOnGoalNode(_nodePositions[_nodePositions.Count - 1]))
+				{
+					AbortLine();
+					return;
+				}
+
 				if (isEnclosed())
 				{
 					FinishLine();
@@ -110,7 +117,6 @@ namespace ChalkLine
 			//if line is too short, discard line
 			if (TooShort())
 			{
-				Destroy(_lineObject);
 				AbortLine();
 				return;
 			}
@@ -131,7 +137,6 @@ namespace ChalkLine
 
 			if (TooShort())
 			{
-				Destroy(_lineObject);
 				AbortLine();
 				return;
 			}
@@ -251,10 +256,11 @@ namespace ChalkLine
 			_endCircle.transform.position = _nodePositions[0];
 		}
 
-		//called when drawing is finished, but line is too short so is deleted
-		//deleting the actual line object happens in Draw.cs
+		//called when drawing is finished, but line is deleted
 		public void AbortLine()
 		{
+			_isDrawing = false;
+			Destroy(_lineObject);
 			ResetLineVars();
 		}
 

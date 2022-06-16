@@ -279,6 +279,12 @@ namespace Pathfinding
 
         }
 
+        //returns true of parameter is on the same node as the goal node, false otherwise
+        public bool PosOnGoalNode(Vector3 pos)
+		{
+            return NodeFromWorldPoint(_goalPos).worldPosition == NodeFromWorldPoint(pos).worldPosition;
+		}
+
         //gets distance between 2 nodes for calculating cost
         private int GetDistance(Node2D nodeA, Node2D nodeB)
         {
