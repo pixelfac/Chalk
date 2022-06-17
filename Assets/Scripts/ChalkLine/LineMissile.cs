@@ -76,8 +76,7 @@ namespace ChalkLine
 				{
 					lrNodes[i] = endPos - (Vector3)_direction * length * i / (float)lrNodeLength;
 				}
-				//Debug.Log("Startpos " + startPos);
-				//lrNodes[lrNodeLength - 1] = startPos;
+				lrNodes[lrNodeLength - 1] = startPos;
 
 				_lr.positionCount = lrNodeLength;
 				_lr.SetPositions(lrNodes);
