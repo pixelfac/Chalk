@@ -30,7 +30,6 @@ namespace ChalkLine
 		//on gameobject prefab component, this is the best alternative
 		public void Init(GameObject startCircle, GameObject endCircle, float numNodes, LineRenderer lr)
 		{
-
 			transform.position = endCircle.transform.position;
 			Vector3 startPos = startCircle.transform.position - endCircle.transform.position;
 			Vector3 endPos = Vector3.zero;
@@ -72,6 +71,7 @@ namespace ChalkLine
 				int lrNodeLength = (int)(length / (_speed * Time.fixedDeltaTime)) + 1;
 				Vector3[] lrNodes = new Vector3[lrNodeLength];
 
+				//Set linerenderer to be array of evenly spaced points, composing a straight line
 				for (int i = 0; i < lrNodeLength; i++)
 				{
 					lrNodes[i] = endPos - (Vector3)_direction * length * i / (float)lrNodeLength;
@@ -110,7 +110,6 @@ namespace ChalkLine
 				case 8: //Chalkling
 					CollideChalkling(collision);
 					break;
-
 			}
 		}
 
