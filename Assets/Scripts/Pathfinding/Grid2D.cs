@@ -17,6 +17,7 @@ namespace Pathfinding
 
         private Vector2 _goalPos;
         private Node2D[,] _Grid;
+        private List<Node2D> obstacleNodes;
         private Vector3 _worldBottomLeft;
         private float _nodeDiameter;
 
@@ -27,6 +28,7 @@ namespace Pathfinding
             _goalPos = goalTransform.position;
             gridSize = new Vector2Int(Mathf.RoundToInt(_gridWorldSize.x / _nodeDiameter),
                                       Mathf.RoundToInt(_gridWorldSize.y / _nodeDiameter));
+            obstacleNodes = new List<Node2D>();
         }
 
 	    private void Start()
@@ -49,12 +51,15 @@ namespace Pathfinding
         public void UpdateGrid()
 		{
             UpdateObstacles();    //set which nodes are obstacles
+            //TODO: give obstacle nodes weight modifier
             ComputeDistField();   //calc distance to goal around obstacles
             ComputeVectorField(); //calc vectors to goal from distance
         }
 
         private void UpdateObstacles()
 	    {
+            obstacleNodes.Clear();
+
             //for loop faster than foreach
             for (int x = 0; x < gridSize.x; x++)
             {
@@ -72,6 +77,7 @@ namespace Pathfinding
                     if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * nodeOverlapRadius, 0f, overlapFilter, results) != 0) //0 == no collision
                     {
                         _Grid[x, y].SetObstacle(true);
+                        obstacleNodes.Add(_Grid[x, y]);
                     }
                     else
                     {
@@ -209,8 +215,6 @@ namespace Pathfinding
                 }
                 n.goalVector = goalVec.normalized;
             }
-
-
         }
 
         //gets the neighboring nodes in the 4 cardinal directions. If you would like to enable diagonal pathfinding, uncomment out that portion of code
