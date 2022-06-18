@@ -51,7 +51,7 @@ namespace Pathfinding
         public void UpdateGrid()
 		{
             UpdateObstacles();    //set which nodes are obstacles
-            //TODO: give obstacle nodes weight modifier
+            ComputeObstacleModifiers();
             ComputeDistField();   //calc distance to goal around obstacles
             ComputeVectorField(); //calc vectors to goal from distance
         }
@@ -87,7 +87,13 @@ namespace Pathfinding
             }
         }
 
-        
+        private void ComputeObstacleModifiers()
+		{
+            for (int i = 0; i < obstacleNodes.Count; i++)
+			{
+                Debug.Log(obstacleNodes[i].worldPosition);
+			}
+		}
 
         //Vector-goal pathfinding
         //computes distance for each node to goal
