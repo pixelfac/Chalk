@@ -87,23 +87,7 @@ namespace Pathfinding
             }
         }
 
-        //resets the goalDist for all nodes
-        private void ResetGoalDists()
-		{
-            //for loop faster than foreach
-            for (int x = 0; x < _Grid.GetLength(0); x++)
-            {
-                for (int y = 0; y < _Grid.GetLength(1); y++)
-                {
-                    Node2D n = _Grid[x, y];
-
-                    n.goalDist = int.MaxValue;
-                    n.visited = false;
-                    n.inOpen = false;
-                    n.goalVector = Vector2.zero;
-                }
-			}
-		}
+        
 
         //Vector-goal pathfinding
         //computes distance for each node to goal
@@ -155,6 +139,23 @@ namespace Pathfinding
 					}
                 }
 			}
+            //resets the goalDist for all nodes
+            void ResetGoalDists()
+            {
+                //for loop faster than foreach
+                for (int x = 0; x < _Grid.GetLength(0); x++)
+                {
+                    for (int y = 0; y < _Grid.GetLength(1); y++)
+                    {
+                        Node2D n = _Grid[x, y];
+
+                        n.goalDist = int.MaxValue;
+                        n.visited = false;
+                        n.inOpen = false;
+                        n.goalVector = Vector2.zero;
+                    }
+                }
+            }
         }
 
         //Vector-goal pathfinding
