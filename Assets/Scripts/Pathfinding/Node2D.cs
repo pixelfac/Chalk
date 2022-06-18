@@ -8,6 +8,7 @@ namespace Pathfinding
     {
         public int goalDist;
         public bool obstacle;
+        public int obstacleModifier; //added to goalDist, based on local line health
         public bool visited;
         public bool inOpen;
         public Vector2 goalVector;
@@ -20,6 +21,7 @@ namespace Pathfinding
         public Node2D(bool _obstacle, Vector3 _worldPos, int _gridX, int _gridY)
         {
             obstacle = _obstacle;
+            obstacleModifier = 0;
             worldPosition = _worldPos;
             GridX = _gridX;
             GridY = _gridY;
