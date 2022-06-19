@@ -271,9 +271,9 @@ namespace ChalkLine
 
 		//TODO
 		//redraws the line renderer based on current lineNodes info
-		private void redrawLineRenderer()
+		private void RedrawLineRenderer()
 		{
-			Debug.LogWarning("redrawLineRenderer not implemented");
+			Debug.LogWarning("RedrawLineRenderer not implemented");
 		}
 
 		//TODO: Not Finished
