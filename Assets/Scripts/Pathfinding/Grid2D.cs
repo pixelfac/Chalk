@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using ChalkLine;
 
 namespace Pathfinding
 {
@@ -72,18 +73,33 @@ namespace Pathfinding
                     ContactFilter2D overlapFilter = new ContactFilter2D();
                     overlapFilter.layerMask = _obstacleMask;
                     overlapFilter.useLayerMask = true;
-                    Collider2D[] results = new Collider2D[1];
+                    List<Collider2D> results = new List<Collider2D>();
 
                     if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * nodeOverlapRadius, 0f, overlapFilter, results) != 0) //0 == no collision
                     {
                         _Grid[x, y].SetObstacle(true);
                         obstacleNodes.Add(_Grid[x, y]);
+
+                        //set node's obstacle modifier
+                        int obstacleModifier = 0;
+                        for (int i = 0; i < results.Count; i++)
+						{
+                            ChalkLine.ChalkLine cl = results[i].gameObject.GetComponent<ChalkLine.ChalkLine>();
+                            int localLineHealth = cl.ClosestLineHealthFromGridNode(_Grid[x, y].worldPosition);
+                            obstacleModifier += CalcModifierFromHealth(localLineHealth);
+                        }
                     }
                     else
                     {
                         _Grid[x, y].SetObstacle(false);
                     }
                 }
+            }
+
+            int CalcModifierFromHealth(int health)
+			{
+                Debug.LogWarning("CalcModifierFromHealth not implemented");
+                return 1;
             }
         }
 

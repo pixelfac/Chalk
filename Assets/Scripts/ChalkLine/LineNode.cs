@@ -19,5 +19,16 @@ namespace ChalkLine
             strongHealth = 1;
             weakHealth = 1;
         }
+
+        //returns appropriate health value (strong/weak) based on which side origin is
+        public int GetDirectionalHealth(Vector3 origin)
+		{
+            //if origin-strongSideNormal < origin-weakSideNormal
+            //return strongHealth
+            //else
+            // return weakHealth
+            Debug.LogWarning("GetDirectionalHealth not implemented");
+            return 1;
+        }
     }
 }
