@@ -96,6 +96,10 @@ namespace Pathfinding
                 }
             }
 
+            //in: health from local line segment
+            //out: modifier to weight pathfinding
+            //PS: cost to move in cardinal direction is 10
+            //PS: cost to move in diagonal direction is 14
             int CalcModifierFromHealth(int health)
 			{
                 Debug.LogWarning("CalcModifierFromHealth not implemented");
