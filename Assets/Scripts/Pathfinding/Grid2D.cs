@@ -87,6 +87,7 @@ namespace Pathfinding
                             int localLineHealth = cl.ClosestLineHealthFromGridNode(_Grid[x, y].worldPosition);
                             obstacleModifier += CalcModifierFromHealth(localLineHealth);
                         }
+                        _Grid[x, y].obstacleModifier = obstacleModifier;
                     }
                     else
                     {
@@ -136,10 +137,15 @@ namespace Pathfinding
                 for (int i = 0; i < neighbors.Count; i++)
                 {
                     Node2D n = neighbors[i];
+                    int distModifier = 0;
+                        
+                    if (n.obstacle)
+                    {
+                        Debug.Log("obstaclemod: " + n.obstacleModifier);
+                        distModifier += n.obstacleModifier;
+                    }
 
-                    if (n.obstacle) { continue; }
-
-                    int nodeDist = currNode.goalDist + GetDistance(n, currNode);
+                    int nodeDist = currNode.goalDist + GetDistance(n, currNode) + distModifier;
                     if (n.visited)
                     {
                         if (n.goalDist > nodeDist)
