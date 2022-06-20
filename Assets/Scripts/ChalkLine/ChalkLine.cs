@@ -102,6 +102,8 @@ namespace ChalkLine
 				}
 			}
 
+			Debug.Log("Chalkline Initted");
+
 			//reduce # of nodes in nodePositions
 			void ReduceNodes()
 			{
@@ -137,7 +139,6 @@ namespace ChalkLine
 					_hitbox.useAdjacentEndPoint = true;
 				}
 
-				UpdateGrid();
 
 				//populate _lineNodes
 				_lineNodes = new List<LineNode>();
@@ -146,6 +147,7 @@ namespace ChalkLine
 					_lineNodes.Add(new LineNode(reducedNodePos[i]));
 				}
 
+				UpdateGrid();
 				UpdateHP();
 			}
 
@@ -302,6 +304,7 @@ namespace ChalkLine
 		//returns the lowest health of all line segments within nodeRadius of gridNodePos
 		public int ClosestLineHealthFromGridNode(Vector3 gridNodePos)
 		{
+			Debug.Log("start ClosestLineHealthFromGridNode");
 			int minHealth = int.MaxValue;
 			//iterate through nodepositions
 			for (int i = 0; i < _lineNodes.Count; i++)

@@ -46,7 +46,6 @@ namespace Pathfinding
 
             Debug.Log("Grid created");
             UpdateGrid();
-            Debug.Log("Grid updated");
         }
 
         public void UpdateGrid()
@@ -55,6 +54,7 @@ namespace Pathfinding
             ComputeObstacleModifiers();
             ComputeDistField();   //calc distance to goal around obstacles
             ComputeVectorField(); //calc vectors to goal from distance
+            Debug.Log("Grid updated");
         }
 
         private void UpdateObstacles()
@@ -81,6 +81,7 @@ namespace Pathfinding
                         obstacleNodes.Add(_Grid[x, y]);
 
                         //set node's obstacle modifier
+                        Debug.Log("calc obstacle modifier");
                         int obstacleModifier = 0;
                         for (int i = 0; i < results.Count; i++)
 						{
