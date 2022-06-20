@@ -102,8 +102,7 @@ namespace Pathfinding
             //PS: cost to move in diagonal direction is 14
             int CalcModifierFromHealth(int health)
 			{
-                Debug.LogWarning("CalcModifierFromHealth not implemented");
-                return 1;
+                return health / 10;
             }
         }
 
