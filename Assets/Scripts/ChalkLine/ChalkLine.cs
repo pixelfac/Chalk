@@ -178,11 +178,11 @@ namespace ChalkLine
 				{
 					//cache data
 					LineNode currNode = _lineNodes[i];
-					Vector2 leftNodePos = _lineNodes[Mod(i - 1, _lineNodes.Count)].nodePos;
-					Vector2 rightNodePos = _lineNodes[Mod(i + 1, _lineNodes.Count)].nodePos;
+					Vector2 leftNodePos = _lineNodes[Mod(i - 1, _lineNodes.Count)].worldPos;
+					Vector2 rightNodePos = _lineNodes[Mod(i + 1, _lineNodes.Count)].worldPos;
 
-					Vector2 leftVector = leftNodePos - currNode.nodePos;
-					Vector2 rightVector = rightNodePos - currNode.nodePos;
+					Vector2 leftVector = leftNodePos - currNode.worldPos;
+					Vector2 rightVector = rightNodePos - currNode.worldPos;
 
 					float angle = Vector2.SignedAngle(leftVector, rightVector);
 
@@ -214,11 +214,11 @@ namespace ChalkLine
 				{
 					//cache data
 					LineNode currNode = _lineNodes[i];
-					Vector2 leftNodePos = _lineNodes[i - 1].nodePos;
-					Vector2 rightNodePos = _lineNodes[i + 1].nodePos;
+					Vector2 leftNodePos = _lineNodes[i - 1].worldPos;
+					Vector2 rightNodePos = _lineNodes[i + 1].worldPos;
 
-					Vector2 leftVector = leftNodePos - currNode.nodePos;
-					Vector2 rightVector = rightNodePos - currNode.nodePos;
+					Vector2 leftVector = leftNodePos - currNode.worldPos;
+					Vector2 rightVector = rightNodePos - currNode.worldPos;
 
 					float angle = Vector2.SignedAngle(leftVector, rightVector);
 
