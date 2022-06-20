@@ -299,15 +299,22 @@ namespace ChalkLine
 			}
 		}
 
-		//returns the lowest health of all line segments within radius of gridNodePos
+		//returns the lowest health of all line segments within nodeRadius of gridNodePos
 		public int ClosestLineHealthFromGridNode(Vector3 gridNodePos)
 		{
+			int minHealth = int.MaxValue;
 			//iterate through nodepositions
-			//when |nodepos.worldpos - gridNodePos| < nodeRadius, node is candidate
-			//for all candidates, find LineNode.GetDirectionalHealth
+			for (int i = 0; i < _lineNodes.Count; i++)
+			{
+				//if |nodepos.worldpos - gridNodePos| < nodeRadius
+				if ((_lineNodes[i].worldPos - (Vector2)gridNodePos).magnitude <= _grid.nodeRadius)
+				{
+					//find LineNode.GetDirectionalHealth
+					minHealth = Mathf.Min(minHealth, _lineNodes[i].GetDirectionalHealth(gridNodePos));
+				}
+			}
 			//return min LineNode.GetDirectionalHealth 
-			Debug.LogWarning("ClosestLineNodeFromGridNode not implemented");
-			return 1;
+			return minHealth;
 		}
 
 		private void OnValidate()
