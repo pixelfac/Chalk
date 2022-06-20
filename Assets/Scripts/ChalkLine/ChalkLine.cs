@@ -147,8 +147,8 @@ namespace ChalkLine
 					_lineNodes.Add(new LineNode(reducedNodePos[i]));
 				}
 
-				UpdateGrid();
 				UpdateHP();
+				UpdateGrid();
 			}
 
 			//initializes this object as a Line Missile
@@ -172,6 +172,7 @@ namespace ChalkLine
 					n.strongHealth = _baseNodeHP;
 					n.weakHealth = _baseNodeHP;
 				}
+				return;
 			}
 
 			if (_isEnclosed)
