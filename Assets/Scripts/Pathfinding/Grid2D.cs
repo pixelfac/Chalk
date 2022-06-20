@@ -85,7 +85,9 @@ namespace Pathfinding
 						{
                             ChalkLine.ChalkLine cl = results[i].gameObject.GetComponent<ChalkLine.ChalkLine>();
                             int localLineHealth = cl.ClosestLineHealthFromGridNode(_Grid[x, y].worldPosition);
+                            Debug.Log("localLineHealth: " + localLineHealth);
                             obstacleModifier += CalcModifierFromHealth(localLineHealth);
+                            Debug.Log("obstaclemod: " + obstacleModifier);
                         }
                         _Grid[x, y].obstacleModifier = obstacleModifier;
                     }
@@ -141,7 +143,6 @@ namespace Pathfinding
                         
                     if (n.obstacle)
                     {
-                        Debug.Log("obstaclemod: " + n.obstacleModifier);
                         distModifier += n.obstacleModifier;
                     }
 
@@ -324,6 +325,11 @@ namespace Pathfinding
             }
             return 14 * dstX + 10 * (dstY - dstX);
         }
+
+        public float GetNodeOverlapDistance()
+		{
+            return nodeOverlapRadius;
+		}
 
         //Draws visual representation of grid
         private void OnDrawGizmos()

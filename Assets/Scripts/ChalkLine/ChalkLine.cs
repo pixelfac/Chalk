@@ -305,17 +305,22 @@ namespace ChalkLine
 		public int ClosestLineHealthFromGridNode(Vector3 gridNodePos)
 		{
 			int minHealth = int.MaxValue;
+			float checkRadius = (_grid.nodeRadius * _grid.GetNodeOverlapDistance() + _hitbox.edgeRadius) * 1.1f; //*1.1f buffer for rounding
 			//iterate through nodepositions
 			for (int i = 0; i < _lineNodes.Count; i++)
 			{
 				//if |nodepos.worldpos - gridNodePos| < nodeRadius
-				if ((_lineNodes[i].worldPos - (Vector2)gridNodePos).magnitude <= _grid.nodeRadius)
+				if ((_lineNodes[i].worldPos - (Vector2)gridNodePos).magnitude <= checkRadius)
 				{
 					//find LineNode.GetDirectionalHealth
 					minHealth = Mathf.Min(minHealth, _lineNodes[i].GetDirectionalHealth(gridNodePos));
 				}
 			}
-			//return min LineNode.GetDirectionalHealth 
+			//return min LineNode.GetDirectionalHealth
+			if (minHealth == int.MaxValue)
+			{
+				minHealth = 0;
+			}
 			return minHealth;
 		}
 
