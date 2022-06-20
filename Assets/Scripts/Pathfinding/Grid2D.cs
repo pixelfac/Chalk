@@ -80,7 +80,6 @@ namespace Pathfinding
                         obstacleNodes.Add(_Grid[x, y]);
 
                         //set node's obstacle modifier
-                        Debug.Log("calc obstacle modifier");
                         int obstacleModifier = 0;
                         for (int i = 0; i < results.Count; i++)
 						{

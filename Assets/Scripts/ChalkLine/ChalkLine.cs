@@ -304,7 +304,6 @@ namespace ChalkLine
 		//returns the lowest health of all line segments within nodeRadius of gridNodePos
 		public int ClosestLineHealthFromGridNode(Vector3 gridNodePos)
 		{
-			Debug.Log("start ClosestLineHealthFromGridNode");
 			int minHealth = int.MaxValue;
 			//iterate through nodepositions
 			for (int i = 0; i < _lineNodes.Count; i++)
