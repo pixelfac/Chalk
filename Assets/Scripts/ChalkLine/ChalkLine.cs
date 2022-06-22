@@ -139,7 +139,6 @@ namespace ChalkLine
 					_hitbox.useAdjacentEndPoint = true;
 				}
 
-
 				//populate _lineNodes
 				_lineNodes = new List<LineNode>();
 				for (int i = 0; i < reducedNodePos.Count; i++)
@@ -179,7 +178,7 @@ namespace ChalkLine
 			{
 				for (int i = 0; i < _lineNodes.Count - 1; i++)
 				{
-					//cache data
+					//store data
 					LineNode currNode = _lineNodes[i];
 					Vector2 leftNodePos = _lineNodes[Mod(i - 1, _lineNodes.Count)].worldPos;
 					Vector2 rightNodePos = _lineNodes[Mod(i + 1, _lineNodes.Count)].worldPos;
@@ -203,6 +202,7 @@ namespace ChalkLine
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
+					Debug.Log("nodehealth: " + currNode.weakHealth);
 				}
 			}
 			else
@@ -239,6 +239,7 @@ namespace ChalkLine
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
+					Debug.Log("nodehealth: " + currNode.weakHealth);
 				}
 
 				LineNode endNode = _lineNodes[_lineNodes.Count - 1];
