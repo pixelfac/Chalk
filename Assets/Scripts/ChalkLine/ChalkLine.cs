@@ -202,7 +202,6 @@ namespace ChalkLine
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
-					Debug.Log("nodehealth: " + currNode.weakHealth);
 				}
 			}
 			else
@@ -212,7 +211,6 @@ namespace ChalkLine
 				startNode.weakSideNormal = Vector2.zero;
 				startNode.strongHealth = _baseNodeHP;
 				startNode.weakHealth = _baseNodeHP;
-				Debug.Log("starthealth: " + startNode.weakHealth);
 
 				for (int i = 1; i < _lineNodes.Count - 1; i++)
 				{
@@ -240,7 +238,6 @@ namespace ChalkLine
 						currNode.strongHealth = CalcNodeHealth(angle / 4);
 						currNode.weakHealth = CalcNodeHealth(90f + angle / 4);
 					}
-					Debug.Log("nodehealth: " + currNode.weakHealth);
 				}
 
 				LineNode endNode = _lineNodes[_lineNodes.Count - 1];
@@ -248,17 +245,7 @@ namespace ChalkLine
 				endNode.weakSideNormal = Vector2.zero;
 				endNode.strongHealth = _baseNodeHP;
 				endNode.weakHealth = _baseNodeHP;
-				Debug.Log("endhealth: " + endNode.weakHealth);
 
-			}
-
-			Debug.Log("linenodes length: " + _lineNodes.Count);
-			for (int i = 0; i < _lineNodes.Count; i++)
-			{
-				if (_lineNodes[i].strongHealth < 100 || _lineNodes[i].weakHealth < 100)
-				{
-					Debug.Log("Linenode " + i + " health set to: " + _lineNodes[i].strongHealth);
-				}
 			}
 
 			//always returns positive val, even for negative mod
@@ -328,7 +315,6 @@ namespace ChalkLine
 				{
 					//find LineNode.GetDirectionalHealth
 					minHealth = Mathf.Min(minHealth, _lineNodes[i].GetDirectionalHealth(gridNodePos));
-					if (minHealth == 1) { Debug.Log("minhealth == 1"); }
 				}
 			}
 			//return min LineNode.GetDirectionalHealth
