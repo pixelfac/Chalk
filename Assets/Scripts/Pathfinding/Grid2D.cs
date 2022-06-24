@@ -102,7 +102,7 @@ namespace Pathfinding
             //PS: cost to move in diagonal direction is 14
             int CalcModifierFromHealth(int health)
 			{
-                return health / 10;
+                return health;
             }
         }
 
@@ -194,34 +194,9 @@ namespace Pathfinding
                     //does neighbors contain an obstacle?
                     bool containsObstacle = neighbors.Any(n => n.obstacle);
 
-                    if (containsObstacle)
-                    {
-                        VectorMin(n, neighbors);
-                    }
-                    else
-                    {
-                        VectorGradient(n, neighbors);
-                    }
+                    VectorGradient(n, neighbors);
                 }
 			}
-
-            //sets node vector to be towards min of neighbor dist
-            void VectorMin(Node2D n, List<Node2D> neighbors)
-			{
-                int minDist = int.MaxValue;
-                Vector2 direction = Vector2.zero;
-                for (int i = 0; i < neighbors.Count; i++)
-                {
-                    Node2D nbr = neighbors[i];
-
-                    if (nbr.goalDist < minDist)
-                    {
-                        minDist = nbr.goalDist;
-                        direction = (nbr.worldPosition - n.worldPosition).normalized;
-                        n.goalVector = direction;
-                    }
-                }
-            }
 
             //sets node vector to be weighted gradient of neighbor dist
             void VectorGradient(Node2D n, List<Node2D> neighbors)
