@@ -102,7 +102,7 @@ namespace Pathfinding
             //PS: cost to move in diagonal direction is 14
             int CalcModifierFromHealth(int health)
 			{
-                return health;
+                return health * 10;
             }
         }
 
@@ -210,7 +210,19 @@ namespace Pathfinding
                     Vector2 direction = (nbr.worldPosition - n.worldPosition).normalized;
                     goalVec += direction / nbr.goalDist;
                 }
+
+                //when vector is small, normalization returns zero vector
+                //this upscales the vector to avoid that
+                if (goalVec.normalized == Vector2.zero)
+				{
+                    goalVec *= 10000;
+				}
                 n.goalVector = goalVec.normalized;
+
+                if (n.goalVector == Vector2.zero)
+				{
+                    Debug.Log("vector==0\ngoalvec: " + goalVec);
+				}
             }
         }
 
