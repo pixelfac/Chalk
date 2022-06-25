@@ -113,7 +113,7 @@ namespace Pathfinding
             ResetGoalDists();
 
             Node2D goalNode = NodeFromWorldPoint(_goalPos);
-            goalNode.goalDist = 0;
+            goalNode.goalDist = 10; //buffer to avoid DivideByZero misbehavior
 
             if (goalNode.obstacle)
             {
