@@ -332,8 +332,8 @@ namespace Pathfinding
                     //draw cubes
                     if (n == null) { continue; }
 
-                    float lerpPercent = (n.goalDist % 1000) / 1000f;
-                    Color nodeColor = Color.Lerp(Color.green, Color.blue, lerpPercent);
+                    float lerpPercent = (n.goalDist % 800) / 800f;
+                    Color nodeColor = Color.HSVToRGB(lerpPercent, 1, 1);
                     Gizmos.color = nodeColor;
 
                     Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
