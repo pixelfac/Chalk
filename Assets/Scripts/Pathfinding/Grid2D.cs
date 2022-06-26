@@ -332,22 +332,9 @@ namespace Pathfinding
                     //draw cubes
                     if (n == null) { continue; }
 
-                    if (n.obstacle)
-                    {
-                        Gizmos.color = Color.red;
-                    }
-                    else if (n.goalDist % 30 < 10)
-                    {
-                        Gizmos.color = Color.green;
-                    }
-                    else if (n.goalDist % 30 < 20)
-                    {
-                        Gizmos.color = Color.cyan;
-                    }
-                    else
-                    {
-                        Gizmos.color = Color.blue;
-                    }
+                    float lerpPercent = (n.goalDist % 1000) / 1000f;
+                    Color nodeColor = Color.Lerp(Color.green, Color.blue, lerpPercent);
+                    Gizmos.color = nodeColor;
 
                     Gizmos.DrawCube(n.worldPosition, Vector3.one * 0.9f * (nodeRadius));
 
