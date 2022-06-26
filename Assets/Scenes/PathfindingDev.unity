@@ -297,7 +297,7 @@ PrefabInstance:
       objectReference: {fileID: 1802109397}
     - target: {fileID: 4586374766254549960, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
       propertyPath: nodeOverlapRadius
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4586374766254549961, guid: 3ed6bec5f7ce56d4c8d5c2b26e4e8de2, type: 3}
       propertyPath: m_Name
