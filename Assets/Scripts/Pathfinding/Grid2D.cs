@@ -102,7 +102,7 @@ namespace Pathfinding
             //PS: cost to move in diagonal direction is 14
             int CalcModifierFromHealth(int health)
 			{
-                return health * 10;
+                return health;
             }
         }
 
