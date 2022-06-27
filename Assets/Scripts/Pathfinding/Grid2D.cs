@@ -15,6 +15,8 @@ namespace Pathfinding
         [SerializeField] private LayerMask _obstacleMask;
         [Range(0.1f, 1f)]
         [SerializeField] private float nodeOverlapRadius; //how big the OverlapBox radius is relative to nodeRadius
+        [Range(0.1f, 1f)]
+        [SerializeField] private float healthScaleFactor; //scales line health in obstacle modifier calc
 
         private Vector2 _goalPos;
         private Node2D[,] _Grid;
@@ -22,8 +24,7 @@ namespace Pathfinding
         private Vector3 _worldBottomLeft;
         private float _nodeDiameter;
 
-
-        private void Awake()
+		private void Awake()
         {
             _nodeDiameter = nodeRadius * 2;
             _goalPos = goalTransform.position;
@@ -102,7 +103,7 @@ namespace Pathfinding
             //PS: cost to move in diagonal direction is 14
             int CalcModifierFromHealth(int health)
 			{
-                return health / 10;
+                return (int)(health * healthScaleFactor);
             }
         }
 
