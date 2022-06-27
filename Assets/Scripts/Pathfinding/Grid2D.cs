@@ -189,6 +189,13 @@ namespace Pathfinding
                 for (int y = 0; y < _Grid.GetLength(1); y++)
                 {
                     Node2D n = _Grid[x, y];
+
+                    if (n.worldPosition == NodeFromWorldPoint(_goalPos).worldPosition)
+					{
+                        n.goalVector = Vector2.zero;
+                        continue;
+					}
+
                     List<Node2D> neighbors = GetNeighborsWithFaux(n);
 
                     //does neighbors contain an obstacle?
