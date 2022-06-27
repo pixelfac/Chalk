@@ -189,7 +189,7 @@ namespace Pathfinding
                 for (int y = 0; y < _Grid.GetLength(1); y++)
                 {
                     Node2D n = _Grid[x, y];
-                    List<Node2D> neighbors = GetNeighbors(n);
+                    List<Node2D> neighbors = GetNeighborsWithFaux(n);
 
                     //does neighbors contain an obstacle?
                     bool containsObstacle = neighbors.Any(n => n.obstacle);
@@ -226,7 +226,7 @@ namespace Pathfinding
             }
         }
 
-        //gets the neighboring nodes in the 4 cardinal directions. If you would like to enable diagonal pathfinding, uncomment out that portion of code
+        //gets the neighboring nodes in 8 directions 
         public List<Node2D> GetNeighbors(Node2D node)
         {
             List<Node2D> neighbors = new List<Node2D>();
@@ -256,6 +256,53 @@ namespace Pathfinding
                 if (CoordsInGrid(node.GridX + x, node.GridY + y))
                 {
                     neighbors.Add(_Grid[node.GridX + x, node.GridY + y]);
+                }
+            }
+
+            //return true if parameters are in Grid, false otherwise
+            bool CoordsInGrid(int x, int y)
+            {
+                return (x >= 0 && x < gridSize.x && y >= 0 && y < gridSize.y);
+            }
+        }
+
+        //gets the neighboring nodes in 8 directions
+        //makes faux nodes if no real nodes exist
+        public List<Node2D> GetNeighborsWithFaux(Node2D node)
+        {
+            List<Node2D> neighbors = new List<Node2D>();
+
+            //top neighbor
+            AddNeighbor(0, 1);
+            //bottom neighbor
+            AddNeighbor(0, -1);
+            //right neighbor
+            AddNeighbor(1, 0);
+            //left neighbor
+            AddNeighbor(-1, 0);
+            //topleft neighbor
+            AddNeighbor(-1, +1);
+            //bottomleft neighbor
+            AddNeighbor(-1, -1);
+            //bottomright neighbor
+            AddNeighbor(+1, -1);
+            //topright neighbor
+            AddNeighbor(+1, +1);
+
+            return neighbors;
+
+            //Adds neighbor node, if valid position in Grid
+            void AddNeighbor(int x, int y)
+            {
+                if (CoordsInGrid(node.GridX + x, node.GridY + y))
+                {
+                    neighbors.Add(_Grid[node.GridX + x, node.GridY + y]);
+                }
+                else //mock false node to fix vectors of edge nodes
+                {
+                    Node2D fauxNode = new Node2D(false, node.worldPosition + new Vector3(x, y, 0), node.GridX + x, node.GridY + y);
+                    fauxNode.goalDist = node.goalDist + GetDistance(node, fauxNode);
+                    neighbors.Add(fauxNode);
                 }
             }
 
