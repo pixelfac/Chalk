@@ -218,11 +218,6 @@ namespace Pathfinding
                     goalVec *= 10000;
 				}
                 n.goalVector = goalVec.normalized;
-
-                if (n.goalVector == Vector2.zero)
-				{
-                    Debug.Log("vector==0\ngoalvec: " + goalVec);
-				}
             }
         }
 
@@ -231,22 +226,14 @@ namespace Pathfinding
         {
             List<Node2D> neighbors = new List<Node2D>();
 
-            //top neighbor
-            AddNeighbor(0, 1);
-            //bottom neighbor
-            AddNeighbor(0, -1);
-            //right neighbor
-            AddNeighbor(1, 0);
-            //left neighbor
-            AddNeighbor(-1, 0);
-            //topleft neighbor
-            AddNeighbor(-1, +1);
-            //bottomleft neighbor
-            AddNeighbor(-1, -1);
-            //bottomright neighbor
-            AddNeighbor(+1, -1);
-            //topright neighbor
-            AddNeighbor(+1, +1);
+            AddNeighbor(0, 1);  //top neighbor
+            AddNeighbor(0, -1); //bottom neighbor
+            AddNeighbor(1, 0);  //right neighbor
+            AddNeighbor(-1, 0); //left neighbor
+            AddNeighbor(-1, +1);//topleft neighbor    
+            AddNeighbor(-1, -1);//bottomleft neighbor
+            AddNeighbor(+1, -1);//bottomright neighbor
+            AddNeighbor(+1, +1);//topright neighbor
 
             return neighbors;
 
@@ -272,22 +259,14 @@ namespace Pathfinding
         {
             List<Node2D> neighbors = new List<Node2D>();
 
-            //top neighbor
-            AddNeighbor(0, 1);
-            //bottom neighbor
-            AddNeighbor(0, -1);
-            //right neighbor
-            AddNeighbor(1, 0);
-            //left neighbor
-            AddNeighbor(-1, 0);
-            //topleft neighbor
-            AddNeighbor(-1, +1);
-            //bottomleft neighbor
-            AddNeighbor(-1, -1);
-            //bottomright neighbor
-            AddNeighbor(+1, -1);
-            //topright neighbor
-            AddNeighbor(+1, +1);
+            AddNeighbor(0, 1);  //top neighbor
+            AddNeighbor(0, -1); //bottom neighbor
+            AddNeighbor(1, 0);  //right neighbor
+            AddNeighbor(-1, 0); //left neighbor
+            AddNeighbor(-1, +1);//topleft neighbor    
+            AddNeighbor(-1, -1);//bottomleft neighbor
+            AddNeighbor(+1, -1);//bottomright neighbor
+            AddNeighbor(+1, +1);//topright neighbor
 
             return neighbors;
 
