@@ -50,4 +50,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   nodeOverlapRadius: 0.5
-  healthScaleFactor: 5
+  healthScaleFactor: 1
