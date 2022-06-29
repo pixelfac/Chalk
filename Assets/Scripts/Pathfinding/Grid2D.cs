@@ -146,14 +146,12 @@ namespace Pathfinding
                     }
 
                     int nodeDist = currNode.goalDist + GetDistance(n, currNode) + distModifier;
-                    if (n.visited)
-                    {
-                        if (n.goalDist > nodeDist)
-						{
-                            n.goalDist = nodeDist;
-                        }
+                    if (n.goalDist > nodeDist)
+					{
+                        n.goalDist = nodeDist;
                     }
-                    else if (!n.inOpen)
+
+                    if (!n.inOpen && !n.visited)
 					{
                         n.goalDist = nodeDist;
                         open.Enqueue(n);
