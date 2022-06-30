@@ -135,6 +135,7 @@ namespace Pathfinding
                 currNode.visited = true;
 
                 List<Node2D> neighbors = GetNeighbors(currNode);
+
                 for (int i = 0; i < neighbors.Count; i++)
                 {
                     Node2D n = neighbors[i];
@@ -158,7 +159,26 @@ namespace Pathfinding
                         n.inOpen = true;
 					}
                 }
-			}
+
+                int averageDist = 0;
+                int numNeighbors = 0;
+                for (int i = 0; i < neighbors.Count; i++)
+                {
+                    if (neighbors[i].obstacleModifier == 0) { continue; }
+                    averageDist += neighbors[i].goalDist;
+                    numNeighbors++;
+                }
+                if (numNeighbors == 0)
+				{
+                    continue;
+				}
+                averageDist /= numNeighbors;
+                if (averageDist != 0 && currNode.goalDist > 1.1f * averageDist)
+                {
+                    Debug.Log("abnormal nodeDist: " + currNode.goalDist + "\tnbrAvg: " + averageDist);
+                    Debug.Log("obstacleModifier: " + currNode.obstacleModifier);
+                }
+            }
             //resets the goalDist for all nodes
             void ResetGoalDists()
             {
