@@ -173,9 +173,9 @@ namespace Pathfinding
                     continue;
 				}
                 averageDist /= numNeighbors;
-                if (averageDist != 0 && currNode.goalDist > 1.1f * averageDist)
+                if (averageDist != 0 && currNode.goalDist > 1.2f * averageDist)
                 {
-                    Debug.Log("abnormal nodeDist: " + currNode.goalDist + "\tnbrAvg: " + averageDist);
+                    Debug.Log("abnormal nodeDist: " + currNode.goalDist + "\t nbrAvg: " + averageDist);
                     Debug.Log("obstacleModifier: " + currNode.obstacleModifier);
                 }
             }
