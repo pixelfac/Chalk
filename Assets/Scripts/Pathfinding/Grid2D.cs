@@ -213,9 +213,6 @@ namespace Pathfinding
 
                     List<Node2D> neighbors = GetNeighborsWithFaux(n);
 
-                    //does neighbors contain an obstacle?
-                    bool containsObstacle = neighbors.Any(n => n.obstacle);
-
                     VectorGradient(n, neighbors);
                 }
 			}
