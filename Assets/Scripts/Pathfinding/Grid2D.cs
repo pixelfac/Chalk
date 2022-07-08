@@ -150,14 +150,8 @@ namespace Pathfinding
                     if (n.goalDist > nodeDist)
 					{
                         n.goalDist = nodeDist;
-                    }
-
-                    if (!n.inOpen && !n.visited)
-					{
-                        n.goalDist = nodeDist;
                         open.Enqueue(n);
-                        n.inOpen = true;
-					}
+                    }
                 }
 
                 int averageDist = 0;
