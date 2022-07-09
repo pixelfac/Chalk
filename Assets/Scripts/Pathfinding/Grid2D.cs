@@ -205,6 +205,7 @@ namespace Pathfinding
                 {
                     Node2D n = _Grid[x, y];
 
+                    //if node is goal node, set vector to ZERO
                     if (n.worldPosition == NodeFromWorldPoint(_goalPos).worldPosition)
 					{
                         n.goalVector = Vector2.zero;
@@ -232,12 +233,26 @@ namespace Pathfinding
 
                 //when vector is small, normalization returns zero vector
                 //this upscales the vector to avoid that
-                if (goalVec.normalized == Vector2.zero)
-				{
-                    goalVec *= 10000;
-				}
+                if (goalVec.normalized == Vector2.zero) { goalVec *= 10000; }
+
+                //clamp boundaries so don't point out of bounds
+                goalVec = ClampOnBoundaryNode(n.GridX, n.GridY, goalVec);
+
                 n.goalVector = goalVec.normalized;
             }
+
+            Vector2 ClampOnBoundaryNode(int x, int y, Vector2 vec)
+			{
+                //clamp on vertical walls
+                if (x == 0)                   { vec.x = Mathf.Max(vec.x, 0); }
+                else if (x == gridSize.x - 1) { vec.x = Mathf.Min(vec.x, 0); }
+
+                //clamp on horizontal walls
+                if (y == 0)                   { vec.y = Mathf.Max(vec.y, 0); }
+                else if (y == gridSize.y - 1) { vec.y = Mathf.Min(vec.y, 0); }
+
+                return vec;
+			}
         }
 
         //gets the neighboring nodes in 8 directions 
