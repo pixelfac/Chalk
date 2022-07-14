@@ -17,6 +17,8 @@ namespace Pathfinding
         public int GridX, GridY;
         public Node2D parent;
 
+        public Collider2D nearestLine;
+
 
         public Node2D(bool _obstacle, Vector3 _worldPos, int _gridX, int _gridY)
         {
@@ -29,6 +31,7 @@ namespace Pathfinding
             visited = true;
             inOpen = false;
             goalVector = Vector2.zero;
+            nearestLine = null;
         }
 
         public void SetObstacle(bool isOb)
