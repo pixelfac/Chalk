@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EditorUtilities;
+using Pathfinding;
 
 namespace Chalkling
 {
@@ -11,11 +12,16 @@ namespace Chalkling
 		[SerializeField] private float speed;
 		[SerializeField] private int currHP;
 
+		[SerializeField] private float atkDmg;
+		[SerializeField] private float atkSpd;
+
 		ChalklingMovement movement;
+		Grid2D grid;
 
 		private void Awake()
 		{
 			movement = GetComponent<ChalklingMovement>();
+			grid = GetComponent<Grid2D>();
 		}
 
 		private void Start()
@@ -41,7 +47,16 @@ namespace Chalkling
 			{
 				currHP = maxHP;
 			}
+
+		}
+		private Node2D GetCurrentNode2D()
+		{
+			if (grid == null)
+			{
+				Debug.LogError("Grid Reference is null in chalkling");
+			}
+
+			return grid.NodeFromWorldPoint(transform.position);
 		}
 	}
-
 }
