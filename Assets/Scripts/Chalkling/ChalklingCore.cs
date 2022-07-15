@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EditorUtilities;
 using Pathfinding;
+using MEC;
 
 namespace Chalkling
 {
@@ -11,9 +12,11 @@ namespace Chalkling
 		[SerializeField] private int maxHP;
 		[SerializeField] private float speed;
 		[SerializeField] private int currHP;
+		[SerializeField] private float spawnDelay; //delay on creation before attacking
 
 		[SerializeField] private float atkDmg;
 		[SerializeField] private float atkSpd;
+		public bool attacking { get; private set; }
 
 		ChalklingMovement movement;
 		Grid2D grid;
@@ -28,6 +31,8 @@ namespace Chalkling
 		{
 			currHP = maxHP;
 			movement._moveSpeed = speed;
+
+			InvokeRepeating("Attack", spawnDelay, 1 / atkSpd);
 		}
 
 		public void Damage(int damage)
@@ -49,6 +54,13 @@ namespace Chalkling
 			}
 
 		}
+
+		private void Attack()
+		{
+			Debug.Log("Chalkling Attacked");
+		}
+
+
 		private Node2D GetCurrentNode2D()
 		{
 			if (grid == null)
