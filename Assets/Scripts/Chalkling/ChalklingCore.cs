@@ -15,6 +15,7 @@ namespace Chalkling
 		[SerializeField] private float spawnDelay; //delay on creation before attacking
 
 		[SerializeField] private float atkDmg;
+		[Range(0.1f, 10)]
 		[SerializeField] private float atkSpd;
 		public bool attacking { get; private set; }
 
@@ -69,6 +70,11 @@ namespace Chalkling
 			}
 
 			return grid.NodeFromWorldPoint(transform.position);
+		}
+
+		private void OnValidate()
+		{
+			atkSpd = Mathf.Max(atkSpd, 0.1f);
 		}
 	}
 }
