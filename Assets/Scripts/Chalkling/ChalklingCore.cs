@@ -59,6 +59,10 @@ namespace Chalkling
 		private void Attack()
 		{
 			Debug.Log("Chalkling Attacked");
+			//TODO get curr grid node
+			//get line, if !null
+			//get closest node on line
+			//damage that node on the line
 		}
 
 
