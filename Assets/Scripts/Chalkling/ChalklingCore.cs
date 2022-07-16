@@ -60,8 +60,9 @@ namespace Chalkling
 		private IEnumerator<float> AttackRoutine()
 		{
 			yield return Timing.WaitForSeconds(spawnDelay);
-			while (canAttack)
+			while (true)
 			{
+				if (!canAttack) { continue; }
 				Debug.Log("Chalkling Attacked");
 				//TODO get curr grid node
 				//get line, if !null
@@ -75,7 +76,7 @@ namespace Chalkling
 		private void StartAttacking()
 		{
 			Debug.Log("Start Attacking");
-			Timing.RunCoroutine(AttackRoutine());
+			Timing.RunCoroutine(AttackRoutine(), Segment.FixedUpdate);
 		}
 
 
