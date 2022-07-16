@@ -17,7 +17,7 @@ namespace Chalkling
 		[SerializeField] private float atkDmg;
 		[Range(0.1f, 10)]
 		[SerializeField] private float atkSpd;
-		public bool attacking { get; private set; }
+		public bool canAttack { get; private set; }
 
 		ChalklingMovement movement;
 		Grid2D grid;
@@ -32,6 +32,7 @@ namespace Chalkling
 		{
 			currHP = maxHP;
 			movement._moveSpeed = speed;
+			canAttack = true;
 
 			StartAttacking();
 		}
@@ -59,7 +60,7 @@ namespace Chalkling
 		private IEnumerator<float> AttackRoutine()
 		{
 			yield return Timing.WaitForSeconds(spawnDelay);
-			while (true)
+			while (canAttack)
 			{
 				Debug.Log("Chalkling Attacked");
 				//TODO get curr grid node
