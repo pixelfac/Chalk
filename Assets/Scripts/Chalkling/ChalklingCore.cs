@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EditorUtilities;
 using Pathfinding;
+using System;
 using MEC;
 
 namespace Chalkling
@@ -25,6 +26,7 @@ namespace Chalkling
 		private void Awake()
 		{
 			movement = GetComponent<ChalklingMovement>();
+			movement.enabled = false;
 			grid = GetComponent<Grid2D>();
 		}
 
@@ -34,7 +36,13 @@ namespace Chalkling
 			movement._moveSpeed = speed;
 			canAttack = true;
 
-			StartAttacking();
+			Timing.RunCoroutine(CallDelayed(Activate, spawnDelay));
+		}
+
+		private IEnumerator<float> CallDelayed(Action action, float delay)
+		{
+			yield return Timing.WaitForSeconds(delay);
+			action?.Invoke();
 		}
 
 		public void Damage(int damage)
@@ -59,7 +67,7 @@ namespace Chalkling
 
 		private IEnumerator<float> AttackRoutine()
 		{
-			yield return Timing.WaitForSeconds(spawnDelay);
+			Debug.Log("Start Attacking");
 			while (true)
 			{
 				if (!canAttack) { continue; }
@@ -73,12 +81,14 @@ namespace Chalkling
 			}
 		}
 
-		private void StartAttacking()
-		{
-			Debug.Log("Start Attacking");
-			Timing.RunCoroutine(AttackRoutine(), Segment.FixedUpdate);
-		}
 
+		private void Activate()
+		{
+			//enable attacking
+			Timing.RunCoroutine(AttackRoutine(), Segment.FixedUpdate);
+			//enable movement component
+			movement.enabled = true;
+		}
 
 		private Node2D GetCurrentNode2D()
 		{
