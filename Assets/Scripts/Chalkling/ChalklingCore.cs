@@ -33,7 +33,7 @@ namespace Chalkling
 			currHP = maxHP;
 			movement._moveSpeed = speed;
 
-			InvokeRepeating("Attack", spawnDelay, 1 / atkSpd);
+			StartAttacking();
 		}
 
 		public void Damage(int damage)
@@ -56,13 +56,25 @@ namespace Chalkling
 
 		}
 
-		private void Attack()
+		private IEnumerator<float> AttackRoutine()
 		{
-			Debug.Log("Chalkling Attacked");
-			//TODO get curr grid node
-			//get line, if !null
-			//get closest node on line
-			//damage that node on the line
+			yield return Timing.WaitForSeconds(spawnDelay);
+			while (true)
+			{
+				Debug.Log("Chalkling Attacked");
+				//TODO get curr grid node
+				//get line, if !null
+				//get closest node on line
+				//damage that node on the line
+
+				yield return Timing.WaitForSeconds(1 / atkSpd);
+			}
+		}
+
+		private void StartAttacking()
+		{
+			Debug.Log("Start Attacking");
+			Timing.RunCoroutine(AttackRoutine());
 		}
 
 
