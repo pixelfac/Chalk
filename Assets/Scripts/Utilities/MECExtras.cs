@@ -23,7 +23,7 @@ namespace Utilities
 		//calls 'action' immediately, and then repeatedly on 'delay' second delay
 		public static void CallRepeating(Action action, float delay)
 		{
-			Timing.RunCoroutine(CallRepeatingRoutine(action, delay));
+			Timing.RunCoroutine(CallRepeatingRoutine(action, delay), Segment.FixedUpdate);
 		}
 
 		private static IEnumerator<float> CallRepeatingRoutine(Action action, float delay)

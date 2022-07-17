@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Utilities;
 using Pathfinding;
 using System;
-using MEC;
+using Utilities;
 
 namespace Chalkling
 {
@@ -36,13 +35,7 @@ namespace Chalkling
 			movement._moveSpeed = speed;
 			canAttack = true;
 
-			Timing.RunCoroutine(CallDelayed(Activate, spawnDelay));
-		}
-
-		private IEnumerator<float> CallDelayed(Action action, float delay)
-		{
-			yield return Timing.WaitForSeconds(delay);
-			action?.Invoke();
+			MECExtras.CallDelayed(Activate, spawnDelay);
 		}
 
 		public void Damage(int damage)
@@ -65,27 +58,21 @@ namespace Chalkling
 
 		}
 
-		private IEnumerator<float> AttackRoutine()
+		private void Attack()
 		{
-			Debug.Log("Start Attacking");
-			while (true)
-			{
-				if (!canAttack) { continue; }
-				Debug.Log("Chalkling Attacked");
-				//TODO get curr grid node
-				//get line, if !null
-				//get closest node on line
-				//damage that node on the line
-
-				yield return Timing.WaitForSeconds(1 / atkSpd);
-			}
+			if (!canAttack) { return; }
+			Debug.Log("Chalkling Attacked");
+			//TODO get curr grid node
+			//get line, if !null
+			//get closest node on line
+			//damage that node on the line
 		}
 
 
 		private void Activate()
 		{
 			//enable attacking
-			Timing.RunCoroutine(AttackRoutine(), Segment.FixedUpdate);
+			MECExtras.CallRepeating(Attack, 1 / atkSpd);
 			//enable movement component
 			movement.enabled = true;
 		}
