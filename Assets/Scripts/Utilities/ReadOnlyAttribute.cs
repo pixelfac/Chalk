@@ -5,7 +5,7 @@ using UnityEngine;
 
 //Code taken from top response: https://answers.unity.com/questions/489942/how-to-make-a-readonly-property-in-inspector.html
 
-namespace EditorUtilities
+namespace Utilities
 {
     public class ReadOnlyAttribute : PropertyAttribute { }
 

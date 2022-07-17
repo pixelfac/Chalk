@@ -4,32 +4,35 @@ using UnityEngine;
 using System;
 using MEC;
 
-public class MECExtras : MonoBehaviour
+namespace Utilities
 {
-	//calls 'action' after 'delay' seconds
-    public static void CallDelayed(Action action, float delay)
+	public class MECExtras : MonoBehaviour
 	{
-		Timing.RunCoroutine(CallDelayedRoutine(action, delay));
-	}
-
-	private static IEnumerator<float> CallDelayedRoutine(Action action, float delay)
-	{
-		yield return Timing.WaitForSeconds(delay);
-		action?.Invoke();
-	}
-
-	//calls 'action' immediately, and then repeatedly on 'delay' second delay
-	public static void CallRepeating(Action action, float delay)
-	{
-		Timing.RunCoroutine(CallRepeatingRoutine(action, delay));
-	}
-
-	private static IEnumerator<float> CallRepeatingRoutine(Action action, float delay)
-	{
-		while (true)
+		//calls 'action' after 'delay' seconds
+		public static void CallDelayed(Action action, float delay)
 		{
-			action?.Invoke();
+			Timing.RunCoroutine(CallDelayedRoutine(action, delay));
+		}
+
+		private static IEnumerator<float> CallDelayedRoutine(Action action, float delay)
+		{
 			yield return Timing.WaitForSeconds(delay);
+			action?.Invoke();
+		}
+
+		//calls 'action' immediately, and then repeatedly on 'delay' second delay
+		public static void CallRepeating(Action action, float delay)
+		{
+			Timing.RunCoroutine(CallRepeatingRoutine(action, delay));
+		}
+
+		private static IEnumerator<float> CallRepeatingRoutine(Action action, float delay)
+		{
+			while (true)
+			{
+				action?.Invoke();
+				yield return Timing.WaitForSeconds(delay);
+			}
 		}
 	}
 }
