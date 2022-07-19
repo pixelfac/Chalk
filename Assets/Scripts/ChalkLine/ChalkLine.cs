@@ -272,6 +272,11 @@ namespace ChalkLine
 			}
 		}
 
+		//TODO: Damage overall line based on damage applied to specific node
+		public void Damage(float damage, int damagedLineNodeIndex)
+		{
+			Debug.Log("Line has been Damaged");
+		}
 		//TODO
 		//redraws the line renderer based on current lineNodes info
 		private void RedrawLineRenderer()
@@ -351,8 +356,6 @@ namespace ChalkLine
 			}
 			return minHealth;
 		}
-
-
 
 		private void OnValidate()
 		{

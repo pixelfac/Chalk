@@ -63,10 +63,16 @@ namespace Chalkling
 			if (!canAttack) { return; }
 			Debug.Log("Chalkling Attacked");
 			//TODO get curr grid node
+			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
 			//get line, if !null
+			if (currGridNode.nearestLine == null) { return; }
+			Collider2D nearestLine = currGridNode.nearestLine;
 			//get closest node on line
+			int lineNodeIndex = currGridNode.nearestLineNodeIndex;
 			//damage that node on the line
-		}
+			nearestLine.gameObject.GetComponent<ChalkLine.ChalkLine>().Damage(atkDmg, lineNodeIndex);
+
+		}	
 
 
 		private void Activate()
