@@ -317,13 +317,42 @@ namespace ChalkLine
 					minHealth = Mathf.Min(minHealth, _lineNodes[i].GetDirectionalHealth(gridNodePos));
 				}
 			}
-			//return min LineNode.GetDirectionalHealth
+
 			if (minHealth == int.MaxValue)
 			{
+				Debug.Log("minHealth was unchanged from MaxValue");
 				minHealth = 0;
 			}
 			return minHealth;
 		}
+
+		public int ClosestLineHealthFromGridNode(Vector3 gridNodePos, out int lineNodeIndex)
+		{
+			int minHealth = int.MaxValue;
+			lineNodeIndex = 0;
+			float checkRadius = (_grid.nodeRadius * _grid.GetNodeOverlapDistance() + _hitbox.edgeRadius) * 1.1f; //*1.1f buffer for rounding
+																												 //iterate through nodepositions
+			for (int i = 0; i < _lineNodes.Count; i++)
+			{
+				//if |nodepos.worldpos - gridNodePos| < nodeRadius
+				if ((_lineNodes[i].worldPos - (Vector2)gridNodePos).magnitude <= checkRadius)
+				{
+					//find LineNode.GetDirectionalHealth
+					minHealth = Mathf.Min(minHealth, _lineNodes[i].GetDirectionalHealth(gridNodePos));
+					lineNodeIndex = i;
+				}
+			}
+
+			if (minHealth == int.MaxValue)
+			{
+				Debug.Log("minHealth was unchanged from MaxValue");
+				minHealth = 0;
+				lineNodeIndex = 0;
+			}
+			return minHealth;
+		}
+
+
 
 		private void OnValidate()
 		{
