@@ -86,7 +86,9 @@ namespace Pathfinding
                         for (int i = 0; i < results.Count; i++)
 						{
                             ChalkLine.ChalkLine cl = results[i].gameObject.GetComponent<ChalkLine.ChalkLine>();
-                            int localLineHealth = cl.ClosestLineHealthFromGridNode(_Grid[x, y].worldPosition);
+                            int localLineNodeIndex;
+                            int localLineHealth = cl.ClosestLineHealthFromGridNode(_Grid[x, y].worldPosition, out localLineNodeIndex);
+                            _Grid[x, y].nearestLineNodeIndex = localLineNodeIndex;
                             obstacleModifier += CalcModifierFromHealth(localLineHealth);
                         }
                         _Grid[x, y].obstacleModifier = obstacleModifier;
