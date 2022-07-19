@@ -26,7 +26,7 @@ namespace Chalkling
 		{
 			movement = GetComponent<ChalklingMovement>();
 			movement.enabled = false;
-			grid = GetComponent<Grid2D>();
+			grid = FindObjectOfType<Grid2D>();
 		}
 
 		private void Start()
