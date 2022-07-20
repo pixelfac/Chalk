@@ -102,11 +102,15 @@ namespace Chalkling
 				//if unable to attack, check again
 				if (!AttackPossible())
 				{
+					Debug.Log("Attack not possible");
 					yield return Timing.WaitForOneFrame;
 				}
 				//else, do action and wait
-				action?.Invoke();
-				yield return Timing.WaitForSeconds(delay);
+				else
+				{
+					action?.Invoke();
+					yield return Timing.WaitForSeconds(delay);
+				}
 			}
 		}
 
