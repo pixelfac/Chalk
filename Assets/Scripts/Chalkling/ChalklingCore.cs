@@ -70,7 +70,7 @@ namespace Chalkling
 		private void Attack()
 		{
 			Debug.Log("Chalkling Attack Attempt");
-			if (!CanAttack())
+			if (!AttackPossible())
 			{
 				return;
 			}
@@ -82,7 +82,7 @@ namespace Chalkling
 		}
 
 		//false if attack not possible, true otherwise
-		private bool CanAttack()
+		private bool AttackPossible()
 		{
 			canAttack = false;
 			//check if line nearby to attack
@@ -100,7 +100,7 @@ namespace Chalkling
 			while (true)
 			{
 				//if unable to attack, check again
-				if (!CanAttack())
+				if (!AttackPossible())
 				{
 					yield return Timing.WaitForOneFrame;
 				}
