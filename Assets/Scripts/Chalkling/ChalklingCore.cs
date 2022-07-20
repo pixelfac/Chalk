@@ -59,6 +59,14 @@ namespace Chalkling
 
 		}
 
+		private void Activate()
+		{
+			//enable attacking
+			Timing.RunCoroutine(AttackRoutine(Attack, 1 / atkSpd));
+			//enable movement component
+			movement.enabled = true;
+		}
+
 		private void Attack()
 		{
 			Debug.Log("Chalkling Attack Attempt");
@@ -86,23 +94,6 @@ namespace Chalkling
 			return true;
 		}
 
-		private void Activate()
-		{
-			//enable attacking
-			Timing.RunCoroutine(AttackRoutine(Attack, 1 / atkSpd));
-			//enable movement component
-			movement.enabled = true;
-		}
-
-		private Node2D GetCurrentNode2D()
-		{
-			if (grid == null)
-			{
-				Debug.LogError("Grid Reference is null in chalkling");
-			}
-
-			return grid.NodeFromWorldPoint(transform.position);
-		}
 
 		private IEnumerator<float> AttackRoutine(Action action, float delay)
 		{
@@ -117,6 +108,16 @@ namespace Chalkling
 				action?.Invoke();
 				yield return Timing.WaitForSeconds(delay);
 			}
+		}
+
+		private Node2D GetCurrentNode2D()
+		{
+			if (grid == null)
+			{
+				Debug.LogError("Grid Reference is null in chalkling");
+			}
+
+			return grid.NodeFromWorldPoint(transform.position);
 		}
 
 		private void OnValidate()
