@@ -102,7 +102,7 @@ namespace Chalkling
 				//if unable to attack, check again
 				if (!CanAttack())
 				{
-					continue;
+					yield return Timing.WaitForOneFrame;
 				}
 				//else, do action and wait
 				action?.Invoke();
