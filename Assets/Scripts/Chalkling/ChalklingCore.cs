@@ -4,6 +4,7 @@ using UnityEngine;
 using Pathfinding;
 using System;
 using Utilities;
+using MEC;
 
 namespace Chalkling
 {
@@ -60,25 +61,35 @@ namespace Chalkling
 
 		private void Attack()
 		{
-			if (!canAttack) { return; }
-			Debug.Log("Chalkling Attacked");
-			//TODO get curr grid node
-			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
-			//get line, if !null
-			if (currGridNode.nearestLine == null) { return; }
-			Collider2D nearestLine = currGridNode.nearestLine;
+			Debug.Log("Chalkling Attack Attempt");
+			if (!CanAttack())
+			{
+				return;
+			}
 			//get closest node on line
+			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
 			int lineNodeIndex = currGridNode.nearestLineNodeIndex;
 			//damage that node on the line
-			nearestLine.gameObject.GetComponent<ChalkLine.ChalkLine>().Damage(atkDmg, lineNodeIndex);
+			currGridNode.nearestLine.gameObject.GetComponent<ChalkLine.ChalkLine>().Damage(atkDmg, lineNodeIndex);
+		}
 
-		}	
+		//false if attack not possible, true otherwise
+		private bool CanAttack()
+		{
+			canAttack = false;
+			//check if line nearby to attack
+			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
+			Collider2D nearestLine = currGridNode.nearestLine;
+			if (nearestLine == null) { return false; }
 
+			canAttack = true;
+			return true;
+		}
 
 		private void Activate()
 		{
 			//enable attacking
-			MECExtras.CallRepeating(Attack, 1 / atkSpd);
+			Timing.RunCoroutine(AttackRoutine(Attack, 1 / atkSpd));
 			//enable movement component
 			movement.enabled = true;
 		}
@@ -91,6 +102,21 @@ namespace Chalkling
 			}
 
 			return grid.NodeFromWorldPoint(transform.position);
+		}
+
+		private IEnumerator<float> AttackRoutine(Action action, float delay)
+		{
+			while (true)
+			{
+				//if unable to attack, check again
+				if (!CanAttack())
+				{
+					continue;
+				}
+				//else, do action and wait
+				action?.Invoke();
+				yield return Timing.WaitForSeconds(delay);
+			}
 		}
 
 		private void OnValidate()
