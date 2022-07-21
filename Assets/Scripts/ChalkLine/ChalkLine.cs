@@ -25,6 +25,7 @@ namespace ChalkLine
 		private List<LineNode> _lineNodes;
 		private LineRenderer _lr;
 		private Grid2D _grid;
+		private float dmgTaken; //running total of damage taken across line
 
 		public LineType lineType { get; private set; }
 		public GameObject startCircle;
@@ -276,6 +277,14 @@ namespace ChalkLine
 		public void Damage(float damage, int damagedLineNodeIndex)
 		{
 			Debug.Log("Line has been Damaged");
+			dmgTaken += damage;
+
+			float nodeHP = _lineNodes[damagedLineNodeIndex].strongHealth;
+
+			if (dmgTaken >= nodeHP)
+			{
+				Dissipate();
+			}
 		}
 		//TODO
 		//redraws the line renderer based on current lineNodes info
@@ -293,7 +302,7 @@ namespace ChalkLine
 
 			UpdateGrid();
 
-			//play fade-out animation
+			//play fade-out animation (coroutines :shrug:)
 
 			Destroy(gameObject);
 		}
