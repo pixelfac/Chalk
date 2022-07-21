@@ -274,20 +274,12 @@ namespace ChalkLine
 		}
 
 		//TODO: Damage overall line based on damage applied to specific node
-		public void Damage(float damage, int damagedLineNodeIndex, bool isStrongSide)
+		public void Damage(float damage, int damagedLineNodeIndex, Vector3 attackOrigin)
 		{
 			Debug.Log("Line has been Damaged");
 			dmgTaken += damage;
-			float nodeHP = 0f;
-
-			if (isStrongSide)
-			{
-				nodeHP = _lineNodes[damagedLineNodeIndex].strongHealth;
-			}
-			else
-			{
-				nodeHP = _lineNodes[damagedLineNodeIndex].weakHealth;
-			}
+			LineNode lineNode = _lineNodes[damagedLineNodeIndex];
+			float nodeHP = lineNode.GetDirectionalHealth(attackOrigin);
 
 			if (dmgTaken >= nodeHP)
 			{
