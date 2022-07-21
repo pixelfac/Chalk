@@ -274,12 +274,20 @@ namespace ChalkLine
 		}
 
 		//TODO: Damage overall line based on damage applied to specific node
-		public void Damage(float damage, int damagedLineNodeIndex)
+		public void Damage(float damage, int damagedLineNodeIndex, bool isStrongSide)
 		{
 			Debug.Log("Line has been Damaged");
 			dmgTaken += damage;
+			float nodeHP = 0f;
 
-			float nodeHP = _lineNodes[damagedLineNodeIndex].strongHealth;
+			if (isStrongSide)
+			{
+				nodeHP = _lineNodes[damagedLineNodeIndex].strongHealth;
+			}
+			else
+			{
+				nodeHP = _lineNodes[damagedLineNodeIndex].weakHealth;
+			}
 
 			if (dmgTaken >= nodeHP)
 			{
@@ -314,6 +322,11 @@ namespace ChalkLine
 			{
 				_grid.UpdateGrid();
 			}
+		}
+
+		public LineNode GetLineNode(int index)
+		{
+			return _lineNodes[index];
 		}
 
 		//returns the lowest health of all line segments within nodeRadius of gridNodePos

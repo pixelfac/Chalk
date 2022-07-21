@@ -77,8 +77,20 @@ namespace Chalkling
 			//get closest node on line
 			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
 			int lineNodeIndex = currGridNode.nearestLineNodeIndex;
+			bool isStrongSide = IsStrongSideAttack();
 			//damage that node on the line
 			currGridNode.nearestLine.gameObject.GetComponent<ChalkLine.ChalkLine>().Damage(atkDmg, lineNodeIndex);
+
+			
+			//calculates which side of linenode attack is coming from
+			bool IsStrongSideAttack() {
+				ChalkLine.ChalkLine line = currGridNode.nearestLine.GetComponent<ChalkLine.ChalkLine>();
+				ChalkLine.LineNode lineNode = line.GetLineNode(lineNodeIndex);
+				float strongSideDiff = ((Vector2)transform.position - lineNode.strongSideNormal).magnitude;
+				float weakSideDiff = ((Vector2)transform.position - lineNode.weakSideNormal).magnitude;
+
+				return strongSideDiff < weakSideDiff;
+			}
 		}
 
 		//false if attack not possible, true otherwise
