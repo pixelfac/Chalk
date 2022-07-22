@@ -49,5 +49,5 @@ MonoBehaviour:
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  nodeOverlapRadius: 0.5
+  nodeOverlapRadius: 1
   healthScaleFactor: 1
