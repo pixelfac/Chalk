@@ -69,7 +69,7 @@ namespace Chalkling
 
 		private void Attack()
 		{
-			Debug.Log("Chalkling Attack Attempt");
+			//Debug.Log("Chalkling Attack Attempt");
 			if (!AttackPossible())
 			{
 				return;
@@ -88,8 +88,13 @@ namespace Chalkling
 			canAttack = false;
 			//check if line nearby to attack
 			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
-			Collider2D nearestLine = currGridNode.nearestLine;
-			if (nearestLine == null) { return false; }
+			Debug.Log("nodeX: " + currGridNode.GridX + "\tnodeY: " + currGridNode.GridY);
+			GameObject nearestLine = currGridNode.nearestLine;
+			if (nearestLine == null)
+			{
+				return false;
+			}
+			Debug.Log("nearby line");
 
 			canAttack = true;
 			return true;
@@ -103,12 +108,12 @@ namespace Chalkling
 				//if unable to attack, check again
 				if (!AttackPossible())
 				{
-					Debug.Log("Attack not possible");
 					yield return Timing.WaitForOneFrame;
 				}
 				//else, do action and wait
 				else
 				{
+					Debug.Log("Attack possible");
 					action?.Invoke();
 					yield return Timing.WaitForSeconds(delay);
 				}
