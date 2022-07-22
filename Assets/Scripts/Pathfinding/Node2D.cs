@@ -17,7 +17,7 @@ namespace Pathfinding
         public int GridX, GridY;
         public Node2D parent;
 
-        public Collider2D nearestLine;
+        public GameObject nearestLine;
         public int nearestLineNodeIndex;
 
 

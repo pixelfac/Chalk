@@ -78,7 +78,7 @@ namespace Pathfinding
                     if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * nodeOverlapRadius, 0f, overlapFilter, results) != 0) //0 == no collision
                     {
                         _Grid[x, y].SetObstacle(true);
-                        _Grid[x, y].nearestLine = results[0];
+                        _Grid[x, y].nearestLine = results[0].gameObject;
                         obstacleNodes.Add(_Grid[x, y]);
 
                         //set node's obstacle modifier
