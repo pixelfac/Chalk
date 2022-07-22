@@ -253,7 +253,7 @@ MonoBehaviour:
   maxHP: 20
   speed: 2
   currHP: 0
-  spawnDelay: 2
+  spawnDelay: 0
   atkDmg: 0
   atkSpd: 0.5
 --- !u!50 &121285644
