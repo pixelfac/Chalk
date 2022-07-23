@@ -129,7 +129,8 @@ namespace Chalkling
 			while (true)
 			{
 				//if unable to attack, check again
-				if (!AttackPossible())
+				int _;
+				if (!AttackPossible(out _))
 				{
 					yield return Timing.WaitForOneFrame;
 				}
