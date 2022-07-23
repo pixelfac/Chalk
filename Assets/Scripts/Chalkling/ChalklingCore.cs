@@ -90,7 +90,7 @@ namespace Chalkling
 			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
 			//Debug.Log("nodeX: " + currGridNode.GridX + "\tnodeY: " + currGridNode.GridY);
 			GameObject nearestLine = currGridNode.nearestLine;
-			if (nearestLine == null)
+			if (nearestLine == null && !lineOnNeighbors())
 			{
 				return false;
 			}
@@ -98,6 +98,21 @@ namespace Chalkling
 
 			canAttack = true;
 			return true;
+
+
+			bool lineOnNeighbors()
+			{
+				List<Node2D> nbrs = grid.GetNeighbors(currGridNode);
+
+				for (int i = 0; i < nbrs.Count; i++)
+				{
+					if (nbrs[i].nearestLine != null)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
 		}
 
 
