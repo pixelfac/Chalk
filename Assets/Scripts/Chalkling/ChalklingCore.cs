@@ -70,37 +70,43 @@ namespace Chalkling
 		private void Attack()
 		{
 			//Debug.Log("Chalkling Attack Attempt");
-			if (!AttackPossible())
+			int lineNodeIndex;
+			GameObject nearestLineGO = AttackPossible(out lineNodeIndex);
+			if (!canAttack)
 			{
 				return;
 			}
-			//get closest node on line
-			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
-			int lineNodeIndex = currGridNode.nearestLineNodeIndex;
-			ChalkLine.ChalkLine nearestLineNode = currGridNode.nearestLine.gameObject.GetComponent<ChalkLine.ChalkLine>();
+
+			ChalkLine.ChalkLine nearestChalkline = nearestLineGO.GetComponent<ChalkLine.ChalkLine>();
 			//damage that node on the line
-			nearestLineNode.Damage(atkDmg, lineNodeIndex, transform.position);
+			nearestChalkline.Damage(atkDmg, lineNodeIndex, transform.position);
 		}
 
 		//false if attack not possible, true otherwise
-		private bool AttackPossible()
+		private GameObject AttackPossible(out int lineNodeIndex)
 		{
 			canAttack = false;
 			//check if line nearby to attack
 			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
 			//Debug.Log("nodeX: " + currGridNode.GridX + "\tnodeY: " + currGridNode.GridY);
+			lineNodeIndex = currGridNode.nearestLineNodeIndex;
 			GameObject nearestLine = currGridNode.nearestLine;
-			if (nearestLine == null && !lineOnNeighbors())
+			if (nearestLine == null)
 			{
-				return false;
+				nearestLine = lineOnNeighbors(out lineNodeIndex);
+				if (nearestLine == null)
+				{
+					lineNodeIndex = -1;
+					return null;
+				}
 			}
 			Debug.Log("nearby line");
 
 			canAttack = true;
-			return true;
+			return nearestLine;
 
-
-			bool lineOnNeighbors()
+										//temp var needed b/c can't use `out` vars in local func
+			GameObject lineOnNeighbors(out int lineNodeIndexTemp)
 			{
 				List<Node2D> nbrs = grid.GetNeighbors(currGridNode);
 
@@ -108,10 +114,12 @@ namespace Chalkling
 				{
 					if (nbrs[i].nearestLine != null)
 					{
-						return true;
+						lineNodeIndexTemp = nbrs[i].nearestLineNodeIndex;
+						return nbrs[i].nearestLine.gameObject;
 					}
 				}
-				return false;
+				lineNodeIndexTemp = -1;
+				return null;
 			}
 		}
 
