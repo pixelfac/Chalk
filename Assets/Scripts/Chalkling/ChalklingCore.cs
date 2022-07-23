@@ -88,7 +88,7 @@ namespace Chalkling
 			canAttack = false;
 			//check if line nearby to attack
 			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
-			Debug.Log("nodeX: " + currGridNode.GridX + "\tnodeY: " + currGridNode.GridY);
+			//Debug.Log("nodeX: " + currGridNode.GridX + "\tnodeY: " + currGridNode.GridY);
 			GameObject nearestLine = currGridNode.nearestLine;
 			if (nearestLine == null)
 			{

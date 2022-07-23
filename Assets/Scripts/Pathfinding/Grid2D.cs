@@ -14,7 +14,7 @@ namespace Pathfinding
         [SerializeField] public Transform goalTransform;
         [SerializeField] private LayerMask _obstacleMask;
         [Range(0.1f, 1f)]
-        [SerializeField] private float nodeOverlapRadius; //how big the OverlapBox radius is relative to nodeRadius
+        [SerializeField] private float obstacleRadiusScale; //how big the OverlapBox radius is to detect obstacles
         [Range(0.1f, 1f)]
         [SerializeField] private float healthScaleFactor; //scales line health in obstacle modifier calc
 
@@ -75,7 +75,7 @@ namespace Pathfinding
                     overlapFilter.useLayerMask = true;
                     List<Collider2D> results = new List<Collider2D>();
 
-                    if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * nodeOverlapRadius, 0f, overlapFilter, results) != 0) //0 == no collision
+                    if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * obstacleRadiusScale, 0f, overlapFilter, results) != 0) //0 == no collision
                     {
                         _Grid[x, y].SetObstacle(true);
                         _Grid[x, y].nearestLine = results[0].gameObject;
@@ -377,7 +377,7 @@ namespace Pathfinding
 
         public float GetNodeOverlapDistance()
 		{
-            return nodeOverlapRadius;
+            return obstacleRadiusScale;
 		}
 
         //Draws visual representation of grid
