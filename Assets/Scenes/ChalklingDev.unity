@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 20
-  speed: 2
+  speed: 1
   currHP: 0
   spawnDelay: 0
   atkDmg: 100
