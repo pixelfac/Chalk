@@ -281,6 +281,8 @@ namespace ChalkLine
 			LineNode lineNode = _lineNodes[damagedLineNodeIndex];
 			float nodeHP = lineNode.GetDirectionalHealth(attackOrigin);
 
+			Debug.Log(dmgTaken + "/" + nodeHP + " HP");
+
 			if (dmgTaken >= nodeHP)
 			{
 				Dissipate();

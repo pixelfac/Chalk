@@ -79,7 +79,6 @@ namespace Pathfinding
                     {
                         _Grid[x, y].SetObstacle(true);
                         _Grid[x, y].nearestLine = results[0].gameObject;
-                        Debug.Log("nodeX: " + x + "\tnodeY: " + y);
                         obstacleNodes.Add(_Grid[x, y]);
 
                         //set node's obstacle modifier

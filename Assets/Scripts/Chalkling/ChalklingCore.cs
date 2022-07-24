@@ -69,7 +69,6 @@ namespace Chalkling
 
 		private void Attack()
 		{
-			//Debug.Log("Chalkling Attack Attempt");
 			int lineNodeIndex;
 			GameObject nearestLineGO = AttackPossible(out lineNodeIndex);
 			if (!canAttack)
@@ -88,7 +87,6 @@ namespace Chalkling
 			canAttack = false;
 			//check if line nearby to attack
 			Node2D currGridNode = grid.NodeFromWorldPoint(transform.position);
-			//Debug.Log("nodeX: " + currGridNode.GridX + "\tnodeY: " + currGridNode.GridY);
 			lineNodeIndex = currGridNode.nearestLineNodeIndex;
 			GameObject nearestLine = currGridNode.nearestLine;
 			if (nearestLine == null)
