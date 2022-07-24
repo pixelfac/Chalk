@@ -299,8 +299,8 @@ namespace ChalkLine
 		//When chalkline is broken, dissipates
 		public void Dissipate()
 		{
-			//clear hitboxes
-			_hitbox.points = Array.Empty<Vector2>();
+			//change layer to avoid collision
+			gameObject.layer = 2; //"ignore raycast" layer
 
 			UpdateGrid();
 
