@@ -254,7 +254,7 @@ MonoBehaviour:
   speed: 1
   currHP: 0
   spawnDelay: 0
-  atkDmg: 100
+  atkDmg: 200
   atkSpd: 0.5
 --- !u!50 &121285644
 Rigidbody2D:
