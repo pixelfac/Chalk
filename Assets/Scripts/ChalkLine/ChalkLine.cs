@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using Pathfinding;
+using MEC;
 
 namespace ChalkLine
 {
@@ -305,8 +306,29 @@ namespace ChalkLine
 			UpdateGrid();
 
 			//play fade-out animation (coroutines :shrug:)
+			Timing.RunCoroutine(Suicide(1f));
 
-			Destroy(gameObject);
+			//Destroys itself
+			IEnumerator<float> Suicide(float duration)
+			{
+				yield return Timing.WaitUntilDone(Timing.RunCoroutine(FadeOut(duration)));
+				Destroy(gameObject);
+			}
+
+			//fade lines alpha to 0 over duration
+			IEnumerator<float> FadeOut(float duration)
+			{
+				Color lineColor = _lr.material.color; //assume starts at 1f
+				float startAlpha = lineColor.a;
+				for (float timer = 0f; timer < duration; timer += Time.deltaTime)
+				{
+					float newAlpha = (1 - timer / duration);
+					Debug.Log("New Alpha: " + newAlpha);
+					lineColor.a = newAlpha;
+					_lr.material.color = lineColor;
+					yield return Timing.WaitForOneFrame;
+				}
+			}
 		}
 
 		//Use this instead of _grid.UpdateGrid()
