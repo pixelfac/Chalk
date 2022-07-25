@@ -322,8 +322,7 @@ namespace ChalkLine
 				float startAlpha = lineColor.a;
 				for (float timer = 0f; timer < duration; timer += Time.deltaTime)
 				{
-					float newAlpha = (1 - timer / duration);
-					Debug.Log("New Alpha: " + newAlpha);
+					float newAlpha = (1 - timer / duration) *  startAlpha;
 					lineColor.a = newAlpha;
 					_lr.material.color = lineColor;
 					yield return Timing.WaitForOneFrame;
