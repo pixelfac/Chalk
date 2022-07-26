@@ -306,12 +306,12 @@ namespace ChalkLine
 			UpdateGrid();
 
 			//play fade-out animation (coroutines :shrug:)
-			Timing.RunCoroutine(Suicide(1f));
+			Timing.RunCoroutine(Suicide(1f).CancelWith(gameObject));
 
 			//Destroys itself
 			IEnumerator<float> Suicide(float duration)
 			{
-				yield return Timing.WaitUntilDone(Timing.RunCoroutine(FadeOut(duration)));
+				yield return Timing.WaitUntilDone(Timing.RunCoroutine(FadeOut(duration).CancelWith(gameObject)));
 				Destroy(gameObject);
 			}
 
