@@ -62,7 +62,7 @@ namespace Chalkling
 		private void Activate()
 		{
 			//enable attacking
-			Timing.RunCoroutine(AttackRoutine(Attack, 1 / atkSpd));
+			Timing.RunCoroutine(AttackRoutine(Attack, 1 / atkSpd).CancelWith(gameObject));
 			//enable movement component
 			movement.enabled = true;
 		}
