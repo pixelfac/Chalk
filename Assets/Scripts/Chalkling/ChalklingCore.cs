@@ -10,9 +10,9 @@ namespace Chalkling
 {
 	public class ChalklingCore : MonoBehaviour
 	{
-		[SerializeField] private int maxHP;
+		[SerializeField] private float maxHP;
 		[SerializeField] private float speed;
-		[SerializeField] private int currHP;
+		[SerializeField] private float currHP;
 		[SerializeField] private float spawnDelay; //delay on creation before attacking
 
 		[SerializeField] private float atkDmg;
@@ -39,7 +39,7 @@ namespace Chalkling
 			MECExtras.CallDelayed(Activate, spawnDelay);
 		}
 
-		public void Damage(int damage)
+		public void Damage(float damage)
 		{
 			currHP -= damage;
 
