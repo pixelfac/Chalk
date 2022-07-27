@@ -14,6 +14,7 @@ namespace ChalkLine
 		private GameObject _endCircle;
 
 		private float _strength;
+		private float _baseDmg;
 		private Vector2 _direction;
 		private LineRenderer _lr;
 		private EdgeCollider2D _hitbox;
@@ -93,7 +94,13 @@ namespace ChalkLine
 		private void CollideChalkling(Collider2D collision)
 		{
 			ChalklingCore chalkling = collision.gameObject.GetComponent<ChalklingCore>();
-			chalkling.Damage(10);
+			chalkling.Damage(CalcDamage());
+
+
+			float CalcDamage()
+			{
+				return _baseDmg + _strength;
+			}
 		}
 
 		private void CollideWall(Collider2D collision)
