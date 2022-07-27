@@ -9,12 +9,12 @@ namespace ChalkLine
 	public class LineMissile : MonoBehaviour
 	{
 		[SerializeField] private float _speed;
+		[SerializeField] private float _baseDmg;
 
 		private GameObject _startCircle;
 		private GameObject _endCircle;
 
 		private float _strength;
-		private float _baseDmg;
 		private Vector2 _direction;
 		private LineRenderer _lr;
 		private EdgeCollider2D _hitbox;
