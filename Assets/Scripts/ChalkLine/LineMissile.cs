@@ -10,6 +10,7 @@ namespace ChalkLine
 	{
 		[SerializeField] private float _speed;
 		[SerializeField] private float _baseDmg;
+		[SerializeField] private float _lengthScale; //factor to scale length when calc strength
 
 		private GameObject _startCircle;
 		private GameObject _endCircle;
@@ -56,7 +57,7 @@ namespace ChalkLine
 
 			float CalcStrength()
 			{
-				return length;
+				return length * _lengthScale;
 			}
 
 			//set line renderer values
@@ -99,6 +100,7 @@ namespace ChalkLine
 
 			float CalcDamage()
 			{
+				Debug.Log("Missile Strength:" + _strength);
 				return _baseDmg + _strength;
 			}
 		}
