@@ -51,15 +51,21 @@ namespace Chalkling
 
 		private void UpdateState()
 		{
-			if (currHP <= 0)
+			
+			UpdateHP();
+
+			void UpdateHP()
 			{
-				Destroy(gameObject);
+				if (currHP <= 0)
+				{
+					Destroy(gameObject);
+				}
+				else if (currHP > maxHP)
+				{
+					currHP = maxHP;
+				}
+				UpdateHPBar();
 			}
-			else if (currHP > maxHP)
-			{
-				currHP = maxHP;
-			}
-			UpdateHPBar();
 
 			void UpdateHPBar()
 			{
