@@ -51,7 +51,7 @@ MonoBehaviour:
   _enclosedHPScale: 2
   colliderRadiusFactor: 1
   nodeReduceFactor: 2
-  straightnessThreshold: 0.915
+  straightnessThreshold: 0.89
   lineMissilePrefab: {fileID: 8226823533943006091, guid: 67a8b8b8d09bc584a9e892b4bfdecc31, type: 3}
   startCircle: {fileID: 6606843272337416317}
   endCircle: {fileID: 8389614668473047742}
