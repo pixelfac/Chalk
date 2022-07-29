@@ -106,6 +106,7 @@ MonoBehaviour:
   spawnDelay: 0
   atkDmg: 200
   atkSpd: 0.5
+  hpBarTransform: {fileID: 2542858571930002801}
 --- !u!114 &2536198993964988053
 MonoBehaviour:
   m_ObjectHideFlags: 0

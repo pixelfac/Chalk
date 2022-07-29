@@ -20,6 +20,9 @@ namespace Chalkling
 		[SerializeField] private float atkSpd;
 		public bool canAttack { get; private set; }
 
+		[Header("HP Bar")]
+		[SerializeField] private Transform hpBarTransform;
+
 		ChalklingMovement movement;
 		Grid2D grid;
 
@@ -56,7 +59,17 @@ namespace Chalkling
 			{
 				currHP = maxHP;
 			}
+			UpdateHPBar();
 
+			void UpdateHPBar()
+			{
+				float hpPercent = currHP / maxHP;
+
+				Vector3 newScale = hpBarTransform.localScale;
+				newScale.x = hpPercent;
+				Vector3 newPos = hpBarTransform.localPosition;
+				newPos.x = 1 - (1 * hpPercent / 2); //offset the bar after scaling
+			}
 		}
 
 		private void Activate()
@@ -120,7 +133,6 @@ namespace Chalkling
 				return null;
 			}
 		}
-
 
 		private IEnumerator<float> AttackRoutine(Action action, float delay)
 		{
