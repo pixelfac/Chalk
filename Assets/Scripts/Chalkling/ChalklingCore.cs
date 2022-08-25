@@ -70,11 +70,14 @@ namespace Chalkling
 			void UpdateHPBar()
 			{
 				float hpPercent = currHP / maxHP;
-
+				//set new bar width
 				Vector3 newScale = hpBarTransform.localScale;
 				newScale.x = hpPercent;
+				hpBarTransform.localScale = newScale;
+				//set new bar position
 				Vector3 newPos = hpBarTransform.localPosition;
-				newPos.x = 1 - (1 * hpPercent / 2); //offset the bar after scaling
+				newPos.x = 0.5f - hpPercent / 2; //offset the bar after scaling
+				hpBarTransform.localPosition = newPos;
 			}
 		}
 
