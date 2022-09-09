@@ -80,10 +80,10 @@ namespace ChalkLine
 					Vector2 currentLineNodePos = _nodePositions[_nodePositions.Count - 1];
 					Vector2 gridSize = _grid.GetGridWorldSize();
 
-					float leftBound =	-(gridSize.x / 2)	+ _grid.nodeRadius * 4;
-					float rightBound =	(gridSize.x / 2)	- _grid.nodeRadius * 4;
-					float topBound =	(gridSize.y / 2)	- _grid.nodeRadius * 4;
-					float bottomBound = -(gridSize.y / 2) + _grid.nodeRadius * 4;
+					float leftBound =	-(gridSize.x / 2)	+ _grid.nodeRadius * 8;
+					float rightBound =	(gridSize.x / 2)	- _grid.nodeRadius * 8;
+					float topBound =	(gridSize.y / 2)	- _grid.nodeRadius * 8;
+					float bottomBound = -(gridSize.y / 2)	+ _grid.nodeRadius * 8;
 
 					Debug.Log("right bound: " + rightBound);
 					if (currentLineNodePos.x < leftBound || currentLineNodePos.x > rightBound)
