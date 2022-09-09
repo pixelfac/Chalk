@@ -55,7 +55,7 @@ namespace ChalkLine
 					FinishLine();
 				}
 
-				if (_chalkMeterSO.currChalk <= 0)
+				if (IfStopDrawing())
 				{
 					StopDrawing();
 				}
@@ -64,6 +64,45 @@ namespace ChalkLine
 			{
 				_chalkMeterSO.RegenChalk();
 			}
+
+			//return true if conditions are met to forcefully stop drawing line
+			bool IfStopDrawing()
+			{
+				if (_chalkMeterSO.currChalk <= 0) { return true; }
+
+				if (LineOutOfBounds()) { return true; }
+
+				return false;
+
+				//return true of line goes too close to the boundary
+				bool LineOutOfBounds()
+				{
+					Vector2 currentLineNodePos = _nodePositions[_nodePositions.Count - 1];
+					Vector2 gridSize = _grid.GetGridWorldSize();
+
+					float leftBound =	-(gridSize.x / 2)	+ _grid.nodeRadius * 4;
+					float rightBound =	(gridSize.x / 2)	- _grid.nodeRadius * 4;
+					float topBound =	(gridSize.y / 2)	- _grid.nodeRadius * 4;
+					float bottomBound = -(gridSize.y / 2) + _grid.nodeRadius * 4;
+
+					Debug.Log("right bound: " + rightBound);
+					if (currentLineNodePos.x < leftBound || currentLineNodePos.x > rightBound)
+					{
+						Debug.Log("outside left/right bounds");
+						return true;
+					}
+
+					if (currentLineNodePos.y > topBound || currentLineNodePos.y < bottomBound)
+					{
+						Debug.Log("outside top/bottom bounds");
+						return true;
+					}
+
+					return false;
+				}
+
+			}
+
 		}
 
 		public void OnEnable()

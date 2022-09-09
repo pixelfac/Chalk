@@ -329,6 +329,11 @@ namespace Pathfinding
             }
         }
 
+        public Vector2 GetGridWorldSize()
+		{
+            return _gridWorldSize;
+		}
+
         public Node2D NodeFromWorldPoint(Vector3 worldPosition)
         {
             //difference between bottom corner and current position in question
