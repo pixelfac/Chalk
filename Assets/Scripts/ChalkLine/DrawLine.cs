@@ -273,7 +273,7 @@ namespace ChalkLine
 			{
 				Debug.Log("Initting LineMissile");
 				GameObject lm = Instantiate(_lineMissilePrefab);
-				lm.GetComponent<LineMissile>().Init(reducedNodePos.Count, _lr);
+				lm.GetComponent<LineMissile>().Init(_nodePositions, _lr);
 			}
 
 		}

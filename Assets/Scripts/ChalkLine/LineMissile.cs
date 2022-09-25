@@ -32,8 +32,12 @@ namespace ChalkLine
 
 		//basically a constructor, but since can't call constructor
 		//on gameobject prefab component, this is the best alternative
-		public void Init(float numNodes, LineRenderer lr)
+		public void Init(List<Vector2> nodepositions, LineRenderer lr)
 		{
+			_startCircle.transform.position = nodepositions[0];
+			_endCircle.transform.position = nodepositions[nodepositions.Count - 1];
+
+			//line renderer points from startcircle to endcircle and moves in that direction as well
 			transform.position = _endCircle.transform.position;
 			Vector3 startPos = _startCircle.transform.position - _endCircle.transform.position;
 			Vector3 endPos = Vector3.zero;
