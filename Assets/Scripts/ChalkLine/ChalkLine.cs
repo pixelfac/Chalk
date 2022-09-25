@@ -52,6 +52,7 @@ namespace ChalkLine
 			{
 				lrNodes.Add(nodePositions[i]);
 			}
+			_lr.positionCount = lrNodes.Count;
 			_lr.SetPositions(lrNodes.ToArray());
 
 			//Set EdgeCollider
