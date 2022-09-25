@@ -72,6 +72,10 @@ namespace ChalkLine
 				_lineNodes.Add(new LineNode(reducedNodePos[i]));
 			}
 
+			//Update Start-/End-Circle positions
+			startCircle.transform.position = nodePositions[0];
+			endCircle.transform.position = nodePositions[nodePositions.Count - 1];
+
 			UpdateHP();
 			UpdateGrid();
 
