@@ -16,8 +16,6 @@ namespace ChalkLine
 		[Range(0.1f, 2f)]
 		[SerializeField] private float colliderRadiusFactor; //how big the collider is relative to rendered line. 0.5f matches visual
 		
-		[SerializeField] private GameObject lineMissilePrefab;
-
 		private bool _isEnclosed;
 		private EdgeCollider2D _hitbox;
 		private List<LineNode> _lineNodes;
