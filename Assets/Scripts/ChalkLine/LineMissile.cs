@@ -12,8 +12,8 @@ namespace ChalkLine
 		[SerializeField] private float _baseDmg;
 		[SerializeField] private float _lengthScale; //factor to scale length when calc strength
 
-		private GameObject _startCircle;
-		private GameObject _endCircle;
+		[SerializeField] private GameObject _startCircle;
+		[SerializeField] private GameObject _endCircle;
 
 		private float _strength;
 		private Vector2 _direction;
