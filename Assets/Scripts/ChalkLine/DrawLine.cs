@@ -92,16 +92,13 @@ namespace ChalkLine
 					float topBound =	(gridSize.y / 2)	- _grid.nodeRadius * 8;
 					float bottomBound = -(gridSize.y / 2)	+ _grid.nodeRadius * 8;
 
-					Debug.Log("right bound: " + rightBound);
 					if (currentLineNodePos.x < leftBound || currentLineNodePos.x > rightBound)
 					{
-						Debug.Log("outside left/right bounds");
 						return true;
 					}
 
 					if (currentLineNodePos.y > topBound || currentLineNodePos.y < bottomBound)
 					{
-						Debug.Log("outside top/bottom bounds");
 						return true;
 					}
 
