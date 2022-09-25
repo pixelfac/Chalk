@@ -88,6 +88,8 @@ namespace ChalkLine
 				_hitbox.points = new Vector2[] { startPos, endPos };
 				_hitbox.edgeRadius = lr.startWidth * 2;
 			}
+
+			Debug.Log("LineMissile Initted");
 		}
 
 		private void CollideChalkling(Collider2D collision)

@@ -261,6 +261,7 @@ namespace ChalkLine
 			//initializes this object as a Warding Line
 			void InitWard()
 			{
+				Debug.Log("Initting Chalkline");
 				GameObject cl = Instantiate(_chalkLinePrefab);
 				cl.GetComponent<ChalkLine>().Init(_nodePositions, reducedNodePos, _grid, isEnclosed);
 			}
@@ -268,6 +269,7 @@ namespace ChalkLine
 			//initializes this object as a Line Missile
 			void InitMissile()
 			{
+				Debug.Log("Initting LineMissile");
 				GameObject lm = Instantiate(_lineMissilePrefab);
 				lm.GetComponent<LineMissile>().Init(reducedNodePos.Count, _lr);
 			}
