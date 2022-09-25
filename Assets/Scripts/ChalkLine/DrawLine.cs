@@ -31,7 +31,7 @@ namespace ChalkLine
 
 		private GameObject _startLineTarget;
 
-		private GameObject _lineObject;
+		private GameObject _lineDrawing; //dummy line that will be replaced with real chalkline of some kind after finished drawing
 		private List<Vector2> _nodePositions;
 		private LineRenderer _lr;
 		private GameObject _startCircle, _endCircle;
@@ -204,6 +204,7 @@ namespace ChalkLine
 					break;
 			}
 
+			Destroy(_lineDrawing);
 			ResetLineVars();
 
 			LineType IdentifyLineType()
@@ -280,7 +281,7 @@ namespace ChalkLine
 		private void CreateLine()
 		{
 			//Make the actual Line object
-			_lineObject = Instantiate(_chalkLinePrefab, Vector3.zero, Quaternion.identity);
+			_lineDrawing = Instantiate(_chalkLinePrefab, Vector3.zero, Quaternion.identity);
 
 			//set internal lineNode List
 			_nodePositions = new List<Vector2>();
@@ -295,17 +296,17 @@ namespace ChalkLine
 			_startLineTarget.transform.position = new Vector3(mousePos.x, mousePos.y, 0);
 
 			//assign and set lineRenderer
-			_lr = _lineObject.GetComponent<LineRenderer>();
+			_lr = _lineDrawing.GetComponent<LineRenderer>();
 			_lr.useWorldSpace = true;
 			_lr.SetPosition(0, _nodePositions[0]);
 			_lr.SetPosition(1, _nodePositions[1]);
 
 			//assign and set start/end circles
 			//start stays at the start
-			_startCircle = _lineObject.GetComponent<ChalkLine>().startCircle;
+			_startCircle = _lineDrawing.GetComponent<ChalkLine>().startCircle;
 			_startCircle.transform.position = _nodePositions[0];
 			//end starts at start
-			_endCircle = _lineObject.GetComponent<ChalkLine>().endCircle;
+			_endCircle = _lineDrawing.GetComponent<ChalkLine>().endCircle;
 			_endCircle.transform.position = _nodePositions[0];
 		}
 
@@ -384,7 +385,7 @@ namespace ChalkLine
 		public void AbortLine()
 		{
 			_isDrawing = false;
-			Destroy(_lineObject);
+			Destroy(_lineDrawing);
 			ResetLineVars();
 		}
 
@@ -394,7 +395,7 @@ namespace ChalkLine
 			Destroy(_startLineTarget);
 			_lr = null;
 			_nodePositions = null;
-			_lineObject = null;
+			_lineDrawing = null;
 		}
 
 		private void OnValidate()
