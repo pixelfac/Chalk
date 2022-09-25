@@ -47,6 +47,9 @@ MonoBehaviour:
   _maxNodeDistance: 0.1
   _maxEncloseDistance: 0.2
   _minNodesInLine: 5
+  straightnessThreshold: 0.89
+  nodeReduceFactor: 2
   _chalkLinePrefab: {fileID: 4958036785349629161, guid: a86edaa059727924aaf3af8d7b8495cc, type: 3}
+  _lineMissilePrefab: {fileID: 0}
   _startLineTargetPrefab: {fileID: 2814469375617665163, guid: 36d824edd604498428b0f32604b030c7, type: 3}
   _chalkMeterSO: {fileID: 11400000, guid: e22fc09eecbc2d544ab1f25433a766c3, type: 2}
