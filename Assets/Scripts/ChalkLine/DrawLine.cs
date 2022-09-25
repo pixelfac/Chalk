@@ -64,6 +64,7 @@ namespace ChalkLine
 
 				if (IfStopDrawing())
 				{
+					Debug.LogWarning("Forcefully Stop Drawing line");
 					StopDrawing();
 				}
 			}
@@ -153,6 +154,7 @@ namespace ChalkLine
 		//ONLY Triggers when chalk runs out
 		private void StopDrawing()
 		{
+			Debug.Log("Stop Drawing line");
 			//if already stopped drawing, do nothing
 			if (!_isDrawing) { return; }
 
@@ -338,7 +340,6 @@ namespace ChalkLine
 		//checks to see if the ends of line drawn meet to enclose a shape
 		private bool isEnclosed()
 		{
-			Debug.Log("check for enclosure");
 			//prevent line from being enclosed immediately when start drawing
 			if (TooShort()) { return false; }
 
