@@ -26,27 +26,25 @@ namespace ChalkLine
 			_lr = GetComponent<LineRenderer>();
 			_hitbox = GetComponent<EdgeCollider2D>();
 			_rb = GetComponent<Rigidbody2D>();
+			_startCircle.GetComponent<SpriteRenderer>().color = _lr.startColor;
+			_endCircle.GetComponent<SpriteRenderer>().color = _lr.endColor;
 		}
 
 		//basically a constructor, but since can't call constructor
 		//on gameobject prefab component, this is the best alternative
-		public void Init(GameObject startCircle, GameObject endCircle, float numNodes, LineRenderer lr)
+		public void Init(float numNodes, LineRenderer lr)
 		{
-			transform.position = endCircle.transform.position;
-			Vector3 startPos = startCircle.transform.position - endCircle.transform.position;
+			transform.position = _endCircle.transform.position;
+			Vector3 startPos = _startCircle.transform.position - _endCircle.transform.position;
 			Vector3 endPos = Vector3.zero;
 
 			float length = (endPos - startPos).magnitude;
 			_direction = (endPos - startPos).normalized;
 
 			//set startCircle pos
-			_startCircle = startCircle;
 			_startCircle.transform.SetParent(transform);
-			_startCircle.transform.position = startCircle.transform.position;
 			//set endCircle pos
-			_endCircle = endCircle;
 			_endCircle.transform.SetParent(transform);
-			_endCircle.transform.position = endCircle.transform.position;
 
 			_strength = CalcStrength();
 
