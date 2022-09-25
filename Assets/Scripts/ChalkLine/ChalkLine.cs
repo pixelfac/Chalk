@@ -8,7 +8,6 @@ using MEC;
 
 namespace ChalkLine
 {
-	public enum LineType { WARD, MISSILE };
 
 	public class ChalkLine : MonoBehaviour
 	{
@@ -16,9 +15,7 @@ namespace ChalkLine
 		[SerializeField] private float _enclosedHPScale;
 		[Range(0.1f, 2f)]
 		[SerializeField] private float colliderRadiusFactor; //how big the collider is relative to rendered line. 0.5f matches visual
-		[SerializeField] private int nodeReduceFactor;
-		[Range(0f, 1f)]
-		[SerializeField] private float straightnessThreshold;
+		
 		[SerializeField] private GameObject lineMissilePrefab;
 
 		private bool _isEnclosed;
@@ -42,7 +39,7 @@ namespace ChalkLine
 
 		//basically a constructor, but since can't call constructor
 		//on gameobject prefab component, this is the best alternative
-		public void Init(List<Vector2> nodePositions, Grid2D grid, bool isEnclosed)
+		public void Init(List<Vector2> nodePositions, List<Vector2> reducedNodePos, Grid2D grid, bool isEnclosed)
 		{
 			_grid = grid;
 			_isEnclosed = isEnclosed;
@@ -51,114 +48,36 @@ namespace ChalkLine
 				_enclosedHPScale = 1;
 			}
 
-			List<Vector2> reducedNodePos = new List<Vector2>();
-			ReduceNodes();
-
-			lineType = IdentifyLineType();
-
-			switch (lineType)
+			//redraw LineRenderer to omit duplicated point
+			List<Vector3> lrNodes = new List<Vector3>();
+			for (int i = 0; i < nodePositions.Count; i++)
 			{
-				case LineType.WARD:
-					InitWard();
-					break;
-				case LineType.MISSILE:
-					InitMissile();
-					break;
+				lrNodes.Add(nodePositions[i]);
+			}
+			_lr.SetPositions(lrNodes.ToArray());
+
+			//Set EdgeCollider
+			_hitbox.SetPoints(reducedNodePos);
+			_hitbox.edgeRadius = _lr.startWidth * colliderRadiusFactor;
+			if (isEnclosed)
+			{
+				//loop EdgeCollider
+				_hitbox.adjacentEndPoint = reducedNodePos[0];
+				_hitbox.useAdjacentEndPoint = true;
 			}
 
-			LineType IdentifyLineType()
+			//populate _lineNodes
+			_lineNodes = new List<LineNode>();
+			for (int i = 0; i < reducedNodePos.Count; i++)
 			{
-				if (_isEnclosed)
-				{
-					return LineType.WARD;
-				}
-
-				if (Straightness() > straightnessThreshold)
-				{
-					return LineType.MISSILE;
-				}
-
-				return LineType.WARD;
-
-				//measure straightness of chalkline
-				//1f = straight, 0f = not straight
-				float Straightness()
-				{
-					float sumOfDelta = 0f;
-
-					for (int i = 0; i < reducedNodePos.Count - 3; i++)
-					{
-						Vector2 segment1 = (reducedNodePos[i + 1] - reducedNodePos[i]).normalized;
-						Vector2 segment2 = (reducedNodePos[i + 2] - reducedNodePos[i + 1]).normalized;
-						Vector2 segment3 = (reducedNodePos[i + 3] - reducedNodePos[i + 2]).normalized;
-
-						Vector2 delta1 = segment2 - segment1;
-						Vector2 delta2 = segment3 - segment2;
-
-						sumOfDelta += (delta2 - delta1).sqrMagnitude;
-					}
-
-					float straightness = 1 / (1 + sumOfDelta);
-					Debug.Log("Straightness: " + straightness);
-					return straightness;
-				}
+				_lineNodes.Add(new LineNode(reducedNodePos[i]));
 			}
+
+			UpdateHP();
+			UpdateGrid();
 
 			Debug.Log("Chalkline Initted");
 
-			//reduce # of nodes in nodePositions
-			void ReduceNodes()
-			{
-				for (int i = 1; i < nodePositions.Count; i += nodeReduceFactor)
-				{
-					reducedNodePos.Add(nodePositions[i]);
-				}
-				//if last node not added, add it
-				if (reducedNodePos[reducedNodePos.Count - 1] != nodePositions[nodePositions.Count - 1])
-				{
-					reducedNodePos.Add(nodePositions[nodePositions.Count - 1]);
-				}
-			}
-
-			//initializes this object as a Warding Line
-			void InitWard()
-			{
-				//redraw LineRenderer to omit duplicated point
-				List<Vector3> lrNodes = new List<Vector3>();
-				for (int i = 0; i < nodePositions.Count; i++)
-				{
-					lrNodes.Add(nodePositions[i]);
-				}
-				_lr.SetPositions(lrNodes.ToArray());
-
-				//Set EdgeCollider
-				_hitbox.SetPoints(reducedNodePos);
-				_hitbox.edgeRadius = _lr.startWidth * colliderRadiusFactor;
-				if (isEnclosed)
-				{
-					//loop EdgeCollider
-					_hitbox.adjacentEndPoint = reducedNodePos[0];
-					_hitbox.useAdjacentEndPoint = true;
-				}
-
-				//populate _lineNodes
-				_lineNodes = new List<LineNode>();
-				for (int i = 0; i < reducedNodePos.Count; i++)
-				{
-					_lineNodes.Add(new LineNode(reducedNodePos[i]));
-				}
-
-				UpdateHP();
-				UpdateGrid();
-			}
-
-			//initializes this object as a Line Missile
-			void InitMissile()
-			{
-				GameObject lm = Instantiate(lineMissilePrefab);
-				lm.GetComponent<LineMissile>().Init(startCircle, endCircle, reducedNodePos.Count, _lr);
-				Destroy(gameObject);
-			}
 		}
 
 		//TODO: only placeholder value presently
@@ -401,7 +320,6 @@ namespace ChalkLine
 
 		private void OnValidate()
 		{
-			nodeReduceFactor = Mathf.Max(nodeReduceFactor, 1);
 			_enclosedHPScale = Mathf.Max(_enclosedHPScale, 1);
 		}
 	}

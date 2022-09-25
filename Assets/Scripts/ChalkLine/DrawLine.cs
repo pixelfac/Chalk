@@ -5,6 +5,8 @@ using Pathfinding;
 
 namespace ChalkLine
 {
+	public enum LineType { WARD, MISSILE };
+
 	public class DrawLine : MonoBehaviour
 	{
 		[SerializeField] private bool _isDrawing = false;
@@ -14,8 +16,13 @@ namespace ChalkLine
 		[Range(0.1f, 1f)] //arbitrary values, may need to adjust minNodesInLine if you change this one
 		[SerializeField] private float _maxEncloseDistance; //the farthest apart ends of a line can be to be considered enclosed
 		[SerializeField] private float _minNodesInLine;
+		[Range(0f, 1f)]
+		[SerializeField] private float straightnessThreshold; //how straight for line to be considered LineMissile
+		[SerializeField] private int nodeReduceFactor; //factor by which to reduce node density in line
+
 
 		[SerializeField] private GameObject _chalkLinePrefab;
+		[SerializeField] private GameObject _lineMissilePrefab;
 		[SerializeField] private GameObject _startLineTargetPrefab; //prefab for target on start of line while drawing
 
 		[SerializeField] private ChalkMeterSO _chalkMeterSO;
@@ -142,7 +149,6 @@ namespace ChalkLine
 			StopDrawing();
 		}
 
-
 		//Automatically Stop Drawing
 		//Not tied to input
 		//ONLY Triggers when chalk runs out
@@ -186,9 +192,89 @@ namespace ChalkLine
 		//initialize lineObject
 		public void BuildChalkLine(bool isEnclosed)
 		{
-			ChalkLine chalkline = _lineObject.GetComponent<ChalkLine>();
-			chalkline.Init(_nodePositions, _grid, isEnclosed);
+			List<Vector2> reducedNodePos = new List<Vector2>();
+			ReduceNodes();
+
+			LineType lineType = IdentifyLineType();
+
+			switch (lineType)
+			{
+				case LineType.WARD:
+					InitWard();
+					break;
+				case LineType.MISSILE:
+					InitMissile();
+					break;
+			}
+
 			ResetLineVars();
+
+			LineType IdentifyLineType()
+			{
+				if (isEnclosed)
+				{
+					return LineType.WARD;
+				}
+
+				if (Straightness() > straightnessThreshold)
+				{
+					return LineType.MISSILE;
+				}
+
+				return LineType.WARD;
+
+				//measure straightness of chalkline
+				//1f = straight, 0f = not straight
+				float Straightness()
+				{
+					float sumOfDelta = 0f;
+
+					for (int i = 0; i < reducedNodePos.Count - 3; i++)
+					{
+						Vector2 segment1 = (reducedNodePos[i + 1] - reducedNodePos[i]).normalized;
+						Vector2 segment2 = (reducedNodePos[i + 2] - reducedNodePos[i + 1]).normalized;
+						Vector2 segment3 = (reducedNodePos[i + 3] - reducedNodePos[i + 2]).normalized;
+
+						Vector2 delta1 = segment2 - segment1;
+						Vector2 delta2 = segment3 - segment2;
+
+						sumOfDelta += (delta2 - delta1).sqrMagnitude;
+					}
+
+					float straightness = 1 / (1 + sumOfDelta);
+					Debug.Log("Straightness: " + straightness);
+					return straightness;
+				}
+			}
+
+			//reduce # of nodes in nodePositions
+			void ReduceNodes()
+			{
+				for (int i = 1; i < _nodePositions.Count; i += nodeReduceFactor)
+				{
+					reducedNodePos.Add(_nodePositions[i]);
+				}
+				//if last node not added, add it
+				if (reducedNodePos[reducedNodePos.Count - 1] != _nodePositions[_nodePositions.Count - 1])
+				{
+					reducedNodePos.Add(_nodePositions[_nodePositions.Count - 1]);
+				}
+			}
+
+			//initializes this object as a Warding Line
+			void InitWard()
+			{
+				GameObject cl = Instantiate(_chalkLinePrefab);
+				cl.GetComponent<ChalkLine>().Init(_nodePositions, reducedNodePos, _grid, isEnclosed);
+			}
+
+			//initializes this object as a Line Missile
+			void InitMissile()
+			{
+				GameObject lm = Instantiate(_lineMissilePrefab);
+				lm.GetComponent<LineMissile>().Init(reducedNodePos.Count, _lr);
+			}
+
 		}
 
 		//Create and set up new line object
@@ -314,6 +400,7 @@ namespace ChalkLine
 
 		private void OnValidate()
 		{
+			nodeReduceFactor = Mathf.Max(nodeReduceFactor, 1);
 			_minNodesInLine = Mathf.Max(5, _minNodesInLine);
 		}
 	}
