@@ -57,7 +57,7 @@ namespace ChalkLine
 			//Set EdgeCollider
 			_hitbox.SetPoints(reducedNodePos);
 			_hitbox.edgeRadius = _lr.startWidth * colliderRadiusFactor;
-			if (isEnclosed)
+			if (_isEnclosed)
 			{
 				//loop EdgeCollider
 				_hitbox.adjacentEndPoint = reducedNodePos[0];
