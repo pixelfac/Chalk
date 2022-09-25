@@ -45,8 +45,16 @@ namespace ChalkLine
 			{
 				_enclosedHPScale = 1;
 			}
+			else
+			{
+				//smooth where line ends are connected
+				Vector2 startPos = nodePositions[0];
+				Vector2 nextLastPos = nodePositions[nodePositions.Count - 2];
+				Vector2 lastPos = (startPos + nextLastPos) / 2;
+				nodePositions[nodePositions.Count - 1] = (lastPos + nodePositions[nodePositions.Count - 1]) / 2;
+			}
 
-			//redraw LineRenderer to omit duplicated point
+			//redraw LineRenderer
 			List<Vector3> lrNodes = new List<Vector3>();
 			for (int i = 0; i < nodePositions.Count; i++)
 			{
@@ -54,6 +62,13 @@ namespace ChalkLine
 			}
 			_lr.positionCount = lrNodes.Count;
 			_lr.SetPositions(lrNodes.ToArray());
+			//loop line renderer
+			if (_isEnclosed)
+			{
+				_lr.SetPosition(_lr.positionCount - 1, nodePositions[nodePositions.Count - 1]);
+				_lr.loop = true;
+				endCircle.transform.position = nodePositions[0];
+			}
 
 			//Set EdgeCollider
 			_hitbox.SetPoints(reducedNodePos);
@@ -80,7 +95,6 @@ namespace ChalkLine
 			UpdateGrid();
 
 			Debug.Log("Chalkline Initted");
-
 		}
 
 		//TODO: only placeholder value presently

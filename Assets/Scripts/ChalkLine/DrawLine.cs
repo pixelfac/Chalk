@@ -84,6 +84,8 @@ namespace ChalkLine
 				//return true of line goes too close to the boundary
 				bool LineOutOfBounds()
 				{
+					if (_nodePositions == null) { return false; }
+					
 					Vector2 currentLineNodePos = _nodePositions[_nodePositions.Count - 1];
 					Vector2 gridSize = _grid.GetGridWorldSize();
 
@@ -171,11 +173,11 @@ namespace ChalkLine
 		//ONLY Triggers when line is enclosed
 		private void FinishLine()
 		{
+			Debug.Log("finish line");
 			//if already stopped drawing, do nothing
 			if (!_isDrawing) { return; }
 
 			_isDrawing = false;
-			CloseLine();
 
 			if (TooShort())
 			{
@@ -336,6 +338,7 @@ namespace ChalkLine
 		//checks to see if the ends of line drawn meet to enclose a shape
 		private bool isEnclosed()
 		{
+			Debug.Log("check for enclosure");
 			//prevent line from being enclosed immediately when start drawing
 			if (TooShort()) { return false; }
 
@@ -363,21 +366,6 @@ namespace ChalkLine
 			{
 				return false;
 			}
-		}
-
-		//closes start and end of line renderer
-		private void CloseLine()
-		{
-			//smooth where line ends are connected
-			Vector2 startPos = _nodePositions[0];
-			Vector2 nextLastPos = _nodePositions[_nodePositions.Count - 2];
-			Vector2 lastPos = (startPos + nextLastPos) / 2;
-
-			_nodePositions[_nodePositions.Count - 1] = (lastPos + _nodePositions[_nodePositions.Count - 1]) / 2;
-			_lr.SetPosition(_lr.positionCount - 1, lastPos);
-
-			_lr.loop = true;
-			_endCircle.transform.position = _nodePositions[0];
 		}
 
 		//called when drawing is finished, but line is deleted
