@@ -204,7 +204,6 @@ namespace ChalkLine
 					break;
 			}
 
-			Destroy(_lineDrawing);
 			ResetLineVars();
 
 			LineType IdentifyLineType()
@@ -385,13 +384,13 @@ namespace ChalkLine
 		public void AbortLine()
 		{
 			_isDrawing = false;
-			Destroy(_lineDrawing);
 			ResetLineVars();
 		}
 
 		//resets local line variables to prevent bugs
 		private void ResetLineVars()
 		{
+			Destroy(_lineDrawing);
 			Destroy(_startLineTarget);
 			_lr = null;
 			_nodePositions = null;
