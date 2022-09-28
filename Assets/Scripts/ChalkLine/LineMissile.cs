@@ -34,12 +34,9 @@ namespace ChalkLine
 		//on gameobject prefab component, this is the best alternative
 		public void Init(List<Vector2> nodepositions, LineRenderer lr)
 		{
-			_startCircle.transform.position = nodepositions[0];
-			_endCircle.transform.position = nodepositions[nodepositions.Count - 1];
-
 			//line renderer points from startcircle to endcircle and moves in that direction as well
-			transform.position = _endCircle.transform.position;
-			Vector3 startPos = _startCircle.transform.position - _endCircle.transform.position;
+			transform.position = nodepositions[nodepositions.Count - 1];
+			Vector3 startPos = nodepositions[0] - nodepositions[nodepositions.Count - 1];
 			Vector3 endPos = Vector3.zero;
 
 			float length = (endPos - startPos).magnitude;
