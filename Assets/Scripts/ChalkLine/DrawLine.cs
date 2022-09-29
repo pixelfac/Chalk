@@ -82,7 +82,7 @@ namespace ChalkLine
 
 				return false;
 
-				//return true of line goes too close to the boundary
+				//return true if line goes too close to the boundary
 				bool LineOutOfBounds()
 				{
 					if (_nodePositions == null) { return false; }
@@ -90,10 +90,10 @@ namespace ChalkLine
 					Vector2 currentLineNodePos = _nodePositions[_nodePositions.Count - 1];
 					Vector2 gridSize = _grid.GetGridWorldSize();
 
-					float leftBound =	-(gridSize.x / 2)	+ _grid.nodeRadius * 8;
-					float rightBound =	(gridSize.x / 2)	- _grid.nodeRadius * 8;
-					float topBound =	(gridSize.y / 2)	- _grid.nodeRadius * 8;
-					float bottomBound = -(gridSize.y / 2)	+ _grid.nodeRadius * 8;
+					float leftBound =	-(gridSize.x / 2) + _grid.nodeRadius * 8;
+					float rightBound =	 (gridSize.x / 2) - _grid.nodeRadius * 8;
+					float topBound =	 (gridSize.y / 2) - _grid.nodeRadius * 8;
+					float bottomBound = -(gridSize.y / 2) + _grid.nodeRadius * 8;
 
 					if (currentLineNodePos.x < leftBound || currentLineNodePos.x > rightBound)
 					{
