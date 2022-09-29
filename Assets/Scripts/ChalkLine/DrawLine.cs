@@ -146,13 +146,12 @@ namespace ChalkLine
 		//Tied to event listener for input
 		private void StopDrawing(InputAction.CallbackContext ctx)
 		{
-			StopDrawing();
+			StopDrawing(false);
 		}
 
 		//Automatically Stop Drawing
-		//Not tied to input
-		//ONLY Triggers when chalk runs out
-		private void StopDrawing()
+		//Can be called independent of input
+		private void StopDrawing(bool isForceStop = true)
 		{
 			Debug.Log("Stop Drawing line");
 			//if already stopped drawing, do nothing
@@ -167,7 +166,7 @@ namespace ChalkLine
 				return;
 			}
 
-			BuildChalkLine(false);
+			BuildChalkLine(false, isForceStop);
 		}
 
 		//Automatically Stop Drawing
@@ -187,11 +186,11 @@ namespace ChalkLine
 				return;
 			}
 
-			BuildChalkLine(true);
+			BuildChalkLine(true, true);
 		}
 
 		//initialize lineObject
-		public void BuildChalkLine(bool isEnclosed)
+		public void BuildChalkLine(bool isEnclosed, bool isForceStop)
 		{
 			List<Vector2> reducedNodePos = new List<Vector2>();
 			ReduceNodes();
@@ -212,7 +211,7 @@ namespace ChalkLine
 
 			LineType IdentifyLineType()
 			{
-				if (isEnclosed)
+				if (isEnclosed || isForceStop) //if drawing is stopped automatically
 				{
 					return LineType.WARD;
 				}
