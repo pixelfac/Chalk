@@ -9,7 +9,7 @@ using MEC;
 namespace ChalkLine
 {
 
-	public class ChalkLine : MonoBehaviour
+	public class LineWard : MonoBehaviour
 	{
 		[SerializeField] private int _baseNodeHP;    //base HP for each node in a line
 		[SerializeField] private float _enclosedHPScale;
@@ -94,7 +94,7 @@ namespace ChalkLine
 			UpdateHP();
 			UpdateGrid();
 
-			Debug.Log("Chalkline Initted");
+			Debug.Log("LineWard Initted");
 		}
 
 		//TODO: only placeholder value presently
@@ -233,7 +233,7 @@ namespace ChalkLine
 		}
 
 		//TODO: Not Finished
-		//When chalkline is broken, dissipates
+		//When lineward is broken, dissipates
 		public void Dissipate()
 		{
 			//change layer to avoid collision

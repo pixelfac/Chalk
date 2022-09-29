@@ -1,7 +1,7 @@
+using Pathfinding;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
-using Pathfinding;
 
 namespace ChalkLine
 {
@@ -21,7 +21,7 @@ namespace ChalkLine
 		[SerializeField] private int nodeReduceFactor; //factor by which to reduce node density in line
 
 
-		[SerializeField] private GameObject _chalkLinePrefab;
+		[SerializeField] private GameObject _lineWardPrefab;
 		[SerializeField] private GameObject _lineMissilePrefab;
 		[SerializeField] private GameObject _startLineTargetPrefab; //prefab for target on start of line while drawing
 
@@ -265,9 +265,9 @@ namespace ChalkLine
 			//initializes this object as a Warding Line
 			void InitWard()
 			{
-				Debug.Log("Initting Chalkline");
-				GameObject cl = Instantiate(_chalkLinePrefab);
-				cl.GetComponent<ChalkLine>().Init(_nodePositions, reducedNodePos, _grid, isEnclosed);
+				Debug.Log("Initting LineWard");
+				GameObject cl = Instantiate(_lineWardPrefab);
+				cl.GetComponent<LineWard>().Init(_nodePositions, reducedNodePos, _grid, isEnclosed);
 			}
 
 			//initializes this object as a Line Missile
@@ -284,7 +284,7 @@ namespace ChalkLine
 		private void CreateLine()
 		{
 			//Make the actual Line object
-			_lineDrawing = Instantiate(_chalkLinePrefab, Vector3.zero, Quaternion.identity);
+			_lineDrawing = Instantiate(_lineWardPrefab, Vector3.zero, Quaternion.identity);
 
 			//set internal lineNode List
 			_nodePositions = new List<Vector2>();
@@ -306,10 +306,10 @@ namespace ChalkLine
 
 			//assign and set start/end circles
 			//start stays at the start
-			_startCircle = _lineDrawing.GetComponent<ChalkLine>().startCircle;
+			_startCircle = _lineDrawing.GetComponent<LineWard>().startCircle;
 			_startCircle.transform.position = _nodePositions[0];
 			//end starts at start
-			_endCircle = _lineDrawing.GetComponent<ChalkLine>().endCircle;
+			_endCircle = _lineDrawing.GetComponent<LineWard>().endCircle;
 			_endCircle.transform.position = _nodePositions[0];
 		}
 

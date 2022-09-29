@@ -98,9 +98,9 @@ namespace Chalkling
 				return;
 			}
 
-			ChalkLine.ChalkLine nearestChalkline = nearestLineGO.GetComponent<ChalkLine.ChalkLine>();
+			ChalkLine.LineWard nearestLineWard = nearestLineGO.GetComponent<ChalkLine.LineWard>();
 			//damage that node on the line
-			nearestChalkline.Damage(atkDmg, lineNodeIndex, transform.position);
+			nearestLineWard.Damage(atkDmg, lineNodeIndex, transform.position);
 		}
 
 		//false if attack not possible, true otherwise
