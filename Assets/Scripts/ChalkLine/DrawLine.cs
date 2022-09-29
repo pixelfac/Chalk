@@ -64,7 +64,7 @@ namespace ChalkLine
 
 				if (IfStopDrawing())
 				{
-					Debug.LogWarning("Forcefully Stop Drawing line");
+					Debug.Log("Forcefully Stop Drawing line");
 					StopDrawing();
 				}
 			}
