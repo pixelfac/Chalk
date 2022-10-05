@@ -27,6 +27,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Debug",
+            "id": "b94c04f6-4b15-4d0d-8e22-10ef81587040",
+            "actions": [
+                {
+                    "name": "Delete_Line",
+                    "type": "Button",
+                    "id": "a0438496-1e34-49c6-b6e2-9dd24e98d0b6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1ece4f34-18a0-4803-ae7b-341a0d4018c6",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Delete_Line",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

@@ -40,6 +40,33 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Debug"",
+            ""id"": ""b94c04f6-4b15-4d0d-8e22-10ef81587040"",
+            ""actions"": [
+                {
+                    ""name"": ""Delete_Line"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0438496-1e34-49c6-b6e2-9dd24e98d0b6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1ece4f34-18a0-4803-ae7b-341a0d4018c6"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Delete_Line"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -58,6 +85,9 @@ public class @Controls : IInputActionCollection, IDisposable
         // Draw
         m_Draw = asset.FindActionMap("Draw", throwIfNotFound: true);
         m_Draw_Draw = m_Draw.FindAction("Draw", throwIfNotFound: true);
+        // Debug
+        m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
+        m_Debug_Delete_Line = m_Debug.FindAction("Delete_Line", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -136,6 +166,39 @@ public class @Controls : IInputActionCollection, IDisposable
         }
     }
     public DrawActions @Draw => new DrawActions(this);
+
+    // Debug
+    private readonly InputActionMap m_Debug;
+    private IDebugActions m_DebugActionsCallbackInterface;
+    private readonly InputAction m_Debug_Delete_Line;
+    public struct DebugActions
+    {
+        private @Controls m_Wrapper;
+        public DebugActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Delete_Line => m_Wrapper.m_Debug_Delete_Line;
+        public InputActionMap Get() { return m_Wrapper.m_Debug; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DebugActions set) { return set.Get(); }
+        public void SetCallbacks(IDebugActions instance)
+        {
+            if (m_Wrapper.m_DebugActionsCallbackInterface != null)
+            {
+                @Delete_Line.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnDelete_Line;
+                @Delete_Line.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnDelete_Line;
+                @Delete_Line.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnDelete_Line;
+            }
+            m_Wrapper.m_DebugActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Delete_Line.started += instance.OnDelete_Line;
+                @Delete_Line.performed += instance.OnDelete_Line;
+                @Delete_Line.canceled += instance.OnDelete_Line;
+            }
+        }
+    }
+    public DebugActions @Debug => new DebugActions(this);
     private int m_KeyboardandMouseSchemeIndex = -1;
     public InputControlScheme KeyboardandMouseScheme
     {
@@ -157,5 +220,9 @@ public class @Controls : IInputActionCollection, IDisposable
     public interface IDrawActions
     {
         void OnDraw(InputAction.CallbackContext context);
+    }
+    public interface IDebugActions
+    {
+        void OnDelete_Line(InputAction.CallbackContext context);
     }
 }
