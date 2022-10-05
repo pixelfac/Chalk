@@ -28,7 +28,7 @@ public class DebugKeys : MonoBehaviour
 	private void DeleteCollider2D(InputAction.CallbackContext ctx)
 	{
 		Debug.Log("DeleteCollider2D called");
-		Vector3 mousePt = Camera.main.ScreenToWorldPoint(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono);
+		Vector3 mousePt = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue(), Camera.MonoOrStereoscopicEye.Mono);
 		Collider2D collidedLine = Physics2D.OverlapCircle(mousePt, 0.1f);
 		Destroy(collidedLine.gameObject);
 	}
