@@ -107,9 +107,7 @@ namespace ChalkLine
 
 					return false;
 				}
-
 			}
-
 		}
 
 		public void OnEnable()
