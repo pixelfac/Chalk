@@ -8,10 +8,12 @@ namespace ChalkLine
 {
 	public class LineMissile : MonoBehaviour
 	{
+		[Header("Line Parameters")]
 		[SerializeField] private float _speed;
 		[SerializeField] private float _baseDmg;
 		[SerializeField] private float _lengthScale; //factor to scale length when calc strength
 
+		[Header("GO Dependencies")]
 		[SerializeField] private GameObject _startCircle;
 		[SerializeField] private GameObject _endCircle;
 
