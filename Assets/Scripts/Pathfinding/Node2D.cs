@@ -11,15 +11,14 @@ namespace Pathfinding
         public int obstacleModifier; //added to goalDist, based on local line health
         public bool visited;
         public bool inOpen;
+
         public Vector2 goalVector;
         public Vector3 worldPosition;
 
         public int GridX, GridY;
-        public Node2D parent;
 
         public GameObject nearestLine;
         public int nearestLineNodeIndex;
-
 
         public Node2D(bool _obstacle, Vector3 _worldPos, int _gridX, int _gridY)
         {
