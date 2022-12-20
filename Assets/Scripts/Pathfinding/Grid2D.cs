@@ -8,15 +8,20 @@ namespace Pathfinding
 {
     public class Grid2D : MonoBehaviour
     {
+        [Header("Grid Parameters")]
         [SerializeField] private Vector2 _gridWorldSize;
         [SerializeField] public Vector2Int gridSize { get; private set; }
         [SerializeField] public float nodeRadius;
+
+		[Header("GO Dependencies")]
         [SerializeField] public Transform goalTransform;
+
+        [Header("Obstacle Parameters")]
         [SerializeField] private LayerMask _obstacleMask;
         [Range(0.1f, 1f)]
         [SerializeField] private float obstacleRadiusScale; //how big the OverlapBox radius is to detect obstacles
         [Range(0.1f, 1f)]
-        [SerializeField] private float healthScaleFactor; //scales line health in obstacle modifier calc
+        [SerializeField] private float lineHealthScaleFactor; //scales line health in obstacle modifier calc
 
         private Vector2 _goalPos;
         private Node2D[,] _Grid;
@@ -106,7 +111,7 @@ namespace Pathfinding
             //PS: cost to move in diagonal direction is 14
             int CalcModifierFromHealth(int health)
 			{
-                return (int)(health * healthScaleFactor);
+                return (int)(health * lineHealthScaleFactor);
             }
         }
 
