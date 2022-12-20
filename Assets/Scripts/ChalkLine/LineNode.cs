@@ -6,10 +6,12 @@ namespace ChalkLine
 {
     public class LineNode
     {
+        [Header("Health Parameters")]
         public int strongHealth;
         public int weakHealth;
-        public Vector2 worldPos;
 
+        [Header("Orientation Parameters")]
+        public Vector2 worldPos;
         public Vector2 strongSideNormal; //normal vector to strong side of linenode
         public Vector2 weakSideNormal;   //normal vector to weak side of linenode
 
