@@ -8,6 +8,7 @@ namespace Chalkling
 {
 	public class ChalklingMovement : MonoBehaviour
 	{
+		[Header("GO Dependencies")]
 		[SerializeField] private Transform _targetTransform;
 
 		public float _moveSpeed { get; set; }
