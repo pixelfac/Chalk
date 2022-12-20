@@ -8,9 +8,9 @@ using MEC;
 
 namespace ChalkLine
 {
-
 	public class LineWard : MonoBehaviour
 	{
+		[Header("Line Parameters")]
 		[SerializeField] private int _baseNodeHP;    //base HP for each node in a line
 		[SerializeField] private float _enclosedHPScale;
 		[Range(0.1f, 2f)]
@@ -24,6 +24,8 @@ namespace ChalkLine
 		private float dmgTaken; //running total of damage taken across line
 
 		public LineType lineType { get; private set; }
+
+		[Header("GO Dependencies")]
 		public GameObject startCircle;
 		public GameObject endCircle;
 
