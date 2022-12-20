@@ -10,19 +10,24 @@ namespace Chalkling
 {
 	public class ChalklingCore : MonoBehaviour
 	{
+		[Header("HP Parameters")]
 		[SerializeField] private float maxHP;
-		[SerializeField] private float speed;
 		[SerializeField] private float currHP;
-		[SerializeField] private float spawnDelay; //delay on creation before attacking
 
+		[Header("Attack Parameters")]
 		[SerializeField] private float atkDmg;
 		[Range(0.1f, 10)]
 		[SerializeField] private float atkSpd;
-		public bool canAttack { get; private set; }
+		[SerializeField] public bool canAttack { get; private set; }
 
-		[Header("HP Bar")]
+		[Header("Misc Parameters")]
+		[SerializeField] private float speed;
+		[SerializeField] private float spawnDelay; //delay on creation before attacking
+		
+		[Header("UI Dependencies")]
 		[SerializeField] private Transform hpBarTransform;
 
+		//Component Dependencies
 		ChalklingMovement movement;
 		Grid2D grid;
 
