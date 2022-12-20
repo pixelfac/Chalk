@@ -9,8 +9,10 @@ namespace ChalkLine
 
 	public class DrawLine : MonoBehaviour
 	{
+		[Header("State")]
 		[SerializeField] private bool _isDrawing = false;
 
+		[Header("Chalkline Parameters")]
 		[Range(0.1f, 1f)] //arbitrary values, may need to adjust minNodesInLine if you change this one
 		[SerializeField] private float _maxNodeDistance;
 		[Range(0.1f, 1f)] //arbitrary values, may need to adjust minNodesInLine if you change this one
@@ -20,11 +22,12 @@ namespace ChalkLine
 		[SerializeField] private float straightnessThreshold; //how straight for line to be considered LineMissile
 		[SerializeField] private int nodeReduceFactor; //factor by which to reduce node density in line
 
-
+		[Header("Prefab Dependencies")]
 		[SerializeField] private GameObject _lineWardPrefab;
 		[SerializeField] private GameObject _lineMissilePrefab;
 		[SerializeField] private GameObject _startLineTargetPrefab; //prefab for target on start of line while drawing
 
+		[Header("Internal State Dependencies")]
 		[SerializeField] private ChalkMeterSO _chalkMeterSO;
 
 		private Controls _controls;
