@@ -20,6 +20,7 @@ namespace ChalkLine
 		[SerializeField] private float _minNodesInLine;
 		[Range(0f, 1f)]
 		[SerializeField] private float straightnessThreshold; //how straight for line to be considered LineMissile
+		[Min(1f)]
 		[SerializeField] private int nodeReduceFactor; //factor by which to reduce node density in line
 		[Min(0f)]
 		[SerializeField] public float lineBoundsScaleFactor; //how many node radii inside the gridspace line drawing is forcefully stopped
