@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4958036785349629166}
   - component: {fileID: 6824466666567381871}
   m_Layer: 6
-  m_Name: ChalkLine
+  m_Name: LineWard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,9 +50,6 @@ MonoBehaviour:
   _baseNodeHP: 100
   _enclosedHPScale: 2
   colliderRadiusFactor: 1
-  nodeReduceFactor: 2
-  straightnessThreshold: 0.89
-  lineMissilePrefab: {fileID: 8226823533943006091, guid: 67a8b8b8d09bc584a9e892b4bfdecc31, type: 3}
   startCircle: {fileID: 6606843272337416317}
   endCircle: {fileID: 8389614668473047742}
 --- !u!120 &4958036785349629166
@@ -63,7 +60,7 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4958036785349629161}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 0
