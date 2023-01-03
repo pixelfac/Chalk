@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b027cbfc7f9b6cd42b3518b987c6d922, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -101,11 +101,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  speed: 1
   currHP: 0
-  spawnDelay: 0
   atkDmg: 200
   atkSpd: 0.5
+  speed: 1
+  spawnDelay: 0
   hpBarTransform: {fileID: 2542858571930002801}
 --- !u!114 &2536198993964988053
 MonoBehaviour:
