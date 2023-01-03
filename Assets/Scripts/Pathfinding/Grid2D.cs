@@ -175,9 +175,9 @@ namespace Pathfinding
 				{
                     continue;
 				}
-                averageDist /= numNeighbors;
 
                 //testing logs
+                //averageDist /= numNeighbors;
                 //if (averageDist != 0 && currNode.goalDist > 1.2f * averageDist)
                 //{
                 //    Debug.Log("abnormal nodeDist: " + currNode.goalDist + "\t nbrAvg: " + averageDist);
