@@ -21,6 +21,8 @@ namespace ChalkLine
 		[Range(0f, 1f)]
 		[SerializeField] private float straightnessThreshold; //how straight for line to be considered LineMissile
 		[SerializeField] private int nodeReduceFactor; //factor by which to reduce node density in line
+		[Min(0f)]
+		[SerializeField] public float lineBoundsScaleFactor; //how many node radii inside the gridspace line drawing is forcefully stopped
 
 		[Header("Prefab Dependencies")]
 		[SerializeField] private GameObject _lineWardPrefab;
@@ -93,18 +95,20 @@ namespace ChalkLine
 					Vector2 currentLineNodePos = _nodePositions[_nodePositions.Count - 1];
 					Vector2 gridSize = _grid.GetGridWorldSize();
 
-					float leftBound =	-(gridSize.x / 2) + _grid.nodeRadius * 8;
-					float rightBound =	 (gridSize.x / 2) - _grid.nodeRadius * 8;
-					float topBound =	 (gridSize.y / 2) - _grid.nodeRadius * 8;
-					float bottomBound = -(gridSize.y / 2) + _grid.nodeRadius * 8;
+					float leftBound =	-(gridSize.x / 2) + _grid.nodeRadius * lineBoundsScaleFactor;
+					float rightBound =	 (gridSize.x / 2) - _grid.nodeRadius * lineBoundsScaleFactor;
+					float topBound =	 (gridSize.y / 2) - _grid.nodeRadius * lineBoundsScaleFactor;
+					float bottomBound = -(gridSize.y / 2) + _grid.nodeRadius * lineBoundsScaleFactor;
 
 					if (currentLineNodePos.x < leftBound || currentLineNodePos.x > rightBound)
 					{
+						Debug.Log("line OutOfBounds");
 						return true;
 					}
 
 					if (currentLineNodePos.y > topBound || currentLineNodePos.y < bottomBound)
 					{
+						Debug.Log("line OutOfBounds");
 						return true;
 					}
 
