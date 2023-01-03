@@ -50,4 +50,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   obstacleRadiusScale: 1
-  healthScaleFactor: 1
+  lineHealthScaleFactor: 1
