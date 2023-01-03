@@ -80,6 +80,7 @@ namespace Pathfinding
                     overlapFilter.useLayerMask = true;
                     List<Collider2D> results = new List<Collider2D>();
 
+                    //if there is a collisions with an obstacle
                     if (Physics2D.OverlapBox(worldPoint, Vector2.one * nodeRadius * obstacleRadiusScale, 0f, overlapFilter, results) != 0) //0 == no collision
                     {
                         _Grid[x, y].SetObstacle(true);
