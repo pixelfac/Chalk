@@ -29,6 +29,10 @@ namespace Chalkling
 				//set new position
 				Vector2 newPos = (Vector2)transform.position + (moveDir * _moveSpeed * Time.deltaTime);
 				rb.MovePosition(newPos);
+
+				//set facing new direction
+				Quaternion newDirection = Quaternion.LookRotation(Vector3.forward, moveDir);
+				transform.rotation = newDirection;
 			}
 			//otherwise, don't move
 
