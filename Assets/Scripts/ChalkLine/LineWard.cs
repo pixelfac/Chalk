@@ -256,18 +256,19 @@ namespace ChalkLine
 			//fade lines alpha to 0 over duration
 			IEnumerator<float> FadeOut(float duration)
 			{
-				Color lineColor = _lr.material.color; //assume starts at 1f
+				Color lineColor = _lr.startColor; //assume starts at 1f
 				Material lrMat = _lr.material;
-				Material startCircleMat = startCircle.GetComponent<SpriteRenderer>().material;
-				Material endCircleMat = endCircle.GetComponent<SpriteRenderer>().material;
+				SpriteRenderer startCircleSprite = startCircle.GetComponent<SpriteRenderer>();
+				SpriteRenderer endCircleSprite = endCircle.GetComponent<SpriteRenderer>();
 				float startAlpha = lineColor.a;
 				for (float timer = 0f; timer < duration; timer += Time.deltaTime)
 				{
 					float newAlpha = (1 - timer / duration) *  startAlpha;
 					lineColor.a = newAlpha;
-					lrMat.color = lineColor;
-					startCircleMat.color = lineColor;
-					endCircleMat.color = lineColor;
+					_lr.startColor = lineColor;
+					_lr.endColor = lineColor;
+					startCircleSprite.color = lineColor;
+					endCircleSprite.color = lineColor;
 					yield return Timing.WaitForOneFrame;
 				}
 			}
