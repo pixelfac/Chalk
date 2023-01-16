@@ -23,15 +23,15 @@ namespace Chalkling
 		{
 			Vector2 moveDir = pathfinder.NodeFromWorldPoint(transform.position).goalVector; //the direction to move towards target
 
-			Vector2 newPos = transform.position;
-
 			//if moveDir not infinity, add scaled moveDir
 			if (!float.IsNaN(moveDir.magnitude))
 			{
-				newPos += (moveDir * _moveSpeed * Time.deltaTime);
+				//set new position
+				Vector2 newPos = (Vector2)transform.position + (moveDir * _moveSpeed * Time.deltaTime);
+				rb.MovePosition(newPos);
 			}
+			//otherwise, don't move
 
-			rb.MovePosition(newPos);
 		}
 
 		private void OnValidate()
