@@ -8,9 +8,6 @@ namespace Chalkling
 {
 	public class ChalklingMovement : MonoBehaviour
 	{
-		[Header("GO Dependencies")]
-		[SerializeField] private Transform _targetTransform;
-
 		public float _moveSpeed { get; set; }
 		private Rigidbody2D rb;
 		private Grid2D pathfinder;
