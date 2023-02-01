@@ -5518,78 +5518,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2151115774404729067, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[0].x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774404729067, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[0].y
-      value: -8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774404729067, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[1].x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774404729067, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[1].y
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774404729068, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Size.y
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774404729068, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Offset.x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774431605691, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[0].x
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774431605691, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[0].y
-      value: -8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774431605691, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[1].x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774431605691, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[1].y
-      value: -8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774431605692, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Size.x
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774431605692, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Offset.y
-      value: -8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774628477017, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[0].x
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774628477017, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[0].y
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774628477017, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[1].x
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774628477017, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[1].y
-      value: -8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774628477018, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Size.y
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774628477018, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Offset.x
-      value: -15
-      objectReference: {fileID: 0}
     - target: {fileID: 2151115774837396832, guid: 5e50296973c3e684b831707629656301, type: 3}
       propertyPath: m_Name
       value: Walls
@@ -5637,30 +5565,6 @@ PrefabInstance:
     - target: {fileID: 2151115774837396863, guid: 5e50296973c3e684b831707629656301, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774938735218, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Size.x
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774938735218, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Offset.y
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774938735219, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[0].x
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774938735219, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[0].y
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774938735219, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[1].x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151115774938735219, guid: 5e50296973c3e684b831707629656301, type: 3}
-      propertyPath: m_Positions.Array.data[1].y
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e50296973c3e684b831707629656301, type: 3}
